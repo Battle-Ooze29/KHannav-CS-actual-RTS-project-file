@@ -47,7 +47,7 @@ attack = {
 "Bcavalry":8,
 "swordsman":6,
 "archers":10,
-"pikemen":15,z
+"pikemen":15,
 }
 speed = {
 "Mcavalry":50,
