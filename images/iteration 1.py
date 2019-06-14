@@ -14,10 +14,24 @@ rectx = 0
 recty = 0
 #charge constants
 chargemod = 1.2
-#unit = (Mcavalry,Bcavalry,swordsman,archers,pikemen,catapult)
 positive = +1
 negative = -1
 flat = 1
+#units mapped to numbers for the ingame menue
+def unitinput(unitchoice):
+    menuemap = {
+        1:"Mcavalry",
+        2:"Bcavalry",
+        3:"swordsman",
+        4:"archer",
+        5:"pikemen",
+        6:"catapult"
+    }
+    player_army.append(menuemap.get(unitchoice))
+#list to store units for player, for now the enemy will have the same units, may let them pick in the future
+
+player_army = []
+enemy_army = []
 #vARIABLES FOR HIGHLIGHTING AN AREA 
 startpost = []
 endpost = []
@@ -261,7 +275,17 @@ def positive(number):
         return number
     else:
         return number
-                               
+#before the game loop the player needs to choose their army, done on a cost basis#however for now they will just pick until they have 6 units 
+#picking units###########################################################################################
+print("Welcome to the battle simulator army picking menur")
+while len(player_army) != 6:
+    unitchoice = print("please enter your unit,1-melee cav,2-bow cav,3-swordsmen,4-archer,5-pikemen,6-catapult")
+    #ADD VALIDATION BEOFRE THIS STEP
+    #use a switch case to input the specific entries inot the layer army list
+    unitinput(unitchoice)
+
+
+
 #----game loop#----------
 while True:
 #highlighting#################################################
@@ -274,7 +298,6 @@ while True:
         startpost.clear()
         startpost.append(mousex)
         startpost.append(mousey)
-        print("run")
     
     if (event1.type == pygame.MOUSEBUTTONDOWN) or ((pygame.mouse.get_pressed()[0])==True):
         endpost.clear()
