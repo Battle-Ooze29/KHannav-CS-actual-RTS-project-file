@@ -30,15 +30,15 @@ health = {
 "Mcavalry":80,
 "Bcavalry":75,
 "swordsman":90,
-"archers":70,
+"archer":70,
 "pikemen":90,
-"catapult":50,
+"catapult":50
 }
 defence = {
 "Mcavalry":50,
 "Bcavalry":50,
 "swordsman":65,
-"archers":45,
+"archer":45,
 "pikemen":70,
 "catapult":30
 }
@@ -46,16 +46,17 @@ attack = {
 "Mcavalry":5,
 "Bcavalry":8,
 "swordsman":6,
-"archers":10,
+"archer":10,
 "pikemen":15,
+"catapult":20
 }
 speed = {
 "Mcavalry":50,
 "Bcavalry":50,
 "swordsman":65,
-"archers":45,
+"archer":45,
 "pikemen":70,
-"catapult":30,
+"catapult":30
 }
 tilesize = 64
 #choose your units
@@ -139,10 +140,10 @@ class unit:
 
 #melee cavalry class
 class Mcavalry(unit):
-    health = health[Mcavalry]
-    defence = defence[Mcavalry]
-    attack = attack[Mcavalry]
-    speed = 70
+    health = health['Mcavalry']
+    defence = defence['Mcavalry']
+    attack = attack['Mcavalry']
+    speed = speed['Mcavalry']
     ranged = False
     charge = chargemod
     img = pygame.image.load('Mcavalry scaled.PNG')
@@ -160,10 +161,10 @@ def __init__(self,unitname,x,y):
 
 #bow cavalry class
 class Bcavalry(unit):
-    health = 60
-    defence = 40
-    attack = 8
-    speed = 70
+    health = health['Bcavalry']
+    defence = defence['Bcavalry']
+    attack = attack['Bcavalry']
+    speed = speed['Bcavalry']
     ranged = True
     img = pygame.image.load('Bcavalry scaled.PNG')
 def __init__(self,unitname,x,y):
@@ -179,10 +180,10 @@ def __init__(self,unitname,x,y):
 
 #class swordsman
 class swordsman(unit):
-    health = 80
-    defence = 60
-    attack = 6
-    speed = 30
+    health = health['swordsman']
+    defence = defence['swordsman']
+    attack = attack['swordsman']
+    speed = speed['swordsman']
     ranged = False
     img = pygame.image.load('Bcavalry scaled.PNG')
 def __init__(self,unitname,x,y):
@@ -195,7 +196,63 @@ def __init__(self,unitname,x,y):
     self.icon = img
     self.range = ranged      
 
-   
+
+#class archer
+class archer(unit):
+    health = health['archer']
+    defence = defence['archer']
+    attack = attack['archer']
+    speed = speed['archer']
+    ranged = True
+    #img = ADD IMAGE HERE
+def __init__(self,unitname,x,y):
+    self.health = health
+    self.defence = defence
+    self.attack = attack
+    self.xpost = x
+    self.ypost = y
+    self.speed = speed
+    self.icon = img
+    self.range = ranged
+
+
+#class pikemen
+class pikemen(unit):
+    health = health['pikemen']
+    defence = defence['pikemen']
+    attack = attack['pikemen']
+    speed = speed['pikemen']
+    ranged = False
+    #img = ADD IMAGE HERE
+def __init__(self,unitname,x,y):
+    self.health = health
+    self.defence = defence
+    self.attack = attack
+    self.xpost = x
+    self.ypost = y
+    self.speed = speed
+    self.icon = img
+    self.range = ranged
+
+
+#class catapult
+class catapult(unit):
+    health = health['catapult']
+    defence = defence['catapult']
+    attack = attack['catapult']
+    speed = speed['catapult']
+    ranged = True
+    #img = ADD IMAGE HERE
+def __init__(self,unitname,x,y):
+    self.health = health
+    self.defence = defence
+    self.attack = attack
+    self.xpost = x
+    self.ypost = y
+    self.speed = speed
+    self.icon = img
+    self.range = ranged
+
 #----------------------------------------------
     #function to make a numebr positive
 def positive(number):
