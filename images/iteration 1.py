@@ -17,17 +17,21 @@ chargemod = 1.2
 positive = +1
 negative = -1
 flat = 1
+#dictionary for menue, had to be moved outside funtion so it could be accessed for validation
+
+menuemap = {
+    1:"Mcavalry",
+    2:"Bcavalry",
+    3:"swordsman",
+    4:"archer",
+    5:"pikemen",
+    6:"catapult"
+}
 #units mapped to numbers for the ingame menue
 def unitinput(unitchoice):
-    menuemap = {
-        1:"Mcavalry",
-        2:"Bcavalry",
-        3:"swordsman",
-        4:"archer",
-        5:"pikemen",
-        6:"catapult"
-    }
-    player_army.append(menuemap.get(unitchoice))
+    print(menuemap.get(int(unitchoice)))
+    player_army.append((menuemap.get(int(unitchoice))))
+    print("unit selected")
 #list to store units for player, for now the enemy will have the same units, may let them pick in the future
 
 player_army = []
@@ -279,11 +283,16 @@ def positive(number):
 #picking units###########################################################################################
 print("Welcome to the battle simulator army picking menur")
 while len(player_army) != 6:
-    unitchoice = print("please enter your unit,1-melee cav,2-bow cav,3-swordsmen,4-archer,5-pikemen,6-catapult")
+    unitchoice = input("please enter your unit,1-melee cav,2-bow cav,3-swordsmen,4-archer,5-pikemen,6-catapult")
+    Valid = False
+    #checks if the input is actually valid,nest in loop to actually work 
+    while Valid == False:
+        if int(unitchoice) in menuemap:
+            print ("valid")
+            Valid = True
     #ADD VALIDATION BEOFRE THIS STEP
-    #use a switch case to input the specific entries inot the layer army list
     unitinput(unitchoice)
-
+    print(player_army)
 
 
 #----game loop#----------
