@@ -83,39 +83,39 @@ tilesize = 64
 #to find the tile the unit is on
 pygame.init()
 DISPLAY = pygame.display.set_mode((641,641))
-pygame.display.set_caption("Battle simulator")
-DISPLAY.fill(blue)
-pygame.display.flip()
-#map constructor
-x = 0
-y = 0
-for i in range(11):
-    grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
-    x = x + tilesize
-    step = 1
-x = 0
-y = 0
-for i in range(11):
-    grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
-    y = y + tilesize
-pygame.display.flip()    
-#draw background###########################
-def background():
-    DISPLAY.fill(blue)
-    pygame.display.flip()
-    x = 0
-    y = 0
-    for i in range(11):
-        grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
-        x = x + tilesize
-        step = 1
-    x = 0
-    y = 0
-    for i in range(11):
-        grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
-        y = y + tilesize
-    pygame.display.flip()    
-    
+##pygame.display.set_caption("Battle simulator")
+##DISPLAY.fill(blue)
+##pygame.display.flip()
+###map constructor
+##x = 0
+##y = 0
+##for i in range(11):
+##    grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
+##    x = x + tilesize
+##    step = 1
+##x = 0
+##y = 0
+##for i in range(11):
+##    grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
+##    y = y + tilesize
+##pygame.display.flip()    
+###draw background###########################
+##def background():
+##    DISPLAY.fill(blue)
+##    pygame.display.flip()
+##    x = 0
+##    y = 0
+##    for i in range(11):
+##        grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
+##        x = x + tilesize
+##        step = 1
+##    x = 0
+##    y = 0
+##    for i in range(11):
+##        grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
+##        y = y + tilesize
+##    pygame.display.flip()    
+##    
 #-----------------------------------------------
 ##class unit:
 ##    def health(self,unit):
@@ -293,6 +293,42 @@ while len(player_army) != 6:
     #ADD VALIDATION BEOFRE THIS STEP
     unitinput(unitchoice)
     print(player_army)
+
+
+#SCREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEN
+pygame.display.set_caption("Battle simulator")
+DISPLAY.fill(blue)
+pygame.display.flip()
+#map constructor
+x = 0
+y = 0
+for i in range(11):
+    grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
+    x = x + tilesize
+    step = 1
+x = 0
+y = 0
+for i in range(11):
+    grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
+    y = y + tilesize
+pygame.display.flip()    
+#draw background###########################
+def background():
+    DISPLAY.fill(blue)
+    pygame.display.flip()
+    x = 0
+    y = 0
+    for i in range(11):
+        grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
+        x = x + tilesize
+        step = 1
+    x = 0
+    y = 0
+    for i in range(11):
+        grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
+        y = y + tilesize
+    pygame.display.flip()    
+  
 
 
 #----game loop#----------
