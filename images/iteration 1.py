@@ -76,6 +76,14 @@ speed = {
 "pikemen":70,
 "catapult":30
 }
+min_range = {
+"Mcavalry":1,
+"Bcavalry":2,
+"swordsman":1,
+"archer":2,
+"pikemen":1,
+"catapult":3
+}
 tilesize = 64
 #choose your units
 
@@ -138,6 +146,7 @@ class unit:
     attack = 0
     xpost = 0
     ypost = 0
+    min_range = 0
     def gethealth(self):
         return self.health
     def getdefence(self):
@@ -162,19 +171,13 @@ class Mcavalry(unit):
     defence = defence['Mcavalry']
     attack = attack['Mcavalry']
     speed = speed['Mcavalry']
+    min_range = min_range['Mcavalry']
     ranged = False
     charge = chargemod
     img = pygame.image.load('Mcavalry scaled.PNG')
-def __init__(self,unitname,x,y):
-    self.health = health
-    self.defence = defence
-    self.attack = attack
-    self.xpost = x
-    self.ypost = y
-    self.speed = speed
-    self.icon = img
-    self.range = ranged
-    self.charge = charge
+    def __init__(self,unitname,x,y):
+        self.icon = pygame.image.load('Mcavalry scaled.PNG')
+
 
 
 #bow cavalry class
@@ -183,17 +186,11 @@ class Bcavalry(unit):
     defence = defence['Bcavalry']
     attack = attack['Bcavalry']
     speed = speed['Bcavalry']
+    min_range = min_range['Bcavalry']
     ranged = True
     img = pygame.image.load('Bcavalry scaled.PNG')
-def __init__(self,unitname,x,y):
-    self.health = health
-    self.defence = defence
-    self.attack = attack
-    self.xpost = x
-    self.ypost = y
-    self.speed = speed
-    self.icon = img
-    self.range = ranged      
+    def __init__(self,unitname,x,y):
+        self.icon = pygame.image.load('Bcavalry scaled.PNG')
 
 
 #class swordsman
@@ -202,18 +199,11 @@ class swordsman(unit):
     defence = defence['swordsman']
     attack = attack['swordsman']
     speed = speed['swordsman']
+    min_range = min_range['swordsman']
     ranged = False
     img = pygame.image.load('Bcavalry scaled.PNG')
-def __init__(self,unitname,x,y):
-    self.health = health
-    self.defence = defence
-    self.attack = attack
-    self.xpost = x
-    self.ypost = y
-    self.speed = speed
-    self.icon = img
-    self.range = ranged      
-
+    def __init__(self,unitname,x,y):
+        self.icon = pygame.image.load('Bcavalry scaled.PNG')
 
 #class archer
 class archer(unit):
@@ -221,18 +211,19 @@ class archer(unit):
     defence = defence['archer']
     attack = attack['archer']
     speed = speed['archer']
+    min_range = min_range['archer']
     ranged = True
     #img = ADD IMAGE HERE
-def __init__(self,unitname,x,y):
-    self.health = health
-    self.defence = defence
-    self.attack = attack
-    self.xpost = x
-    self.ypost = y
-    self.speed = speed
-    self.icon = img
-    self.range = ranged
-
+    def __init__(self,unitname,x,y):
+        self.health = health
+        self.defence = defence
+        self.attack = attack
+        self.xpost = x
+        self.ypost = y
+        self.speed = speed
+        self.icon = img
+        self.range = ranged
+        self.min_range = min_range
 
 #class pikemen
 class pikemen(unit):
@@ -240,18 +231,19 @@ class pikemen(unit):
     defence = defence['pikemen']
     attack = attack['pikemen']
     speed = speed['pikemen']
+    min_range = min_range['pikemen']
     ranged = False
     #img = ADD IMAGE HERE
-def __init__(self,unitname,x,y):
-    self.health = health
-    self.defence = defence
-    self.attack = attack
-    self.xpost = x
-    self.ypost = y
-    self.speed = speed
-    self.icon = img
-    self.range = ranged
-
+    def __init__(self,unitname,x,y):
+        self.health = health
+        self.defence = defence
+        self.attack = attack
+        self.xpost = x
+        self.ypost = y
+        self.speed = speed
+        self.icon = img
+        self.range = ranged
+        slef.min_range = min_range
 
 #class catapult
 class catapult(unit):
@@ -259,17 +251,19 @@ class catapult(unit):
     defence = defence['catapult']
     attack = attack['catapult']
     speed = speed['catapult']
+    min_range = min_range['catapult']
     ranged = True
     #img = ADD IMAGE HERE
-def __init__(self,unitname,x,y):
-    self.health = health
-    self.defence = defence
-    self.attack = attack
-    self.xpost = x
-    self.ypost = y
-    self.speed = speed
-    self.icon = img
-    self.range = ranged
+    def __init__(self,unitname,x,y):
+        self.health = health
+        self.defence = defence
+        self.attack = attack
+        self.xpost = x
+        self.ypost = y
+        self.speed = speed
+        self.icon = img
+        self.range = ranged
+        self.min_range = min_range
 
 #----------------------------------------------
     #function to make a numebr positive
@@ -281,20 +275,20 @@ def positive(number):
         return number
 #before the game loop the player needs to choose their army, done on a cost basis#however for now they will just pick until they have 6 units 
 #picking units###########################################################################################
-print("Welcome to the battle simulator army picking menur")
-while len(player_army) != 6:
+print("Welcome to the battle simulator army picking menue")
+
+done_input = False
+counter = 0
+while done_input == False:
     unitchoice = input("please enter your unit,1-melee cav,2-bow cav,3-swordsmen,4-archer,5-pikemen,6-catapult")
-    Valid = False
-    #checks if the input is actually valid,nest in loop to actually work 
-    while Valid == False:
-        if int(unitchoice) in menuemap:
-            print ("valid")
-            Valid = True
-    #ADD VALIDATION BEOFRE THIS STEP
-    unitinput(unitchoice)
-    print(player_army)
-
-
+    if int(unitchoice) in menuemap:
+        unitinput(unitchoice)
+        counter+=1
+    else:
+        done_input = False
+    if counter == 6:
+        done_input = True
+print(player_army)    
 #SCREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEN
 pygame.display.set_caption("Battle simulator")
 DISPLAY.fill(blue)
@@ -338,7 +332,13 @@ while True:
     mousex = pygame.mouse.get_pos()[0]
     mousey = pygame.mouse.get_pos()[1]
     event1 = pygame.event.wait()
-    
+    testman = swordsman(swordsman,2,2)
+    print(testman.attack)
+    DISPLAY.blit(testman.icon,(2,2))
+    testman2 = Bcavalry(Bcavalry,66,2)
+    DISPLAY.blit(testman.icon,(66,2))
+    print(testman2.defence)
+    pygame.display.flip()
     if KEYDOWN == False:
         startpost.clear()
         startpost.append(mousex)
