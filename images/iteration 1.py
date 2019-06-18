@@ -17,21 +17,7 @@ chargemod = 1.2
 positive = +1
 negative = -1
 flat = 1
-#dictionary for menue, had to be moved outside funtion so it could be accessed for validation
 
-menuemap = {
-    1:"Mcavalry",
-    2:"Bcavalry",
-    3:"swordsman",
-    4:"archer",
-    5:"pikemen",
-    6:"catapult"
-}
-#units mapped to numbers for the ingame menue
-def unitinput(unitchoice):
-    print(menuemap.get(int(unitchoice)))
-    player_army.append((menuemap.get(int(unitchoice))))
-    print("unit selected")
 #list to store units for player, for now the enemy will have the same units, may let them pick in the future
 
 player_army = []
@@ -147,6 +133,8 @@ class unit:
     xpost = 0
     ypost = 0
     min_range = 0
+    def exec(self,text):
+        exec(text)
     def gethealth(self):
         return self.health
     def getdefence(self):
@@ -264,6 +252,26 @@ class catapult(unit):
         self.icon = img
         self.range = ranged
         self.min_range = min_range
+#exec funtion
+
+#dictionary for menue, had to be moved outside funtion so it could be accessed for validation
+
+menuemap = {
+    1:"Mcavalry",
+    2:"Bcavalry",
+    3:"swordsman",
+    4:"archer",
+    5:"pikemen",
+    6:"catapult"
+}
+#units mapped to numbers for the ingame menue
+def unitinput(unitchoice):
+    print(menuemap.get(int(unitchoice)))
+    player_army.append((menuemap.get(int(unitchoice))))
+    print("unit selected")
+    for i in range (len(player_army)):
+        text = exec(player_army[i])
+        player_army[i] = text(text,78,6)
 
 #----------------------------------------------
     #function to make a numebr positive
@@ -332,13 +340,13 @@ while True:
     mousex = pygame.mouse.get_pos()[0]
     mousey = pygame.mouse.get_pos()[1]
     event1 = pygame.event.wait()
-    testman = swordsman(swordsman,2,2)
-    print(testman.attack)
-    DISPLAY.blit(testman.icon,(2,2))
-    testman2 = Bcavalry(Bcavalry,66,2)
-    DISPLAY.blit(testman.icon,(66,2))
-    print(testman2.defence)
-    pygame.display.flip()
+##    testman = swordsman(swordsman,2,2)
+##    print(testman.attack)
+##    DISPLAY.blit(testman.icon,(2,2))
+##    testman2 = Bcavalry(Bcavalry,66,2)
+##    DISPLAY.blit(testman.icon,(66,2))
+##    print(testman2.defence)
+##    pygame.display.flip()
     if KEYDOWN == False:
         startpost.clear()
         startpost.append(mousex)
