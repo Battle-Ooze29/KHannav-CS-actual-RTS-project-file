@@ -19,9 +19,11 @@ negative = -1
 flat = 1
 
 #list to store units for player, for now the enemy will have the same units, may let them pick in the future
-
 player_army = []
 enemy_army = []
+#lists to hold the postitions of units in the player arm and in the enemy army
+player_armypost = []
+enemyy_armypost = []
 #vARIABLES FOR HIGHLIGHTING AN AREA 
 startpost = []
 endpost = []
@@ -203,15 +205,8 @@ class archer(unit):
     ranged = True
     #img = ADD IMAGE HERE
     def __init__(self,unitname,x,y):
-        self.health = health
-        self.defence = defence
-        self.attack = attack
-        self.xpost = x
-        self.ypost = y
-        self.speed = speed
         self.icon = img
-        self.range = ranged
-        self.min_range = min_range
+
 
 #class pikemen
 class pikemen(unit):
@@ -301,7 +296,7 @@ print(player_army)
 pygame.display.set_caption("Battle simulator")
 DISPLAY.fill(blue)
 pygame.display.flip()
-#map constructor
+#map constructor, used to draw the grid
 x = 0
 y = 0
 for i in range(11):
