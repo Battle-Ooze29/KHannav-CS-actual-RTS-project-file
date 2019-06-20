@@ -23,6 +23,7 @@ player_army = []
 enemy_army = []
 #lists to hold the postitions of units in the player arm and in the enemy army
 player_armypost = []
+player_armyOB = []
 enemyy_armypost = []
 #vARIABLES FOR HIGHLIGHTING AN AREA 
 startpost = []
@@ -135,8 +136,6 @@ class unit:
     xpost = 0
     ypost = 0
     min_range = 0
-    def exec(self,text):
-        exec(text)
     def gethealth(self):
         return self.health
     def getdefence(self):
@@ -145,6 +144,9 @@ class unit:
         return (self.x)
     def getypost(self):
         return(self.y)
+    def updatepost(self,newpostx,newposty):
+        xpost = newpostx
+        ypost = newpostydwa`2eswf4hjk;876hk498        
     #removed as useless
 ###put these into the initialisation statements for each object 
 ##    def health(self,unit):#check if these 3 will work as will save a lot of time programming 
@@ -179,7 +181,7 @@ class Bcavalry(unit):
     min_range = min_range['Bcavalry']
     ranged = True
     img = pygame.image.load('Bcavalry scaled.PNG')
-    def __init__(self,unitname,x,y):
+    def __init__(self,x,y):
         self.icon = pygame.image.load('Bcavalry scaled.PNG')
 
 
@@ -192,7 +194,7 @@ class swordsman(unit):
     min_range = min_range['swordsman']
     ranged = False
     img = pygame.image.load('Bcavalry scaled.PNG')
-    def __init__(self,unitname,x,y):
+    def __init__(self,x,y):
         self.icon = pygame.image.load('Bcavalry scaled.PNG')
 
 #class archer
@@ -263,13 +265,22 @@ menuemap = {
 def unitinput(unitchoice):
     print(menuemap.get(int(unitchoice)))
     player_army.append((menuemap.get(int(unitchoice))))
-    print("unit selected")
     for i in range (len(player_army)):
-        text = exec(player_army[i])
-        player_army[i] = text(text,78,6)
-
+        if unitchoice == 1:
+            player_armyOB.append(Mcavalry(800,1000))
+        elif unitchoice == 2:
+            player_armyOB.append(Bcavalry(800,1000))                       
+        elif unitchoice ==3:
+            player_armyOB.append(swordsman(800,1000))
+        elif unitchoice ==4:
+            player_armyOB.append(archer(800,1000))
+        elif unitchoice ==5:
+            player_armyOB.apend(pikemen(800,1000))
+        elif unitchoice ==6:
+            player_armyOB.append(catapult(800,1000))
+# for now the enemy army will mimic the players army but will get 2 more units for the sake of balance                                     
 #----------------------------------------------
-    #function to make a numebr positive
+#function to make a numebr positive
 def positive(number):
     if number < 0:
         number = (number * -1)
@@ -290,8 +301,7 @@ while done_input == False:
     else:
         done_input = False
     if counter == 6:
-        done_input = True
-print(player_army)    
+        done_input = True    
 #SCREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEN
 pygame.display.set_caption("Battle simulator")
 DISPLAY.fill(blue)
@@ -335,12 +345,14 @@ while True:
     mousex = pygame.mouse.get_pos()[0]
     mousey = pygame.mouse.get_pos()[1]
     event1 = pygame.event.wait()
-##    testman = swordsman(swordsman,2,2)
+    testman = swordsman(2,2)
 ##    print(testman.attack)
 ##    DISPLAY.blit(testman.icon,(2,2))
-##    testman2 = Bcavalry(Bcavalry,66,2)
+##    testman2 = Bcavalry(66,2)
 ##    DISPLAY.blit(testman.icon,(66,2))
 ##    print(testman2.defence)
+##    testman2.health = 30
+##    print(testman2.health)
 ##    pygame.display.flip()
     if KEYDOWN == False:
         startpost.clear()
