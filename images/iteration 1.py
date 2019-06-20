@@ -74,8 +74,11 @@ min_range = {
 "catapult":3
 }
 tilesize = 64
-#choose your units
-
+################################map classes
+class map:
+    Hill = False
+    Flat = True
+    hillmod = 
 
 #to find the tile the unit is on
 pygame.init()
@@ -146,7 +149,7 @@ class unit:
         return(self.y)
     def updatepost(self,newpostx,newposty):
         xpost = newpostx
-        ypost = newpostydwa`2eswf4hjk;876hk498        
+        ypost = newposty      
     #removed as useless
 ###put these into the initialisation statements for each object 
 ##    def health(self,unit):#check if these 3 will work as will save a lot of time programming 
