@@ -78,7 +78,9 @@ tilesize = 64
 class map:
     Hill = False
     Flat = True
-    hillmod = 
+    terraintype = ""
+##############################################add modifier atibute values here######################################################
+    def terrainmod(self,terraintype)
 
 #to find the tile the unit is on
 pygame.init()
