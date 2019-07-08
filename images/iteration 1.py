@@ -140,21 +140,83 @@ class map:
     #for simplicity the attack and defence modifiers will be the same for now but may change later
     
 ##############################################add modifier atibute values here######################################################
+                                                                                    #to do~
+                                                                                        #-add images to every tile of tilesize
     def gradientmod(self,terraintype)
         #RETURN gradient MODIFIER FOR THAT SPECIFIC TYPE OF UNIT
     def chargebonus(self,terraintype)
         return self.chargebonus
     def canmove(self,terraintype)
         return passable
+
+
 class water(map):
     passable = False
-    #add an image to this
+    def __init__(self,xpos,ypos)
+        self.xpos = xpos
+        self.ypos = ypos
+
 class mountain(map):
     passable = False
+    def __init__(self,xpos,ypos)
+        self.xpos = xpos
+        self.ypos = ypos
+
 class lake(map):
     passable = False
+    def __init__(self,xpos,ypos)
+        self.xpos = xpos
+        self.ypos = ypos
+
+
 class fjord(map):
     passable = True
+    speedmod = 0.6
+    attmod = 0.8
+    defmod = 1.1
+    def __init__(self,xpos,ypos)
+        self.xpos = xpos
+        self.ypos = ypos
+
+
+class plains(map):
+    passable = True
+    speedmod = 1
+    attmod = 1
+    defmod = 1
+    def __init__(self,xpos,ypos)
+        self.xpos = xpos
+        self.ypos = ypos
+
+
+class gentleslope(map):
+    passable = True
+    speedmod = 0.8
+    attmod = 0.9
+    defmod = 1.2
+    def __init__(self,xpos,ypos)
+        self.xpos = xpos
+        self.ypos = ypos
+
+
+class steepslope(map):
+    passable = True
+    speedmod = 0.7
+    attmod = 0.7
+    defmod = 1.4
+    def __init__(self,xpos,ypos)
+        self.xpos = xpos
+        self.ypos = ypos
+
+
+class hill(map):
+    passable = True
+    speedmod = 0.6
+    attmod = 0.7
+    defmod = 1.6
+    def __init__(self,xpos,ypos)
+        self.xpos = xpos
+        self.ypos = ypos
     
 #########################################################unit classes
 class unit:
