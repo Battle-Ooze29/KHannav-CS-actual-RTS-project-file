@@ -78,7 +78,7 @@ tilesize = 64
 class map:
     Hill = False
     Flat = True
-    hillmod = 
+    
 
 #to find the tile the unit is on
 pygame.init()
@@ -149,7 +149,9 @@ class unit:
         return(self.y)
     def updatepost(self,newpostx,newposty):
         xpost = newpostx
-        ypost = newposty      
+        ypost = newposty
+    def movement(self,newpostx,newposty)
+        
     #removed as useless
 ###put these into the initialisation statements for each object 
 ##    def health(self,unit):#check if these 3 will work as will save a lot of time programming 
