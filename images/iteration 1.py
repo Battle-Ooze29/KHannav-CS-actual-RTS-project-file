@@ -74,15 +74,9 @@ min_range = {
 "catapult":3
 }
 tilesize = 64
-################################map classes
-class map:
-    Hill = False
-    Flat = True
-    terraintype = ""
-##############################################add modifier atibute values here######################################################
-    def terrainmod(self,terraintype)
 
-#to find the tile the unit is on
+    
+    
 pygame.init()
 DISPLAY = pygame.display.set_mode((641,641))
 ##pygame.display.set_caption("Battle simulator")
@@ -132,6 +126,12 @@ DISPLAY = pygame.display.set_mode((641,641))
 ##        self.attack = (self.attack * terrainmodatt)
 ##    def defenceterrain(self,terrainmoddef):
 ##        self.defence = (self.defense * terrainmoddef)
+
+
+
+
+
+
 
 
 class unit:
