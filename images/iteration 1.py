@@ -75,7 +75,17 @@ min_range = {
 }
 tilesize = 64
 #####################maps-add the tilemap strings here###############################
-
+map1 = [["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ]
 #to find the tile the unit is on
 pygame.init()
 DISPLAY = pygame.display.set_mode((641,641))
@@ -142,29 +152,29 @@ class map:
 ##############################################add modifier atibute values here######################################################
                                                                                     #to do~
                                                                                         #-add images to every tile of tilesize
-    def gradientmod(self,terraintype)
+   # def gradientmod(self,terraintype):
         #RETURN gradient MODIFIER FOR THAT SPECIFIC TYPE OF UNIT
-    def chargebonus(self,terraintype)
+    def chargebonus(self,terraintype):
         return self.chargebonus
-    def canmove(self,terraintype)
+    def canmove(self,terraintype):
         return passable
 
 
 class water(map):
     passable = False
-    def __init__(self,xpos,ypos)
+    def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
 
 class mountain(map):
     passable = False
-    def __init__(self,xpos,ypos)
+    def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
 
 class lake(map):
     passable = False
-    def __init__(self,xpos,ypos)
+    def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
 
@@ -174,7 +184,7 @@ class fjord(map):
     speedmod = 0.6
     attmod = 0.8
     defmod = 1.1
-    def __init__(self,xpos,ypos)
+    def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
 
@@ -184,7 +194,7 @@ class plains(map):
     speedmod = 1
     attmod = 1
     defmod = 1
-    def __init__(self,xpos,ypos)
+    def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
 
@@ -194,7 +204,7 @@ class gentleslope(map):
     speedmod = 0.8
     attmod = 0.9
     defmod = 1.2
-    def __init__(self,xpos,ypos)
+    def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
 
@@ -204,7 +214,7 @@ class steepslope(map):
     speedmod = 0.7
     attmod = 0.7
     defmod = 1.4
-    def __init__(self,xpos,ypos)
+    def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
 
@@ -214,7 +224,7 @@ class hill(map):
     speedmod = 0.6
     attmod = 0.7
     defmod = 1.6
-    def __init__(self,xpos,ypos)
+    def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
     
@@ -339,7 +349,6 @@ class catapult(unit):
         self.icon = img
         self.range = ranged
         self.min_range = min_range
-#exec funtion
 
 #dictionary for menue, had to be moved outside funtion so it could be accessed for validation
 
