@@ -74,9 +74,9 @@ min_range = {
 "catapult":3
 }
 tilesize = 64
+#####################maps-add the tilemap strings here###############################
 
-    
-    
+#to find the tile the unit is on
 pygame.init()
 DISPLAY = pygame.display.set_mode((641,641))
 ##pygame.display.set_caption("Battle simulator")
@@ -126,14 +126,37 @@ DISPLAY = pygame.display.set_mode((641,641))
 ##        self.attack = (self.attack * terrainmodatt)
 ##    def defenceterrain(self,terrainmoddef):
 ##        self.defence = (self.defense * terrainmoddef)
-
-
-
-
-
-
-
-
+################################map classes
+class map:
+    Hill = False
+    Flat = True
+    terraintype = ""
+    passable = False
+    speedmod = 1
+    attmod = 1
+    defmod = 1
+    xpos = 1
+    ypos = 1
+    #for simplicity the attack and defence modifiers will be the same for now but may change later
+    
+##############################################add modifier atibute values here######################################################
+    def gradientmod(self,terraintype)
+        #RETURN gradient MODIFIER FOR THAT SPECIFIC TYPE OF UNIT
+    def chargebonus(self,terraintype)
+        return self.chargebonus
+    def canmove(self,terraintype)
+        return passable
+class water(map):
+    passable = False
+    #add an image to this
+class mountain(map):
+    passable = False
+class lake(map):
+    passable = False
+class fjord(map):
+    passable = True
+    
+#########################################################unit classes
 class unit:
     health = 0
     defence = 0
