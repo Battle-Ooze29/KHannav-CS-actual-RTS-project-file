@@ -169,6 +169,8 @@ class map:
         return xpos
     def gety (self):
         return self.ypos
+    def getterrain(self):
+        return self.terraintype
 
 
 class water(map):
