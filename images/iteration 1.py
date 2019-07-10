@@ -73,7 +73,6 @@ min_range = {
 "pikemen":1,
 "catapult":3
 }
-tilesize = 64
 
 ################################map classes
 
@@ -92,7 +91,7 @@ map1 = [["F","F","F","F","F","F","F","F","F","F"],
 
 #to find the tile the unit is on
 pygame.init()
-DISPLAY = pygame.display.set_mode((641,641))
+
 ##pygame.display.set_caption("Battle simulator")
 ##DISPLAY.fill(blue)
 ##pygame.display.flip()
@@ -369,6 +368,19 @@ class catapult(unit):
         self.range = ranged
         self.min_range = min_range
 
+###############choosing your screensize################
+displaysize = {
+1:64,
+2:96,
+3:128
+}
+
+
+sizechoice = input("enter 1 for small, 2 for medium and 3 for a large display")
+choice = int(sizechoice)
+tilesize = displaysize.get(choice)
+DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
+
 #dictionary for menue, had to be moved outside funtion so it could be accessed for validation
 
 menuemap = {
@@ -396,6 +408,8 @@ def unitinput(unitchoice):
             player_armyOB.apend(pikemen(800,1000))
         elif unitchoice ==6:
             player_armyOB.append(catapult(800,1000))
+
+            
 # for now the enemy army will mimic the players army but will get 2 more units for the sake of balance                                     
 #----------------------------------------------
 #function to make a numebr positive
@@ -424,36 +438,38 @@ while done_input == False:
 pygame.display.set_caption("Battle simulator")
 DISPLAY.fill(blue)
 pygame.display.flip()
-#map constructor, used to draw the grid
-x = 0
-y = 0
-for i in range(11):
-    grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
-    x = x + tilesize
-    step = 1
-x = 0
-y = 0
-for i in range(11):
-    grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
-    y = y + tilesize
-pygame.display.flip()    
-#draw background###########################
-def background():
-    DISPLAY.fill(blue)
-    pygame.display.flip()
-    x = 0
-    y = 0
-    for i in range(11):
-        grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
-        x = x + tilesize
-        step = 1
-    x = 0
-    y = 0
-    for i in range(11):
-        grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
-        y = y + tilesize
-    pygame.display.flip()    
-  
+
+
+#map constructor, used to draw the grid-only temporarily needed
+##x = 0
+##y = 0
+##for i in range(11):
+##    grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
+##    x = x + tilesize
+##    step = 1
+##x = 0
+##y = 0
+##for i in range(11):
+##    grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
+##    y = y + tilesize
+##pygame.display.flip()    
+###draw background###########################
+##def background():
+##    DISPLAY.fill(blue)
+##    pygame.display.flip()
+##    x = 0
+##    y = 0
+##    for i in range(11):
+##        grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
+##        x = x + tilesize
+##        step = 1
+##    x = 0
+##    y = 0
+##    for i in range(11):
+##        grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
+##        y = y + tilesize
+##    pygame.display.flip()    
+##  
 
 
 #----game loop#----------
