@@ -166,7 +166,20 @@ class map:
     def chargebonus(self,terraintype):
         return self.chargebonus
     def canmove(self,terraintype):
-        return passable
+        if self.passable == True:
+            return True
+        else:
+            return False
+    def getspeed(self):
+        return self.speedmod
+    def getdefence(self):
+        return self.defmod
+    def getx (self):
+        return xpos
+    def gety (self):
+        return self.ypos
+    def getterrain(self):
+        return self.terraintype
 
 
 class water(map):
