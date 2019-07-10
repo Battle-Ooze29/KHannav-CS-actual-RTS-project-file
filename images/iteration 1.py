@@ -74,14 +74,9 @@ min_range = {
 "catapult":3
 }
 tilesize = 64
-<<<<<<< HEAD
-################################map classes
-class map:
-    Hill = False
-    Flat = True
-    
 
-=======
+################################map classes
+
 #####################maps-add the tilemap strings here###############################
 map1 = [["F","F","F","F","F","F","F","F","F","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
@@ -94,7 +89,7 @@ map1 = [["F","F","F","F","F","F","F","F","F","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
         ]
->>>>>>> 1827ebe2d1258bb786d1b58af602befb297bc798
+
 #to find the tile the unit is on
 pygame.init()
 DISPLAY = pygame.display.set_mode((641,641))
@@ -269,7 +264,7 @@ class unit:
     def updatepost(self,newpostx,newposty):
         xpost = newpostx
         ypost = newposty
-    def movement(self,newpostx,newposty)
+    #def movement(self,newpostx,newposty)
         
     #removed as useless
 ###put these into the initialisation statements for each object 
