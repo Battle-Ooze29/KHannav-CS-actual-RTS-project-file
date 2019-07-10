@@ -74,12 +74,27 @@ min_range = {
 "catapult":3
 }
 tilesize = 64
+<<<<<<< HEAD
 ################################map classes
 class map:
     Hill = False
     Flat = True
     
 
+=======
+#####################maps-add the tilemap strings here###############################
+map1 = [["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","F","F"],
+        ]
+>>>>>>> 1827ebe2d1258bb786d1b58af602befb297bc798
 #to find the tile the unit is on
 pygame.init()
 DISPLAY = pygame.display.set_mode((641,641))
@@ -130,8 +145,99 @@ DISPLAY = pygame.display.set_mode((641,641))
 ##        self.attack = (self.attack * terrainmodatt)
 ##    def defenceterrain(self,terrainmoddef):
 ##        self.defence = (self.defense * terrainmoddef)
+################################map classes
+class map:
+    Hill = False
+    Flat = True
+    terraintype = ""
+    passable = False
+    speedmod = 1
+    attmod = 1
+    defmod = 1
+    xpos = 1
+    ypos = 1
+    #for simplicity the attack and defence modifiers will be the same for now but may change later
+    
+##############################################add modifier atibute values here######################################################
+                                                                                    #to do~
+                                                                                        #-add images to every tile of tilesize
+   # def gradientmod(self,terraintype):
+        #RETURN gradient MODIFIER FOR THAT SPECIFIC TYPE OF UNIT
+    def chargebonus(self,terraintype):
+        return self.chargebonus
+    def canmove(self,terraintype):
+        return passable
 
 
+class water(map):
+    passable = False
+    def __init__(self,xpos,ypos):
+        self.xpos = xpos
+        self.ypos = ypos
+
+class mountain(map):
+    passable = False
+    def __init__(self,xpos,ypos):
+        self.xpos = xpos
+        self.ypos = ypos
+
+class lake(map):
+    passable = False
+    def __init__(self,xpos,ypos):
+        self.xpos = xpos
+        self.ypos = ypos
+
+
+class fjord(map):
+    passable = True
+    speedmod = 0.6
+    attmod = 0.8
+    defmod = 1.1
+    def __init__(self,xpos,ypos):
+        self.xpos = xpos
+        self.ypos = ypos
+
+
+class plains(map):
+    passable = True
+    speedmod = 1
+    attmod = 1
+    defmod = 1
+    def __init__(self,xpos,ypos):
+        self.xpos = xpos
+        self.ypos = ypos
+
+
+class gentleslope(map):
+    passable = True
+    speedmod = 0.8
+    attmod = 0.9
+    defmod = 1.2
+    def __init__(self,xpos,ypos):
+        self.xpos = xpos
+        self.ypos = ypos
+
+
+class steepslope(map):
+    passable = True
+    speedmod = 0.7
+    attmod = 0.7
+    defmod = 1.4
+    def __init__(self,xpos,ypos):
+        self.xpos = xpos
+        self.ypos = ypos
+
+
+class hill(map):
+    passable = True
+    speedmod = 0.6
+    attmod = 0.7
+    defmod = 1.6
+    def __init__(self,xpos,ypos):
+        self.xpos = xpos
+        self.ypos = ypos
+    
+#########################################################unit classes
 class unit:
     health = 0
     defence = 0
@@ -254,7 +360,6 @@ class catapult(unit):
         self.icon = img
         self.range = ranged
         self.min_range = min_range
-#exec funtion
 
 #dictionary for menue, had to be moved outside funtion so it could be accessed for validation
 
