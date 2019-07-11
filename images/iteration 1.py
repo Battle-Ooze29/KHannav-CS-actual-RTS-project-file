@@ -139,6 +139,15 @@ pygame.init()
 ##        self.attack = (self.attack * terrainmodatt)
 ##    def defenceterrain(self,terrainmoddef):
 ##        self.defence = (self.defense * terrainmoddef)
+
+
+#########################FUNCTION TO SCALE IMAGES ###############
+def scale(img,tilesize):
+    picture = pygame.image.load(img)
+    picture = pygame.transform.scale(picture,(tilesize,tilesize))
+    return picture
+
+
 ################################map classes
 class map:
     Hill = False
@@ -181,6 +190,8 @@ class water(map):
     def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
+        img = scale("water texture.PNG")
+
 
 class mountain(map):
     passable = False
@@ -203,6 +214,7 @@ class fjord(map):
     def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
+        img = scale("fjord texture.PNG")
 
 
 class plains(map):
@@ -213,7 +225,7 @@ class plains(map):
     def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
-
+        img = scale("flatland texture.PNG")
 
 class gentleslope(map):
     passable = True
@@ -286,8 +298,7 @@ class Mcavalry(unit):
     charge = chargemod
     img = pygame.image.load('Mcavalry scaled.PNG')
     def __init__(self,unitname,x,y):
-        self.icon = pygame.image.load('Mcavalry scaled.PNG')
-
+        self.icon = scale('Mcavalry scaled.PNG')
 
 
 #bow cavalry class
@@ -314,6 +325,7 @@ class swordsman(unit):
     img = pygame.image.load('Bcavalry scaled.PNG')
     def __init__(self,x,y):
         self.icon = pygame.image.load('Bcavalry scaled.PNG')
+
 
 #class archer
 class archer(unit):
@@ -368,18 +380,20 @@ class catapult(unit):
         self.range = ranged
         self.min_range = min_range
 
+
 ###############choosing your screensize################
 displaysize = {
 1:64,
-2:96,
-3:128
+2:72,
+3:96
 }
-
 
 sizechoice = input("enter 1 for small, 2 for medium and 3 for a large display")
 choice = int(sizechoice)
 tilesize = displaysize.get(choice)
+print(tilesize)
 DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
+
 
 #dictionary for menue, had to be moved outside funtion so it could be accessed for validation
 
@@ -410,6 +424,8 @@ def unitinput(unitchoice):
             player_armyOB.append(catapult(800,1000))
 
             
+
+
 # for now the enemy army will mimic the players army but will get 2 more units for the sake of balance                                     
 #----------------------------------------------
 #function to make a numebr positive
@@ -480,14 +496,14 @@ while True:
     mousey = pygame.mouse.get_pos()[1]
     event1 = pygame.event.wait()
     testman = swordsman(2,2)
-##    print(testman.attack)
-##    DISPLAY.blit(testman.icon,(2,2))
-##    testman2 = Bcavalry(66,2)
-##    DISPLAY.blit(testman.icon,(66,2))
-##    print(testman2.defence)
-##    testman2.health = 30
-##    print(testman2.health)
-##    pygame.display.flip()
+    print(testman.attack)
+    DISPLAY.blit(testman.icon,(2,2))
+    testman2 = Bcavalry(66,2)
+    DISPLAY.blit(testman.icon,(66,2))
+    print(testman2.defence)
+    testman2.health = 30
+    print(testman2.health)
+    pygame.display.flip()
     if KEYDOWN == False:
         startpost.clear()
         startpost.append(mousex)
@@ -501,7 +517,7 @@ while True:
          #   startpost[1] = endpost[1]
         if (endpost != startpost) and (KEYDOWN == True):
             #pygame.draw.polygon(DISPLAY, BRICK,((startpost[0],startpost[1]),(endpost[0],endpost[1])),5 )
-            background()
+            #background()
             pygame.draw.line(DISPLAY,BRICK,[startpost[0],startpost[1]],[endpost[0],startpost[1]],3)
             #line from start to end on the x
             pygame.draw.line(DISPLAY,BRICK,[startpost[0],startpost[1]],[startpost[0],endpost[1]],3)
@@ -516,7 +532,7 @@ while True:
         
     elif event1.type == pygame.MOUSEBUTTONUP:
         KEYDOWN = False
-        background()
+        #background()
         pygame.display.flip()
         
     else:
