@@ -198,13 +198,17 @@ class mountain(map):
     def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
+        img = scaled("newmountain texture.PNG")
+
 
 class lake(map):
     passable = False
     def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
+        img = scaled("lake texture.PNG")
 
+        
 
 class fjord(map):
     passable = True
@@ -225,7 +229,7 @@ class plains(map):
     def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
-        img = scale("flatland texture.PNG")
+        img = scale("newflat texture.PNG")
 
 class gentleslope(map):
     passable = True
@@ -235,7 +239,7 @@ class gentleslope(map):
     def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
-
+        img = scale("gentleslope texture.PNG")
 
 class steepslope(map):
     passable = True
@@ -245,7 +249,7 @@ class steepslope(map):
     def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
-
+        img = scale("steepslope texture.PNG")
 
 class hill(map):
     passable = True
@@ -255,7 +259,9 @@ class hill(map):
     def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
-    
+        img = scale("hill texture.PNG")
+
+        
 #########################################################unit classes
 class unit:
     health = 0
