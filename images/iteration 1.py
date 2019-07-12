@@ -231,6 +231,7 @@ class plains(map):
         self.ypos = ypos
         img = scale("newflat texture.PNG")
 
+
 class gentleslope(map):
     passable = True
     speedmod = 0.8
@@ -241,6 +242,7 @@ class gentleslope(map):
         self.ypos = ypos
         img = scale("gentleslope texture.PNG")
 
+
 class steepslope(map):
     passable = True
     speedmod = 0.7
@@ -250,6 +252,7 @@ class steepslope(map):
         self.xpos = xpos
         self.ypos = ypos
         img = scale("steepslope texture.PNG")
+
 
 class hill(map):
     passable = True
@@ -395,10 +398,14 @@ displaysize = {
 }
 
 sizechoice = input("enter 1 for small, 2 for medium and 3 for a large display")
-choice = int(sizechoice)
-tilesize = displaysize.get(choice)
-print(tilesize)
-DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
+done = False
+while not done:
+    if int(sizechoice) in displaysize:
+        choice = int(sizechoice)
+        tilesize = displaysize.get(choice)
+        print(tilesize)
+        DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
+        done = True
 
 
 #dictionary for menue, had to be moved outside funtion so it could be accessed for validation
@@ -458,9 +465,9 @@ while done_input == False:
         done_input = True    
 #SCREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEN
 pygame.display.set_caption("Battle simulator")
-DISPLAY.fill(blue)
-pygame.display.flip()
-
+#DISPLAY.fill(blue)
+#pygame.display.flip()
+##############################setting the map to the map given using visuals and making it scale##########
 
 #map constructor, used to draw the grid-only temporarily needed
 ##x = 0
