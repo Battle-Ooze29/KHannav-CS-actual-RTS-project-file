@@ -90,44 +90,8 @@ map1 = [["F","F","F","F","F","F","F","F","F","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
         ]
-#where the initialised map will be stored
-mapOB = [[None,None,,,,,,,,],
-         [,,,,,,,,,],
-         [,,,,,,,,,],
-         [,,,,,,,,,],
-         [,,,,,,,,,],
-         [,,,,,,,,,],
-         [,,,,,,,,,],
-         [,,,,,,,,,],
-         [,,,,,,,,,],
-         [,,,,,,,,,],
-         ]
-         
-#initialising the map
-row = 0
-columb = 0
-for i in range 9
-print (i)
-row += tilesize
-    for j in range 9
-        landtype = map1[i][j]#change map1 to mapchoice once the power to select a map is added
-        if landtype = "F":
-            mapOB[i][j] = plains(columb,row)
-        elif landtype = "H":
-            mapOB[i][j] = hill(columb,row)
-        elif landtype = "W":
-            mapOB[i][j] = water(columb,row)
-        elif landtype = "M":
-            mapOB[i][j] = mountain(columb,row)
-        elif landtype = "FJ":
-            mapOB[i][j] = fjord(columb,row)
-        elif landtype = "GS":
-            mapOB[i][j] = gentleslope(columb,row)
-        elif landtype = "SS":
-            mapOB[i][j] = steepslope(columb,row)
-        elif landtype = "L":
-            mapOB[i][j] = lake(columb,row)
-        columb += tilesize
+
+
 #to find the tile the unit is on
 pygame.init()
 
@@ -224,7 +188,7 @@ class water(map):
     def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
-        img = scale("water texture.PNG")
+        self.img = scale("water texture.PNG")
 
 
 class mountain(map):
@@ -232,7 +196,7 @@ class mountain(map):
     def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
-        img = scaled("newmountain texture.PNG")
+        self.img = scaled("newmountain texture.PNG")
 
 
 class lake(map):
@@ -240,7 +204,7 @@ class lake(map):
     def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
-        img = scaled("lake texture.PNG")
+        self.img = scaled("lake texture.PNG")
 
         
 
@@ -252,7 +216,7 @@ class fjord(map):
     def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
-        img = scale("fjord texture.PNG")
+        self.img = scale("fjord texture.PNG")
 
 
 class plains(map):
@@ -263,7 +227,7 @@ class plains(map):
     def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
-        img = scale("newflat texture.PNG")
+        self.img = scale("newflat texture.PNG")
 
 
 class gentleslope(map):
@@ -274,7 +238,7 @@ class gentleslope(map):
     def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
-        img = scale("gentleslope texture.PNG")
+        self.img = scale("gentleslope texture.PNG")
 
 
 class steepslope(map):
@@ -285,7 +249,7 @@ class steepslope(map):
     def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
-        img = scale("steepslope texture.PNG")
+        self.img = scale("steepslope texture.PNG")
 
 
 class hill(map):
@@ -296,7 +260,7 @@ class hill(map):
     def __init__(self,xpos,ypos):
         self.xpos = xpos
         self.ypos = ypos
-        img = scale("hill texture.PNG")
+        self.img = scale("hill texture.PNG")
 
         
 #########################################################unit classes
@@ -320,14 +284,7 @@ class unit:
         ypost = newposty
     #def movement(self,newpostx,newposty)
         
-    #removed as useless
-###put these into the initialisation statements for each object 
-##    def health(self,unit):#check if these 3 will work as will save a lot of time programming 
-##        self.health = health[unit]
-##    def defence(self,unit):
-##        self.defence = defence[unit] 
-##    def attack(self,unit):
-##        self.attack = (attack[unit])
+
 
 
 #melee cavalry class
@@ -500,7 +457,9 @@ while done_input == False:
         done_input = False
     if counter == 6:
         done_input = True    
-#SCREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEN
+
+
+#setting the display
 pygame.display.set_caption("Battle simulator")
 #DISPLAY.fill(blue)
 #pygame.display.flip()
@@ -535,9 +494,74 @@ pygame.display.set_caption("Battle simulator")
 ##        grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
 ##        y = y + tilesize
 ##    pygame.display.flip()    
-##  
+##
 
 
+#where the initialised map will be stored
+mapOB = [[None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         ]
+         
+
+
+#initialising the map
+row = 0
+columb = 0
+for i in range (10):
+
+    print("loop")
+    for j in range (10):
+        landtype = map1[i][j]#change map1 to mapchoice once the power to select a map is added
+        if landtype == "F":
+            print(columb)
+            print(row)
+            mapOB[i][j] = plains(row,columb)
+            print("something")
+            img = mapOB[i][j]
+            DISPLAY.blit(img.img,(img.xpos,img.ypos))
+            pygame.display.flip()
+
+        elif landtype == "H":
+            mapOB[i][j] = hill(columb,row)
+        elif landtype == "W":
+            mapOB[i][j] = water(columb,row)
+        elif landtype == "M":
+            mapOB[i][j] = mountain(columb,row)
+        elif landtype == "FJ":
+            mapOB[i][j] = fjord(columb,row)
+        elif landtype == "GS":
+            mapOB[i][j] = gentleslope(columb,row)
+        elif landtype == "SS":
+            mapOB[i][j] = steepslope(columb,row)
+        elif landtype == "L":
+            mapOB[i][j] = lake(columb,row)
+        if columb == (tilesize*10):
+            columb = 0
+        if columb == 0:
+            columb = 0
+        else:
+            print("new columb")
+            columb += tilesize
+    row += tilesize        
+
+    
+
+
+#displaying the map
+##for i in range(9):
+##    for j in range (9):
+##        img = mapOB[i][j]
+##        DISPLAY.blit(img.img,(img.xpos,img.ypos))
+##        pygame.display.flip()
+        
 #----game loop#----------
 while True:
 #highlighting#################################################
