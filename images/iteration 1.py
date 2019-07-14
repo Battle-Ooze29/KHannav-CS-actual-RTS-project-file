@@ -22,9 +22,11 @@ flat = 1
 player_army = []
 enemy_army = []
 #lists to hold the postitions of units in the player arm and in the enemy army
-player_armypost = []
+player_armypostx = []
+player_armyposty = []
 player_armyOB = []
-enemyy_armypost = []
+enemyy_armypostx = []
+enemyy_armyposty = []
 #vARIABLES FOR HIGHLIGHTING AN AREA 
 startpost = []
 endpost = []
@@ -88,7 +90,44 @@ map1 = [["F","F","F","F","F","F","F","F","F","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
         ]
-
+#where the initialised map will be stored
+mapOB = [[None,None,,,,,,,,],
+         [,,,,,,,,,],
+         [,,,,,,,,,],
+         [,,,,,,,,,],
+         [,,,,,,,,,],
+         [,,,,,,,,,],
+         [,,,,,,,,,],
+         [,,,,,,,,,],
+         [,,,,,,,,,],
+         [,,,,,,,,,],
+         ]
+         
+#initialising the map
+row = 0
+columb = 0
+for i in range 9
+print (i)
+row += tilesize
+    for j in range 9
+        landtype = map1[i][j]#change map1 to mapchoice once the power to select a map is added
+        if landtype = "F":
+            mapOB[i][j] = plains(columb,row)
+        elif landtype = "H":
+            mapOB[i][j] = hill(columb,row)
+        elif landtype = "W":
+            mapOB[i][j] = water(columb,row)
+        elif landtype = "M":
+            mapOB[i][j] = mountain(columb,row)
+        elif landtype = "FJ":
+            mapOB[i][j] = fjord(columb,row)
+        elif landtype = "GS":
+            mapOB[i][j] = gentleslope(columb,row)
+        elif landtype = "SS":
+            mapOB[i][j] = steepslope(columb,row)
+        elif landtype = "L":
+            mapOB[i][j] = lake(columb,row)
+        columb += tilesize
 #to find the tile the unit is on
 pygame.init()
 
@@ -126,19 +165,6 @@ pygame.init()
 ##    pygame.display.flip()    
 ##    
 #-----------------------------------------------
-##class unit:
-##    def health(self,unit):
-##        self.health = health[unit]
-##    def defence(self,unit):
-##        self.defence = defence[unit] 
-##    def attack(self,unit):
-##        self.attack = (attack[unit])
-##    def damage(self,damage):
-##        self.health = (self.health - damage)
-##    def attackterrain(self,terrainmodatt):
-##        self.attack = (self.attack * terrainmodatt)
-##    def defenceterrain(self,terrainmoddef):
-##        self.defence = (self.defense * terrainmoddef)
 
 
 #########################FUNCTION TO SCALE MAP IMAGES ###############
@@ -481,35 +507,35 @@ pygame.display.set_caption("Battle simulator")
 ##############################setting the map to the map given using visuals and making it scale##########
 
 ##map constructor, used to draw the grid-only temporarily needed
-x = 0
-y = 0
-for i in range(11):
-    grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
-    x = x + tilesize
-    step = 1
-x = 0
-y = 0
-for i in range(11):
-    grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
-    y = y + tilesize
-pygame.display.flip()    
-#draw background###########################
-def background():
-    DISPLAY.fill(blue)
-    pygame.display.flip()
-    x = 0
-    y = 0
-    for i in range(11):
-        grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
-        x = x + tilesize
-        step = 1
-    x = 0
-    y = 0
-    for i in range(11):
-        grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
-        y = y + tilesize
-    pygame.display.flip()    
-  
+##x = 0
+##y = 0
+##for i in range(11):
+##    grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
+##    x = x + tilesize
+##    step = 1
+##x = 0
+##y = 0
+##for i in range(11):
+##    grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
+##    y = y + tilesize
+##pygame.display.flip()    
+###draw background###########################
+##def background():
+##    DISPLAY.fill(blue)
+##    pygame.display.flip()
+##    x = 0
+##    y = 0
+##    for i in range(11):
+##        grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
+##        x = x + tilesize
+##        step = 1
+##    x = 0
+##    y = 0
+##    for i in range(11):
+##        grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
+##        y = y + tilesize
+##    pygame.display.flip()    
+##  
 
 
 #----game loop#----------
