@@ -141,10 +141,18 @@ pygame.init()
 ##        self.defence = (self.defense * terrainmoddef)
 
 
-#########################FUNCTION TO SCALE IMAGES ###############
-def scale(img,tilesize):
+#########################FUNCTION TO SCALE MAP IMAGES ###############
+def scale(img):
     picture = pygame.image.load(img)
     picture = pygame.transform.scale(picture,(tilesize,tilesize))
+    return picture
+
+
+######################to scale units###################
+def scaleunit(img)
+    picture = pygame.image.load(img)
+    #each icon will take up a 2 thirds of the tile its on and should be centred#########
+    picture = pygame.transform.scale(picture,(unitsize,unitsize))
     return picture
 
 
@@ -307,7 +315,9 @@ class Mcavalry(unit):
     charge = chargemod
     img = pygame.image.load('Mcavalry scaled.PNG')
     def __init__(self,unitname,x,y):
-        self.icon = scale('Mcavalry scaled.PNG')
+        self.icon = scaleunit('horseman.PNG')
+        self.xpost = x
+        self.ypost = y
 
 
 #bow cavalry class
@@ -320,7 +330,9 @@ class Bcavalry(unit):
     ranged = True
     img = pygame.image.load('Bcavalry scaled.PNG')
     def __init__(self,x,y):
-        self.icon = pygame.image.load('Bcavalry scaled.PNG')
+        self.icon = scaleunit('horse archer.PNG')
+        self.xpost = x
+        self.ypost = y
 
 
 #class swordsman
@@ -331,9 +343,10 @@ class swordsman(unit):
     speed = speed['swordsman']
     min_range = min_range['swordsman']
     ranged = False
-    img = pygame.image.load('Bcavalry scaled.PNG')
     def __init__(self,x,y):
-        self.icon = pygame.image.load('Bcavalry scaled.PNG')
+        self.icon = scaleunit('swordsman.PNG')
+        self.xpost = x
+        self.ypost = y
 
 
 #class archer
@@ -346,7 +359,9 @@ class archer(unit):
     ranged = True
     #img = ADD IMAGE HERE
     def __init__(self,unitname,x,y):
-        self.icon = img
+        self.icon = scaleunit("archer icon.PNG")
+        self.xpost = x
+        self.ypost = y        
 
 
 #class pikemen
@@ -358,16 +373,11 @@ class pikemen(unit):
     min_range = min_range['pikemen']
     ranged = False
     #img = ADD IMAGE HERE
-    def __init__(self,unitname,x,y):
-        self.health = health
-        self.defence = defence
-        self.attack = attack
+    def __init__(self,unitname,x,y):        
         self.xpost = x
         self.ypost = y
-        self.speed = speed
-        self.icon = img
-        self.range = ranged
-        slef.min_range = min_range
+        self.icon = scaleunit("pikeman.PNG")
+
 
 #class catapult
 class catapult(unit):
@@ -379,15 +389,9 @@ class catapult(unit):
     ranged = True
     #img = ADD IMAGE HERE
     def __init__(self,unitname,x,y):
-        self.health = health
-        self.defence = defence
-        self.attack = attack
         self.xpost = x
         self.ypost = y
-        self.speed = speed
-        self.icon = img
-        self.range = ranged
-        self.min_range = min_range
+        self.icon = scaleunit("catapult.PNG")
 
 
 ###############choosing your screensize################
@@ -396,7 +400,12 @@ displaysize = {
 2:72,
 3:96
 }
-
+####different sizes of icons corresponding to the tilesizes###
+iconsize = {
+1:38
+2:44
+3:58
+}
 sizechoice = input("enter 1 for small, 2 for medium and 3 for a large display")
 done = False
 while not done:
@@ -404,6 +413,8 @@ while not done:
         choice = int(sizechoice)
         tilesize = displaysize.get(choice)
         print(tilesize)
+        unitsize = iconsize.get(choice)
+        print(unitsize)
         DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
         done = True
 
