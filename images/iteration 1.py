@@ -461,40 +461,6 @@ while done_input == False:
 
 #setting the display
 pygame.display.set_caption("Battle simulator")
-#DISPLAY.fill(blue)
-#pygame.display.flip()
-##############################setting the map to the map given using visuals and making it scale##########
-
-##map constructor, used to draw the grid-only temporarily needed
-##x = 0
-##y = 0
-##for i in range(11):
-##    grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
-##    x = x + tilesize
-##    step = 1
-##x = 0
-##y = 0
-##for i in range(11):
-##    grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
-##    y = y + tilesize
-##pygame.display.flip()    
-###draw background###########################
-##def background():
-##    DISPLAY.fill(blue)
-##    pygame.display.flip()
-##    x = 0
-##    y = 0
-##    for i in range(11):
-##        grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
-##        x = x + tilesize
-##        step = 1
-##    x = 0
-##    y = 0
-##    for i in range(11):
-##        grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
-##        y = y + tilesize
-##    pygame.display.flip()    
-##
 
 
 #where the initialised map will be stored
@@ -510,7 +476,6 @@ mapOB = [[None,None,None,None,None,None,None,None,None,None],
          [None,None,None,None,None,None,None,None,None,None],
          ]
          
-
 
 #initialising the map
 newc = False
