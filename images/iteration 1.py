@@ -571,6 +571,7 @@ while True:
     mousex = pygame.mouse.get_pos()[0]
     mousey = pygame.mouse.get_pos()[1]
     event1 = pygame.event.wait()
+    #testing 
     testman = swordsman(2,2)
     print(testman.attack)
     DISPLAY.blit(testman.icon,(2,2))
@@ -580,6 +581,7 @@ while True:
     testman2.health = 30
     print(testman2.health)
     pygame.display.flip()
+    ###
     if KEYDOWN == False:
         startpost.clear()
         startpost.append(mousex)
