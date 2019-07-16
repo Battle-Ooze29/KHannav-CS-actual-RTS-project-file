@@ -83,7 +83,7 @@ map1 = [["F","F","F","F","F","F","F","F","F","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
-        ["F","F","F","F","F","M","FJ","F","F","F"],
+        ["F","F","F","L","F","M","FJ","F","W","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
@@ -566,27 +566,95 @@ pygame.display.flip()
         
 #----game loop#----------
 while True:
+
+# redrawing the background image
+    newc = False
+    ccount = 0
+    newr = False
+    row = 0
+    columb = 0
+    for i in range (10):
+
+        for j in range (10):
+            landtype = map1[i][j]#change map1 to mapchoice once the power to select a map is added
+            if landtype == "F":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "H":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "W":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "M":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "FJ":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "GS":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "SS":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "L":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            if ccount == 10:
+                newr = True
+                columb = 0
+                ccount = 0
+            if (newc == True) and (ccount != 0):
+                columb += tilesize
+        if newr == True:
+            row+=tilesize
+    pygame.display.flip()
 #highlighting#################################################
     
     mousex = pygame.mouse.get_pos()[0]
     mousey = pygame.mouse.get_pos()[1]
     event1 = pygame.event.wait()
     #testing 
-    testman = swordsman(2,2)
-    print(testman.attack)
-    DISPLAY.blit(testman.icon,(2,2))
-    testman2 = Bcavalry(66,2)
-    DISPLAY.blit(testman.icon,(66,2))
-    print(testman2.defence)
-    testman2.health = 30
-    print(testman2.health)
-    pygame.display.flip()
+##    testman = swordsman(2,2)
+##    print(testman.attack)
+##    DISPLAY.blit(testman.icon,(2,2))
+##    testman2 = Bcavalry(66,2)
+##    DISPLAY.blit(testman.icon,(66,2))
+##    print(testman2.defence)
+##    testman2.health = 30
+##    print(testman2.health)
+##    pygame.display.flip()
     ###
     if KEYDOWN == False:
         startpost.clear()
         startpost.append(mousex)
         startpost.append(mousey)
-    
+    pygame.event.get()
     if (event1.type == pygame.MOUSEBUTTONDOWN) or ((pygame.mouse.get_pressed()[0])==True):
         endpost.clear()
         endpost.append(mousex)
