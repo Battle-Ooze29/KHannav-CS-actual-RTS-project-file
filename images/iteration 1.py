@@ -683,6 +683,9 @@ while True:
         
     else:
         pass
+    ######checking if a unit is within the higlighted square
+    
+    
 
 
 ###########################################################################################################
