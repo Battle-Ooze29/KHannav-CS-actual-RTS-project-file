@@ -266,9 +266,7 @@ class hill(map):
 
 
 ###################################################################
-######################################################################
-######################################################################
-        #####################################################
+
 #########################################################unit classes
 class unit:
     health = 0
@@ -281,17 +279,20 @@ class unit:
         return self.health
     def getdefence(self):
         return self.defence
+    @staticmethod
     def getxpost(self):
-        return (int(self.x))
+        return (int(self.xpost))
+    @staticmethod
     def getypost(self):
-        return(int(self.y))
+        return(int(self.ypost))
     def updatepost(self,newpostx,newposty):
         xpost = newpostx
         ypost = newposty
     def highlight(self):
-        x = (self.xpost - 2)
-        y = (self.ypost +2)
-        pygame.draw.rect(DISPLAY,WHITE,x,y)
+        x = (self.xpost + 10)
+        y = (self.ypost - 10)
+        new =pygame.draw.rect(DISPLAY,WHITE,x,y)
+        DISPLAY.blit(new,(self.xpost,self.ypost))
     #def movement(self,newpostx,newposty)
         
 
@@ -426,9 +427,9 @@ menuemap = {
 }
 #units mapped to numbers for the ingame menue
 def unitinput(unitchoice):
+    unitchoice = int(unitchoice)
     print(menuemap.get(int(unitchoice)))
     player_army.append((menuemap.get(int(unitchoice))))
-    #for i in range (len(player_army)):
     if unitchoice == 1:
         player_armyOB.append(Mcavalry())
     elif unitchoice == 2:
@@ -570,11 +571,7 @@ pygame.display.flip()
 
 
 #displaying the map
-##for i in range(9):
-##    for j in range (9):
-##        img = mapOB[i][j]
-##        DISPLAY.blit(img.img,(img.xpos,img.ypos))
-##        pygame.display.flip()
+
         
 #----game loop#----------
 while True:
@@ -663,11 +660,13 @@ while True:
 ##    print(testman2.health)
 ##    pygame.display.flip()
     ###
-    test = []
-    test.append(swordsman())
-    print("the legth of the army is")
-    print(len(test))
-    DISPLAY.blit((test[0].img),(2,2))
+##    print("the length of the players army is ")
+##    print(len(player_armyOB))
+##    test = []
+##    test.append(swordsman())
+##    print("the legth of the army is")
+##    print(len(test))
+##    DISPLAY.blit((test[0].img),(2,2))
 #
     if KEYDOWN == False:
         startpost.clear()
@@ -678,30 +677,31 @@ while True:
         endpost.clear()
         endpost.append(mousex)
         endpost.append(mousey)
+        print(player_armyOB[1].getxpost)
         ######checking if a unit is within the higlighted square
         #establish a range within to check
         
-        if startpost[0] <= endpost[0]:
-            lowerxbound = startpost[0]
-            upperxbound = endpost[0]
-        else:
-            lowerxbound = endpost[0]
-            upperxbound =  startpost[0]
-
-        if startpost[1] <= endpost[1]:
-            lowerybound = startpost[1]
-            upperybound = endpost[1]
-        else:
-            lowerybound = endpost[1]
-            upperybound = startpost[1]
-
-        for i in range (int(len(player_armyOB))-1):
-            print(len(player_armyOB))
-            if (player_armyOB[i].getxpost >= lowerxbound) and (player_armyOB[i].getxpost <= upperxbound):
-                print("work")
-                player_armyOB[i].highlight()
-            else:
-                pass
+##        if startpost[0] <= endpost[0]:
+##            lowerxbound = startpost[0]
+##            upperxbound = endpost[0]
+##        else:
+##            lowerxbound = endpost[0]
+##            upperxbound =  startpost[0]
+##
+##        if startpost[1] <= endpost[1]:
+##            lowerybound = startpost[1]
+##            upperybound = endpost[1]
+##        else:
+##            lowerybound = endpost[1]
+##            upperybound = startpost[1]
+##
+##        for i in range (int(len(player_armyOB))-1):
+##            print(len(player_armyOB))
+##            if ((player_armyOB[i].getxpost) >= lowerxbound) and ((player_armyOB[i].getxpost) <= upperxbound):
+##                print("work")
+##                player_armyOB[i].highlight()
+##            else:
+##                pass
                  
                     
         #if endpost[1] > startpost[1]:
