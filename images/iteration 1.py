@@ -307,10 +307,10 @@ class Mcavalry(unit):
     ranged = False
     charge = chargemod
     img = pygame.image.load('Mcavalry scaled.PNG')
-    def __init__(self,unitname,x,y):
+    def __init__(self):
         self.icon = scaleunit('horseman.PNG')
-        self.xpost = x
-        self.ypost = y
+        self.xpost = 150
+        self.ypost = 150
 
 
 #bow cavalry class
@@ -322,10 +322,10 @@ class Bcavalry(unit):
     min_range = min_range['Bcavalry']
     ranged = True
     img = pygame.image.load('Bcavalry scaled.PNG')
-    def __init__(self,x,y):
+    def __init__(self):
         self.icon = scaleunit('horse archer.PNG')
-        self.xpost = x
-        self.ypost = y
+        self.xpost = 100
+        self.ypost = 100
 
 
 #class swordsman
@@ -353,10 +353,10 @@ class archer(unit):
     min_range = min_range['archer']
     ranged = True
     #img = ADD IMAGE HERE
-    def __init__(self,unitname,x,y):
+    def __init__(self):
         self.icon = scaleunit("archer icon.PNG")
-        self.xpost = x
-        self.ypost = y        
+        self.xpost = 200
+        self.ypost = 200     
 
 
 #class pikemen
@@ -368,9 +368,9 @@ class pikemen(unit):
     min_range = min_range['pikemen']
     ranged = False
     #img = ADD IMAGE HERE
-    def __init__(self,unitname,x,y):        
-        self.xpost = x
-        self.ypost = y
+    def __init__(self):        
+        self.xpost = 300
+        self.ypost = 300
         self.icon = scaleunit("pikeman.PNG")
 
 
@@ -383,9 +383,9 @@ class catapult(unit):
     min_range = min_range['catapult']
     ranged = True
     #img = ADD IMAGE HERE
-    def __init__(self,unitname,x,y):
-        self.xpost = x
-        self.ypost = y
+    def __init__(self):
+        self.xpost = 350
+        self.ypost = 350
         self.icon = scaleunit("catapult.PNG")
 
 
@@ -430,17 +430,17 @@ def unitinput(unitchoice):
     player_army.append((menuemap.get(int(unitchoice))))
     #for i in range (len(player_army)):
     if unitchoice == 1:
-        player_armyOB.append(Mcavalry(800,1000))
+        player_armyOB.append(Mcavalry())
     elif unitchoice == 2:
-        player_armyOB.append(Bcavalry(800,1000))                       
+        player_armyOB.append(Bcavalry())                       
     elif unitchoice ==3:
-        player_armyOB.append(swordsman(800,1000))
+        player_armyOB.append(swordsman())
     elif unitchoice ==4:
-        player_armyOB.append(archer(800,1000))
+        player_armyOB.append(archer())
     elif unitchoice ==5:
-        player_armyOB.apend(pikemen(800,1000))
+        player_armyOB.apend(pikemen())
     elif unitchoice ==6:
-        player_armyOB.append(catapult(800,1000))
+        player_armyOB.append(catapult())
 
         
 
