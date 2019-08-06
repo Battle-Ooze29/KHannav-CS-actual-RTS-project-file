@@ -1,0 +1,19 @@
+    #testing 
+##    testman = swordsman(2,2)
+##    print(testman.attack)
+##    DISPLAY.blit(testman.icon,(2,2))
+##    testman2 = Bcavalry(66,2)
+##    DISPLAY.blit(testman.icon,(66,2))
+##    print(testman2.defence)
+##    testman2.health = 30
+##    print(testman2.health)
+##    pygame.display.flip()
+    ###
+##    print("the length of the players army is ")
+##    print(len(player_armyOB))
+##    test = []
+##    test.append(swordsman())
+##    print("the legth of the army is")
+##    print(len(test))
+##    DISPLAY.blit((test[0].img),(2,2))
+#
