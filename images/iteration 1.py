@@ -96,40 +96,6 @@ map1 = [["F","F","F","F","F","F","F","F","F","F"],
 #to find the tile the unit is on
 pygame.init()
 
-##pygame.display.set_caption("Battle simulator")
-##DISPLAY.fill(blue)
-##pygame.display.flip()
-###map constructor
-##x = 0
-##y = 0
-##for i in range(11):
-##    grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
-##    x = x + tilesize
-##    step = 1
-##x = 0
-##y = 0
-##for i in range(11):
-##    grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
-##    y = y + tilesize
-##pygame.display.flip()    
-###draw background###########################
-##def background():
-##    DISPLAY.fill(blue)
-##    pygame.display.flip()
-##    x = 0
-##    y = 0
-##    for i in range(11):
-##        grid = pygame.draw.line(DISPLAY,BRICK,[x,y],[x,641],1)
-##        x = x + tilesize
-##        step = 1
-##    x = 0
-##    y = 0
-##    for i in range(11):
-##        grid1 = pygame.draw.line(DISPLAY,BRICK,[x,y],[641,y],1)
-##        y = y + tilesize
-##    pygame.display.flip()    
-##    
-#-----------------------------------------------
 
 
 #########################FUNCTION TO SCALE MAP IMAGES ###############
@@ -269,20 +235,18 @@ class hill(map):
 
 #########################################################unit classes
 class unit:
-    health = 0
-    defence = 0
-    attack = 0
-    xpost = 0
-    ypost = 0
-    min_range = 0
+##    health = 0
+##    defence = 0
+##    attack = 0
+##    xpost = 0
+##    ypost = 0
+##    min_range = 0
     def gethealth(self):
         return self.health
     def getdefence(self):
         return self.defence
-    @staticmethod
     def getxpost(self):
         return (int(self.xpost))
-    @staticmethod
     def getypost(self):
         return(int(self.ypost))
     def updatepost(self,newpostx,newposty):
@@ -649,25 +613,7 @@ while True:
     mousex = pygame.mouse.get_pos()[0]
     mousey = pygame.mouse.get_pos()[1]
     event1 = pygame.event.wait()
-    #testing 
-##    testman = swordsman(2,2)
-##    print(testman.attack)
-##    DISPLAY.blit(testman.icon,(2,2))
-##    testman2 = Bcavalry(66,2)
-##    DISPLAY.blit(testman.icon,(66,2))
-##    print(testman2.defence)
-##    testman2.health = 30
-##    print(testman2.health)
-##    pygame.display.flip()
-    ###
-##    print("the length of the players army is ")
-##    print(len(player_armyOB))
-##    test = []
-##    test.append(swordsman())
-##    print("the legth of the army is")
-##    print(len(test))
-##    DISPLAY.blit((test[0].img),(2,2))
-#
+
     if KEYDOWN == False:
         startpost.clear()
         startpost.append(mousex)
@@ -677,31 +623,31 @@ while True:
         endpost.clear()
         endpost.append(mousex)
         endpost.append(mousey)
-        print(player_armyOB[1].getxpost)
+        print(player_armyOB[1].getxpost())
         ######checking if a unit is within the higlighted square
         #establish a range within to check
         
-##        if startpost[0] <= endpost[0]:
-##            lowerxbound = startpost[0]
-##            upperxbound = endpost[0]
-##        else:
-##            lowerxbound = endpost[0]
-##            upperxbound =  startpost[0]
-##
-##        if startpost[1] <= endpost[1]:
-##            lowerybound = startpost[1]
-##            upperybound = endpost[1]
-##        else:
-##            lowerybound = endpost[1]
-##            upperybound = startpost[1]
-##
-##        for i in range (int(len(player_armyOB))-1):
-##            print(len(player_armyOB))
-##            if ((player_armyOB[i].getxpost) >= lowerxbound) and ((player_armyOB[i].getxpost) <= upperxbound):
-##                print("work")
-##                player_armyOB[i].highlight()
-##            else:
-##                pass
+        if startpost[0] <= endpost[0]:
+            lowerxbound = startpost[0]
+            upperxbound = endpost[0]
+        else:
+            lowerxbound = endpost[0]
+            upperxbound =  startpost[0]
+
+        if startpost[1] <= endpost[1]:
+            lowerybound = startpost[1]
+            upperybound = endpost[1]
+        else:
+            lowerybound = endpost[1]
+            upperybound = startpost[1]
+
+        for i in range (int(len(player_armyOB))-1):
+            print(len(player_armyOB))
+            if ((player_armyOB[i].getxpost()) >= lowerxbound) and ((player_armyOB[i].getxpost()) <= upperxbound):
+                print("work")
+                player_armyOB[i].highlight()
+            else:
+                pass
                  
                     
         #if endpost[1] > startpost[1]:
@@ -732,38 +678,7 @@ while True:
 
 ###########################################################################################################
         
-            #check if units are present    
-#check is there is a unit on the tile
-#def checkunitsposts():
- #   for i in range(len.unitpost):
-  #      if mouse_post == unitpost[i]:
-   #         unit_ispresent = True
-#movement pathfinding algorithm#
 
-#    pygame.init()
- #   screen = pygame.display.set_mode((480, 360))
-  #  name = ""
-   # font = pygame.font.Font(None, 50)
-    #while True:
-     #   for evt in pygame.event.get():
-      #      if evt.type == KEYDOWN:
-       #         if evt.unicode.isalpha():
-        #            name += evt.unicode
-         #       elif evt.key == K_BACKSPACE:
-          #          name = name[:-1]
-           #     elif evt.key == K_RETURN:
-           #         name = ""
-            #elif evt.type == QUIT:
-             #   return
-#        screen.fill((0, 0, 0))
- #       block = font.render(name, True, (255, 255, 255))
-  #      rect = block.get_rect()
-   #     rect.center = screen.get_rect().center
-    #    screen.blit(block, rect)
-     #   pygame.display.flip()  
-        
-   # while not done:
-    #    pygame.time.clock():
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
