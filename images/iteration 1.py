@@ -23,11 +23,9 @@ player_army = []
 enemy_army = []
 #lists to hold the postitions of units in the player arm and in the enemy army
 
-#player_armypostx = []
-#player_armyposty = []
+player_armyhighlight = []
 player_armyOB = []
-#enemyy_armypostx = []
-#enemyy_armyposty = []
+
 #vARIABLES FOR HIGHLIGHTING AN AREA 
 startpost = []
 endpost = []
@@ -255,8 +253,9 @@ class unit:
     def highlight(self):
         x = (self.xpost + 10)
         y = (self.ypost - 10)
-        new =pygame.draw.rect(DISPLAY,WHITE,x,y)
-        DISPLAY.blit(new,(self.xpost,self.ypost))
+        #change to lines or mod calculations before you draw
+        pygame.draw.rect(DISPLAY,WHITE,(x,y,30,30))
+        pygame.display.flip()
     #def movement(self,newpostx,newposty)
         
 
@@ -541,73 +540,73 @@ pygame.display.flip()
 while True:
 
 # redrawing the background image
-##    newc = False
-##    ccount = 0
-##    newr = False
-##    row = 0
-##    columb = 0
-##    for i in range (10):
-##
-##        for j in range (10):
-##            landtype = map1[i][j]#change map1 to mapchoice once the power to select a map is added
-##            if landtype == "F":
-##                img = mapOB[i][j]
-##                DISPLAY.blit(img.img,(img.xpos,img.ypos))
-##                newc = True
-##                ccount +=1
-##                
-##            elif landtype == "H":
-##                img = mapOB[i][j]
-##                DISPLAY.blit(img.img,(img.xpos,img.ypos))
-##                newc = True
-##                ccount +=1
-##                
-##            elif landtype == "W":
-##                img = mapOB[i][j]
-##                DISPLAY.blit(img.img,(img.xpos,img.ypos))
-##                newc = True
-##                ccount +=1
-##                
-##            elif landtype == "M":
-##                img = mapOB[i][j]
-##                DISPLAY.blit(img.img,(img.xpos,img.ypos))
-##                newc = True
-##                ccount +=1
-##                
-##            elif landtype == "FJ":
-##                img = mapOB[i][j]
-##                DISPLAY.blit(img.img,(img.xpos,img.ypos))
-##                newc = True
-##                ccount +=1
-##                
-##            elif landtype == "GS":
-##                img = mapOB[i][j]
-##                DISPLAY.blit(img.img,(img.xpos,img.ypos))
-##                newc = True
-##                ccount +=1
-##                
-##            elif landtype == "SS":
-##                img = mapOB[i][j]
-##                DISPLAY.blit(img.img,(img.xpos,img.ypos))
-##                newc = True
-##                ccount +=1
-##                
-##            elif landtype == "L":
-##                img = mapOB[i][j]
-##                DISPLAY.blit(img.img,(img.xpos,img.ypos))
-##                newc = True
-##                ccount +=1
-##                
-##            if ccount == 10:
-##                newr = True
-##                columb = 0
-##                ccount = 0
-##            if (newc == True) and (ccount != 0):
-##                columb += tilesize
-##        if newr == True:
-##            row+=tilesize
-##            
-##    pygame.display.flip()
+    newc = False
+    ccount = 0
+    newr = False
+    row = 0
+    columb = 0
+    for i in range (10):
+
+        for j in range (10):
+            landtype = map1[i][j]#change map1 to mapchoice once the power to select a map is added
+            if landtype == "F":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "H":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "W":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "M":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "FJ":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "GS":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "SS":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "L":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            if ccount == 10:
+                newr = True
+                columb = 0
+                ccount = 0
+            if (newc == True) and (ccount != 0):
+                columb += tilesize
+        if newr == True:
+            row+=tilesize
+            
+    pygame.display.flip()
 #highlighting#################################################
     
     mousex = pygame.mouse.get_pos()[0]
@@ -626,28 +625,41 @@ while True:
         print(player_armyOB[1].getxpost())
         ######checking if a unit is within the higlighted square
         #establish a range within to check
-        
+
+  
         if startpost[0] <= endpost[0]:
             lowerxbound = startpost[0]
             upperxbound = endpost[0]
+
         else:
             lowerxbound = endpost[0]
             upperxbound =  startpost[0]
 
-        if startpost[1] <= endpost[1]:
+        if startpost[1] <= endpost[1]:      
             lowerybound = startpost[1]
             upperybound = endpost[1]
+
         else:
             lowerybound = endpost[1]
             upperybound = startpost[1]
+
+        #check x
 
         for i in range (int(len(player_armyOB))-1):
             print(len(player_armyOB))
             if ((player_armyOB[i].getxpost()) >= lowerxbound) and ((player_armyOB[i].getxpost()) <= upperxbound):
                 print("work")
-                player_armyOB[i].highlight()
+                #check y
+                if ((player_armyOB[i].getypost()) >= lowerybound) and ((player_armyOB[i].getypost()) <= upperybound):
+                    print("valid")
+                    player_armyhighlight.append(player_armyOB[i])
+                    player_armyOB[i].highlight()
+                else:
+                    pass
             else:
                 pass
+
+
                  
                     
         #if endpost[1] > startpost[1]:
