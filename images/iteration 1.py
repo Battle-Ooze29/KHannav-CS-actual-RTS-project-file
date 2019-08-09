@@ -1,4 +1,4 @@
-import pygame, pygame.font, pygame.event, pygame.draw, string,time
+import pygame, pygame.font, pygame.event, pygame.draw, string,time,random
 from pygame.locals import*
 WHITE=(255,255,255)
 blue=(0,0,255)
@@ -239,17 +239,23 @@ class unit:
 ##    xpost = 0
 ##    ypost = 0
 ##    min_range = 0
+
     def gethealth(self):
         return self.health
+
     def getdefence(self):
         return self.defence
+
     def getxpost(self):
         return (int(self.xpost))
+
     def getypost(self):
         return(int(self.ypost))
+
     def updatepost(self,newpostx,newposty):
         xpost = newpostx
         ypost = newposty
+
     def highlight(self):
         x = (self.xpost + 10)
         y = (self.ypost - 10)
@@ -258,9 +264,6 @@ class unit:
         pygame.display.flip()
     #def movement(self,newpostx,newposty)
         
-
-
-
 #melee cavalry class
 class Mcavalry(unit):
     health = health['Mcavalry']
@@ -353,6 +356,20 @@ class catapult(unit):
         self.icon = scaleunit("catapult.PNG")
 
 
+#randomiser to make combat more indicidualised
+def randomdmg():
+    randmap = {
+        1:0.6,
+        2:0.8,
+        3:1,
+        4:1.2,
+        5:1.4
+        }
+    random = random.randint(1,6)
+    modifier = randmap.get(random)
+    return modifier
+
+
 ###############choosing your screensize################
 displaysize = {
 1:64,
@@ -402,7 +419,7 @@ def unitinput(unitchoice):
     elif unitchoice ==4:
         player_armyOB.append(archer())
     elif unitchoice ==5:
-        player_armyOB.apend(pikemen())
+        player_armyOB.append(pikemen())
     elif unitchoice ==6:
         player_armyOB.append(catapult())
 
@@ -607,6 +624,13 @@ while True:
             row+=tilesize
             
     pygame.display.flip()
+        #drawing icons
+    for i in range(len(player_armyOB)):
+        icon = player_armyOB[i]
+        print("drawing")
+        DISPLAY.blit((icon.icon),((player_armyOB[i].xpost),(player_armyOB[i].ypost)))
+        pygame.display.flip()
+
 #highlighting#################################################
     
     mousex = pygame.mouse.get_pos()[0]
@@ -622,7 +646,7 @@ while True:
         endpost.clear()
         endpost.append(mousex)
         endpost.append(mousey)
-        print(player_armyOB[1].getxpost())
+        
         ######checking if a unit is within the higlighted square
         #establish a range within to check
 
@@ -642,31 +666,12 @@ while True:
         else:
             lowerybound = endpost[1]
             upperybound = startpost[1]
-
-        #check x
-
-        for i in range (int(len(player_armyOB))-1):
-            print(len(player_armyOB))
-            if ((player_armyOB[i].getxpost()) >= lowerxbound) and ((player_armyOB[i].getxpost()) <= upperxbound):
-                print("work")
-                #check y
-                if ((player_armyOB[i].getypost()) >= lowerybound) and ((player_armyOB[i].getypost()) <= upperybound):
-                    print("valid")
-                    player_armyhighlight.append(player_armyOB[i])
-                    player_armyOB[i].highlight()
-                else:
-                    pass
-            else:
-                pass
-
-
                  
                     
         #if endpost[1] > startpost[1]:
          #   startpost[1] = endpost[1]
         if (endpost != startpost) and (KEYDOWN == True):
-            #pygame.draw.polygon(DISPLAY, BRICK,((startpost[0],startpost[1]),(endpost[0],endpost[1])),5 )
-            #background()
+
             pygame.draw.line(DISPLAY,BRICK,[startpost[0],startpost[1]],[endpost[0],startpost[1]],3)
             #line from start to end on the x
             pygame.draw.line(DISPLAY,BRICK,[startpost[0],startpost[1]],[startpost[0],endpost[1]],3)
@@ -675,6 +680,20 @@ while True:
             #line horizontal from end
             pygame.draw.line(DISPLAY,BRICK,[endpost[0],endpost[1]],[endpost[0],startpost[1]],3)
             pygame.display.flip()
+
+                    #check x
+
+            for i in range (len(player_armyOB)):
+
+                if ((player_armyOB[i].getxpost()) >= lowerxbound) and ((player_armyOB[i].getxpost()) <= upperxbound):
+
+                    #check y
+                    if ((player_armyOB[i].getypost()) >= lowerybound) and ((player_armyOB[i].getypost()) <= upperybound):
+
+                        player_armyhighlight.append(player_armyOB[i])
+                        player_armyOB[i].highlight()
+
+
         elif startpost == endpost:
             #time.sleep(0.1)
             KEYDOWN = True
