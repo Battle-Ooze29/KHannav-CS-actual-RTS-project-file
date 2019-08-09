@@ -624,10 +624,12 @@ while True:
             row+=tilesize
             
     pygame.display.flip()
-        #drawing icons
+
+    #drawing icons
+    
     for i in range(len(player_armyOB)):
         icon = player_armyOB[i]
-        print("drawing")
+
         DISPLAY.blit((icon.icon),((player_armyOB[i].xpost),(player_armyOB[i].ypost)))
         pygame.display.flip()
 
