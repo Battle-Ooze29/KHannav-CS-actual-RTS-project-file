@@ -693,7 +693,7 @@ while True:
                     if ((player_armyOB[i].getypost()) >= lowerybound) and ((player_armyOB[i].getypost()) <= upperybound):
 
                         player_armyhighlight.append(player_armyOB[i])
-                        player_armyOB[i].highlight()
+                        #player_armyOB[i].highlight()
 
 
         elif startpost == endpost:
