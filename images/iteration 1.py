@@ -17,7 +17,8 @@ chargemod = 1.2
 positive = +1
 negative = -1
 flat = 1
-
+#list of impassale tiles
+impassable = []
 #list to store units for player, for now the enemy will have the same units, may let them pick in the future
 player_army = []
 enemy_army = []
@@ -257,10 +258,10 @@ class unit:
         ypost = newposty
 
     def highlight(self):
-        x = (self.xpost + 10)
-        y = (self.ypost - 10)
+        x = (self.xpost -2 )
+        y = (self.ypost + 2 )
         #change to lines or mod calculations before you draw
-        pygame.draw.rect(DISPLAY,WHITE,(x,y,30,30))
+        pygame.draw.rect(DISPLAY,WHITE,(x,y,(unitsize+2),(unitsize+2)))
         pygame.display.flip()
     #def movement(self,newpostx,newposty)
         
@@ -500,14 +501,16 @@ for i in range (10):
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
-            
+            impassable.append(mapOB[i][j])
+
         elif landtype == "M":
             mapOB[i][j] = mountain(columb,row)
             img = mapOB[i][j]
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
-            
+            impassable.append(mapOB[i][j])
+
         elif landtype == "FJ":
             mapOB[i][j] = fjord(columb,row)
             img = mapOB[i][j]
@@ -535,7 +538,8 @@ for i in range (10):
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
-            
+            impassable.append(mapOB[i][j])
+
         if ccount == 10:
             newr = True
             columb = 0
@@ -637,13 +641,13 @@ while True:
     
     mousex = pygame.mouse.get_pos()[0]
     mousey = pygame.mouse.get_pos()[1]
-    event1 = pygame.event.wait()
+    event1 = pygame.event.poll()
 
     if KEYDOWN == False:
         startpost.clear()
         startpost.append(mousex)
         startpost.append(mousey)
-    pygame.event.get()
+    pygame.event.poll()
     if (event1.type == pygame.MOUSEBUTTONDOWN) or ((pygame.mouse.get_pressed()[0])==True):
         endpost.clear()
         endpost.append(mousex)
@@ -693,7 +697,11 @@ while True:
                     if ((player_armyOB[i].getypost()) >= lowerybound) and ((player_armyOB[i].getypost()) <= upperybound):
 
                         player_armyhighlight.append(player_armyOB[i])
-                        #player_armyOB[i].highlight()
+                        player_armyOB[i].highlight()
+#redrawing
+                        icon = player_armyOB[i]
+                        DISPLAY.blit((icon.icon),((player_armyOB[i].xpost),(player_armyOB[i].ypost)))
+                        pygame.display.flip()
 
 
         elif startpost == endpost:
@@ -708,7 +716,20 @@ while True:
     else:
         pass
 
+    if (pygame.mouse.get_pressed()[2])==True:
+        destination = []
+        destination.clear()
+        destination.append(mousex)
+        destination.append(mousey)
+    #movement code
 
+        #grouping units for movement
+        formcolumb = False
+        if len(player_armyhighlight) >= 2:
+            formcolumb = True
+        else:
+            formcolumb = False
+        
 ###########################################################################################################
         
 
