@@ -1,4 +1,5 @@
 import pygame, pygame.font, pygame.event, pygame.draw, string,time,random
+from math import *
 from pygame.locals import*
 WHITE=(255,255,255)
 blue=(0,0,255)
@@ -92,7 +93,13 @@ map1 = [["F","F","F","F","F","F","F","F","F","F"],
         ]
 
 
-#to find the tile the unit is on
+
+#postitioning functiont
+def postition(x,y):
+    #x
+    ((x%tilesize)*(tilesize)) +(0.5*tilesize)
+
+
 pygame.init()
 
 
@@ -358,6 +365,8 @@ class catapult(unit):
 
 
 #randomiser to make combat more indicidualised
+
+
 def randomdmg():
     randmap = {
         1:0.6,
@@ -721,14 +730,22 @@ while True:
         destination.clear()
         destination.append(mousex)
         destination.append(mousey)
-    #movement code
-
+        destinationxcords = mousex%tilesize
+        destinationtcords = mousey%tilesize
         #grouping units for movement
         formcolumb = False
         if len(player_armyhighlight) >= 2:
             formcolumb = True
         else:
             formcolumb = False
+        if formcolumb == True:
+            #search
+            #find top left
+            count = 0
+            while (count!= 2) or (x>0):
+                   destinationxcords 
+        #movement code
+            
         
 ###########################################################################################################
         
