@@ -97,8 +97,9 @@ map1 = [["F","F","F","F","F","F","F","F","F","F"],
 #postitioning functiont
 def postition(x,y):
     #x
-    ((x%tilesize)*(tilesize)) +(0.5*tilesize)
-
+    xend =((x%tilesize)*(tilesize)) +(0.5*tilesize)
+    yend = ((y%tilesize)*(tilesize)) +(0.5*tilesize)
+    return(xend,yend)
 
 pygame.init()
 
@@ -363,7 +364,18 @@ class catapult(unit):
         self.ypost = 350
         self.icon = scaleunit("catapult.PNG")
 
-
+#function to round the tilenumber to the nearest tile
+def tileround(x,tilesize):
+    if (x>((x//tilesize)*tilesize)+(0.5*tilesize)):
+        tilepost = ((x//tilesize)+1)
+    else:
+        x<((x//tilesize)*tilesize)+(0.5*tilesize)
+        tilepost = (x//tilesize)
+    return tilepost
+        
+        
+        
+    
 #randomiser to make combat more indicidualised
 
 
@@ -730,8 +742,8 @@ while True:
         destination.clear()
         destination.append(mousex)
         destination.append(mousey)
-        destinationxcords = mousex%tilesize
-        destinationtcords = mousey%tilesize
+        destinationxcords = mousex//tilesize
+        destinationtcords = mousey//tilesize
         #grouping units for movement
         formcolumb = False
         if len(player_armyhighlight) >= 2:
@@ -739,11 +751,13 @@ while True:
         else:
             formcolumb = False
         if formcolumb == True:
-            #search
-            #find top left
-            count = 0
-            while (count!= 2) or (x>0):
-                   destinationxcords 
+        #search within the cords for units within 2 tiles 
+        #pick a midpoint to search around
+            tempx = (startpost[0]//tilesize)*tilesize
+            tempxend = ((endpost[0]//tilesize)*tilesize )+(0.5*tilesize)
+            
+        
+            
         #movement code
             
         
