@@ -61,12 +61,12 @@ attack = {
 "catapult":20
 }
 speed = {
-"Mcavalry":50,
-"Bcavalry":50,
-"swordsman":65,
-"archer":45,
-"pikemen":70,
-"catapult":30
+"Mcavalry":0.6,
+"Bcavalry":0.6,
+"swordsman":0.3,
+"archer":0.3,
+"pikemen":0.3,
+"catapult":0.15
 }
 min_range = {
 "Mcavalry":1,
@@ -94,6 +94,24 @@ map1 = [["F","F","F","F","F","F","F","F","F","F"],
 
 
 
+#bubble sort function modified to compare speeds of units
+def bubbleSort(arr):
+    n = len(arr)
+ 
+    # Traverse through all array elements
+    for i in range(n):
+ 
+        # Last i elements are already in place
+        for j in range(0, n-i-1):
+ 
+            # traverse the array from 0 to n-i-1
+            # Swap if the element found is greater
+            # than the next element
+            if arr[j].speed > arr[j+1].speed :
+                arr[j].speed, arr[j+1].speed = arr[j+1].speed, arr[j].speed
+    ordered_army = arr
+    print("sorted")
+    return ordered_army
 #postitioning functiont
 def postition(x,y):
     #x
@@ -742,11 +760,12 @@ while True:
         destination.clear()
         destination.append(mousex)
         destination.append(mousey)
+        #need to -1 to use these as index values
         destinationxcords = mousex//tilesize
         destinationtcords = mousey//tilesize
         #grouping units for movement
         formcolumb = False
-        if len(player_armyhighlight) >= 2:
+        if (len(player_armyhighlight)) >= 2:
             formcolumb = True
         else:
             formcolumb = False
@@ -755,6 +774,16 @@ while True:
         #pick a midpoint to search around
             tempx = (startpost[0]//tilesize)*tilesize
             tempxend = ((endpost[0]//tilesize)*tilesize )+(0.5*tilesize)
+            tempyend = ((endpost[1]//tilesize)*tilesize)+(0.5*tilesize)
+
+            #sort using bubble sort by speed
+            ordered_army = []
+            bubbleSort(player_armyhighlight)
+            print("ready to move")
+            #now that they are sorted move the units into a columb 
+            
+            
+            
             
         
             
