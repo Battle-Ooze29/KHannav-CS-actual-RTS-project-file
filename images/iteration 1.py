@@ -754,7 +754,7 @@ while True:
         #search within the cords for units within 2 tiles 
             #sort using bubble sort by speed
             #bubble sort function modified to compare speeds 
-                #temp = []
+
             xmin = 0
             xmax = 0
             ymin = 0
@@ -763,7 +763,7 @@ while True:
          
             # Traverse through all array elements
             for i in range(n-2):
-                #use to loop to fin the xmin 
+                #use to loop to fin the x and y point to form a columb on 
                 if (player_armyhighlight[i].xpost//tilesize) <= xmin:
                     xmin = (player_armyhighlight[i].xpost//tilesize)
                 elif (player_armyhighlight[i].xpost//tilesize) >= xmax:
@@ -780,10 +780,11 @@ while True:
                     #player_armyhighlight.insert(i,player_armyhighlight[i+1])
                     player_armyhighlight.insert((i+1),temp)
             #now that they are sorted move the units into a columb 
-            
-            
-            
-            
+            #picking the head point of the columb
+            xmid = int(round((xmax-xmin)/2))
+            ymid= int(round((ymax-ymin)/2))
+            columbx = (xmid*tilesize)+(0.5*tilesize)
+            columby = (ymid*tilesize)+(0.5*tilesize) 
         
             
         #movement code
