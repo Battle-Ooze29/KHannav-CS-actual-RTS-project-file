@@ -94,24 +94,6 @@ map1 = [["F","F","F","F","F","F","F","F","F","F"],
 
 
 
-#bubble sort function modified to compare speeds of units
-def bubbleSort(arr):
-    n = len(arr)
- 
-    # Traverse through all array elements
-    for i in range(n):
- 
-        # Last i elements are already in place
-        for j in range(0, n-i-1):
- 
-            # traverse the array from 0 to n-i-1
-            # Swap if the element found is greater
-            # than the next element
-            if arr[j].speed > arr[j+1].speed :
-                arr[j].speed, arr[j+1].speed = arr[j+1].speed, arr[j].speed
-    ordered_army = arr
-    print("sorted")
-    return ordered_army
 #postitioning functiont
 def postition(x,y):
     #x
@@ -128,7 +110,6 @@ def scale(img):
     picture = pygame.image.load(img)
     picture = pygame.transform.scale(picture,(tilesize,tilesize))
     return picture
-
 
 ######################to scale units###################
 def scaleunit(img):
@@ -771,15 +752,33 @@ while True:
             formcolumb = False
         if formcolumb == True:
         #search within the cords for units within 2 tiles 
-        #pick a midpoint to search around
-            tempx = (startpost[0]//tilesize)*tilesize
-            tempxend = ((endpost[0]//tilesize)*tilesize )+(0.5*tilesize)
-            tempyend = ((endpost[1]//tilesize)*tilesize)+(0.5*tilesize)
-
             #sort using bubble sort by speed
-            ordered_army = []
-            bubbleSort(player_armyhighlight)
-            print("ready to move")
+            #bubble sort function modified to compare speeds 
+                #temp = []
+            xmin = 0
+            xmax = 0
+            ymin = 0
+            ymax = 0
+            n = len(player_armyhighlight)
+         
+            # Traverse through all array elements
+            for i in range(n-2):
+                #use to loop to fin the xmin 
+                if (player_armyhighlight[i].xpost//tilesize) <= xmin:
+                    xmin = (player_armyhighlight[i].xpost//tilesize)
+                elif (player_armyhighlight[i].xpost//tilesize) >= xmax:
+                    xmax = player_armyhighlight[i].xpost//tilesize
+                if (player_armyhighlight[i].ypost//tilesize) <= ymin:
+                    ymin = player_armyhighlight[i].ypost//tilesize
+                elif (player_armyhighlight[i].ypost//tilesize) >= ymax:
+                    ymax = (player_armyhighlight[i].ypost//tilesize)
+         
+                # Last i elements are already in place
+         
+                if ((player_armyhighlight[i].speed) > (player_armyhighlight[i+1].speed)) :
+                    temp = player_armyhighlight.pop(i) 
+                    #player_armyhighlight.insert(i,player_armyhighlight[i+1])
+                    player_armyhighlight.insert((i+1),temp)
             #now that they are sorted move the units into a columb 
             
             
