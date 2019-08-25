@@ -1,6 +1,9 @@
 import pygame, pygame.font, pygame.event, pygame.draw, string,time,random
 from math import *
 from pygame.locals import*
+import time
+import math
+import threading
 WHITE=(255,255,255)
 blue=(0,0,255)
 lblue=(0,255,255)
@@ -786,7 +789,6 @@ while True:
             ymid= int(round((ymax-ymin)/2))
             columbx = (xmid*tilesize)+(0.5*tilesize)
             columby = (ymid*tilesize)+(0.5*tilesize)
-            #moving into a columb 
 #            for i in range(len(player_armyhighlight)):
                 
             
@@ -794,18 +796,51 @@ while True:
 def move(x,y,unit):
     #the x and y are the targets for the unit to move to ]
     #the unit should be the head unit in the columb or the only unit
+
     if tilesize ==64:
         pixelmod = 1
     elif tilesize == 72:
         pixelmod = 1.125
     elif tilesize == 96:
         pixelmod =1.5
+
     speed = unit.speed
     xindex = (x//tilesize)
     yindex = (x//tilesize)
     mapmod = mapOB[xindex,yindex].speedmod
     unitspeed = ((speed * mapmod) *pixelmod)
+    done = False
+    #pick the direction to move in
+
+    if (x  >= unit.xpost):
+        directionxmod = 1
+
+    elif ((x<= unit.xpost)):
+        directionxmod = -1
+
+    if y >= unit.ypost :
+        directionymod = 1
+
+    elif y <= unit.ypost:
+        directionymod = -1
+
+    unitspeedx = unitspeed * directionxmod
+    unitspeedy = unitspeed* directionymod
     
+    while done == False:
+        if (unit.xpost ==((x*tilesize)+(0.5*tilesize))) and ((unit.ypost) == ((y*tilesize)+(0.5*tilesize))):
+            done = True
+        time.sleep(0.01)
+        unit.xpost = (unit.xpost + unitspeedx)
+        unit.ypost = (unit.ypost+unitspeedy)
+#multithreading#moving into the columb
+    thread.start_new_thread( move, columbx,columby,player_armyhighlight[(len(player_armyhighlight))])
+        
+
+
+
+        
+                
 ###########################################################################################################
         
 
