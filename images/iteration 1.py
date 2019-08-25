@@ -61,12 +61,12 @@ attack = {
 "catapult":20
 }
 speed = {
-"Mcavalry":0.6,
-"Bcavalry":0.6,
-"swordsman":0.3,
-"archer":0.3,
-"pikemen":0.3,
-"catapult":0.15
+"Mcavalry":10,
+"Bcavalry":10,
+"swordsman":5,
+"archer":5,
+"pikemen":5,
+"catapult":4
 }
 min_range = {
 "Mcavalry":1,
@@ -417,6 +417,7 @@ while not done:
 
 
 #dictionary for menue, had to be moved outside funtion so it could be accessed for validation
+        
 
 menuemap = {
     1:"Mcavalry",
@@ -775,7 +776,7 @@ while True:
          
                 # Last i elements are already in place
          
-                if ((player_armyhighlight[i].speed) > (player_armyhighlight[i+1].speed)) :
+                if ((player_armyhighlight[i].speed) >= (player_armyhighlight[i+1].speed)) :
                     temp = player_armyhighlight.pop(i) 
                     #player_armyhighlight.insert(i,player_armyhighlight[i+1])
                     player_armyhighlight.insert((i+1),temp)
@@ -784,12 +785,27 @@ while True:
             xmid = int(round((xmax-xmin)/2))
             ymid= int(round((ymax-ymin)/2))
             columbx = (xmid*tilesize)+(0.5*tilesize)
-            columby = (ymid*tilesize)+(0.5*tilesize) 
-        
+            columby = (ymid*tilesize)+(0.5*tilesize)
+            #moving into a columb 
+#            for i in range(len(player_armyhighlight)):
+                
             
         #movement code
-            
-        
+def move(x,y,unit):
+    #the x and y are the targets for the unit to move to ]
+    #the unit should be the head unit in the columb or the only unit
+    if tilesize ==64:
+        pixelmod = 1
+    elif tilesize == 72:
+        pixelmod = 1.125
+    elif tilesize == 96:
+        pixelmod =1.5
+    speed = unit.speed
+    xindex = (x//tilesize)
+    yindex = (x//tilesize)
+    mapmod = mapOB[xindex,yindex].speedmod
+    unitspeed = ((speed * mapmod) *pixelmod)
+    
 ###########################################################################################################
         
 
