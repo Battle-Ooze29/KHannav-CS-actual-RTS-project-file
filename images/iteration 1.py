@@ -538,12 +538,26 @@ ccount = 0
 newr = False
 row = 0
 columb = 0
+#list of nodes for a star
+node_list = [[None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         ]
+         
 for i in range (10):
 
     for j in range (10):
         landtype = map1[i][j]#change map1 to mapchoice once the power to select a map is added
         if landtype == "F":
             mapOB[i][j] = plains(columb,row)
+            node_list[i][j] = node(columb,row)
             img = mapOB[i][j]
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
@@ -551,6 +565,7 @@ for i in range (10):
             
         elif landtype == "H":
             mapOB[i][j] = hill(columb,row)
+            node_list[i][j] = node(columb,row)
             img = mapOB[i][j]
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
@@ -558,6 +573,7 @@ for i in range (10):
             
         elif landtype == "W":
             mapOB[i][j] = water(columb,row)
+            node_list[i][j] = None
             img = mapOB[i][j]
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
@@ -566,6 +582,7 @@ for i in range (10):
 
         elif landtype == "M":
             mapOB[i][j] = mountain(columb,row)
+            node_list[i][j] = None
             img = mapOB[i][j]
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
@@ -575,6 +592,7 @@ for i in range (10):
         elif landtype == "FJ":
             mapOB[i][j] = fjord(columb,row)
             img = mapOB[i][j]
+            node_list[i][j] = node(columb,row)
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
@@ -582,6 +600,7 @@ for i in range (10):
         elif landtype == "GS":
             mapOB[i][j] = gentleslope(columb,row)
             img = mapOB[i][j]
+            node_list[i][j] = node(columb,row)
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
@@ -589,12 +608,14 @@ for i in range (10):
         elif landtype == "SS":
             mapOB[i][j] = steepslope(columb,row)
             img = mapOB[i][j]
+            node_list[i][j] = node(columb,row)
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
             
         elif landtype == "L":
             mapOB[i][j] = lake(columb,row)
+            node_list[i][j] = None
             img = mapOB[i][j]
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
@@ -617,7 +638,7 @@ pygame.display.flip()
 
 #displaying the map
 
-node_list = []
+
 #----game loop#----------
 while True:
 
@@ -832,6 +853,7 @@ while True:
             print("columb")
 #            for i in range(len(player_armyhighlight)):
 ##########################################################################   A STAR####################################
+
             
         #movement code
 ##def move(x,y,unit):
