@@ -366,6 +366,43 @@ class catapult(unit):
         self.ypost = 350
         self.icon = scaleunit("catapult.PNG")
 
+
+#a star class for the node
+        
+class node():
+    #nodes postition
+    xpos = 0
+    ypos = 0
+    #record parent
+    parentx = 0
+    parenty = 0
+    #gcost
+    distance_travelled = 0
+    #f cost
+    distane_togo = 0#heuristic cost
+    H_cost = (distance_travelled + distance_togo)
+
+    def updatetrav(self,parentx,parenty):
+        if (parentx != self.xpos) and (parenty != self.ypost):
+            dist = 14
+        else:
+            dist = 10
+        travelled = self.distance_travelled + dist
+        return travelled
+
+    def updatetogo(self,destx,desty):
+        DISTANCE = (((destx -self.xpost)**2) + (desty-self.ypost)**2)
+        DISTANCE = int(round(DISTANCE**0.5))
+        return DISTANCE
+    def __init__(self,xpost,ypost):
+        self.xpos = xpost
+        self.ypos = ypost
+        self.distance_travelled = 0
+        
+    
+    
+    
+
 #function to round the tilenumber to the nearest tile
 def tileround(x,tilesize):
     if (x>((x//tilesize)*tilesize)+(0.5*tilesize)):
@@ -580,7 +617,7 @@ pygame.display.flip()
 
 #displaying the map
 
-        
+node_list = []
 #----game loop#----------
 while True:
 
@@ -746,8 +783,8 @@ while True:
         destination.append(mousex)
         destination.append(mousey)
         #need to -1 to use these as index values
-        destinationxcords = mousex//tilesize
-        destinationtcords = mousey//tilesize
+        destinationxcords = destination[0]//tilesize
+        destinationycords = destination[1]//tilesize
         #grouping units for movement
         formcolumb = False
         if (len(player_armyhighlight)) >= 2:
@@ -770,10 +807,13 @@ while True:
                 #use to loop to fin the x and y point to form a columb on 
                 if (player_armyhighlight[i].xpost//tilesize) <= xmin:
                     xmin = (player_armyhighlight[i].xpost//tilesize)
+
                 elif (player_armyhighlight[i].xpost//tilesize) >= xmax:
                     xmax = player_armyhighlight[i].xpost//tilesize
+
                 if (player_armyhighlight[i].ypost//tilesize) <= ymin:
                     ymin = player_armyhighlight[i].ypost//tilesize
+
                 elif (player_armyhighlight[i].ypost//tilesize) >= ymax:
                     ymax = (player_armyhighlight[i].ypost//tilesize)
          
@@ -789,53 +829,57 @@ while True:
             ymid= int(round((ymax-ymin)/2))
             columbx = (xmid*tilesize)+(0.5*tilesize)
             columby = (ymid*tilesize)+(0.5*tilesize)
+            print("columb")
 #            for i in range(len(player_armyhighlight)):
-                
+##########################################################################   A STAR####################################
             
         #movement code
-def move(x,y,unit):
-    #the x and y are the targets for the unit to move to ]
-    #the unit should be the head unit in the columb or the only unit
+##def move(x,y,unit):
+##    #the x and y are the targets for the unit to move to ]
+##    #the unit should be the head unit in the columb or the only unit
+##
+##    if tilesize ==64:
+##        pixelmod = 1
+##    elif tilesize == 72:
+##        pixelmod = 1.125
+##    elif tilesize == 96:
+##        pixelmod =1.5
+##
+##    speed = unit.speed
+##    xindex = (x//tilesize)
+##    yindex = (x//tilesize)
+##    mapmod = mapOB[xindex,yindex].speedmod
+##    unitspeed = ((speed * mapmod) *pixelmod)
+##    done = False
+##    #pick the direction to move in
+##
+##    if (x  >= unit.xpost):
+##        directionxmod = 1
+##
+##    elif ((x<= unit.xpost)):
+##        directionxmod = -1
+##
+##    if y >= unit.ypost :
+##        directionymod = 1
+##
+##    elif y <= unit.ypost:
+##        directionymod = -1
+##    print("chosen direction" & directionymod)
+##
+##    unitspeedx = unitspeed * directionxmod
+##    unitspeedy = unitspeed* directionymod
+##    
+##    while done == False:
+##        if (unit.xpost ==((x*tilesize)+(0.5*tilesize))) and ((unit.ypost) == ((y*tilesize)+(0.5*tilesize))):
+##            done = True
+##        print("move")
+##        time.sleep(0.01)
+##        unit.xpost = (unit.xpost + unitspeedx)
+##        unit.ypost = (unit.ypost+unitspeedy)
+###multithreading#moving into the columb
 
-    if tilesize ==64:
-        pixelmod = 1
-    elif tilesize == 72:
-        pixelmod = 1.125
-    elif tilesize == 96:
-        pixelmod =1.5
 
-    speed = unit.speed
-    xindex = (x//tilesize)
-    yindex = (x//tilesize)
-    mapmod = mapOB[xindex,yindex].speedmod
-    unitspeed = ((speed * mapmod) *pixelmod)
-    done = False
-    #pick the direction to move in
-
-    if (x  >= unit.xpost):
-        directionxmod = 1
-
-    elif ((x<= unit.xpost)):
-        directionxmod = -1
-
-    if y >= unit.ypost :
-        directionymod = 1
-
-    elif y <= unit.ypost:
-        directionymod = -1
-
-    unitspeedx = unitspeed * directionxmod
-    unitspeedy = unitspeed* directionymod
-    
-    while done == False:
-        if (unit.xpost ==((x*tilesize)+(0.5*tilesize))) and ((unit.ypost) == ((y*tilesize)+(0.5*tilesize))):
-            done = True
-        time.sleep(0.01)
-        unit.xpost = (unit.xpost + unitspeedx)
-        unit.ypost = (unit.ypost+unitspeedy)
-#multithreading#moving into the columb
-    thread.start_new_thread( move, columbx,columby,player_armyhighlight[(len(player_armyhighlight))])
-        
+#movement function will be a modified version of a stat with localised checks 
 
 
 
