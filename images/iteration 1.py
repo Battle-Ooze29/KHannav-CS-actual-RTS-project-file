@@ -370,6 +370,9 @@ class catapult(unit):
 #a star class for the node
         
 class node():
+    #occupied by a friend or foe
+    friendoc = False
+    foeoc = False
     #nodes postition
     xpos = 0
     ypos = 0
@@ -901,10 +904,33 @@ while True:
 ###multithreading#moving into the columb
 
 
-#movement function will be a modified version of a stat with localised checks 
+#movement function will be a modified version of a star with localised checks 
 
+# a star,#insert error checking so that only coodinates which also have nodes are passed in ie check the pciked location and change to nearest tile if impassabl#need to update nodes beforehand to have h cost for the corect destination  
+def astar(destinationx,destinationy,startx,starty):
 
-
+    #loop sets the destinations of the nodes 
+    endnode = (destinationx,destinationy)
+    for i in range(len(node_list)):
+        if node_list[i] = None:
+            pass
+        else:
+            node_list[i].updatetogo(destinationx,destinationy)            
+    openlist = []
+    closedlist = []
+    startnode = node_list((startx//tilesize),(starty//tilesize))
+    found = False
+    count = 0
+    openlist.append(startnode)
+    while found =False:
+        for i in range(len(openlist)):
+            lowestf = 0
+            if openlist[i].
+        if current = destination :
+            found = True
+        #find each neighbour of the current
+                    
+    
         
                 
 ###########################################################################################################
