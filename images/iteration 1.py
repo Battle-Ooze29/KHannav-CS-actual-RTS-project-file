@@ -916,7 +916,7 @@ def astar(destinationx,destinationy,startx,starty):
     #loop sets the destinations of the nodes 
     endnode = (destinationx,destinationy)
     for i in range(len(node_list)):
-        if node_list[i] = None:
+        if node_list[i] == None:
             pass
         else:
             node_list[i].updatetogo(destinationx,destinationy)            
@@ -927,14 +927,34 @@ def astar(destinationx,destinationy,startx,starty):
     found = False
     count = 0
     openlist.append(startnode)
-    while found =False:
+    
+    while found ==False:
         for i in range(len(openlist)):
+            lowestfnode = []
             lowestf = 0
-            if openlist[i].
-        if current = destination :
+            if openlist[i].H_cost <= lowestf:
+                lowestfnode = openlist[i]
+                lowestf = openlist[i].H_cost
+        current = lowestfnode
+        openlist.remove(current)
+        closedlist.append(current)
+        
+        if (current.xpos == destinationx) and (current.ypos == destinationy) :
             found = True
+
         #find each neighbour of the current
-                    
+        xrows = current.xpos//tilesize
+        yrows = current.ypos//tilesize
+
+        if xrows ==0:
+            left = False
+        elif xrows == 10:
+            right = False
+        elif yrows == 0:
+            top = False
+        elif yrows == 10:
+            below = False
+        
     
         
                 
