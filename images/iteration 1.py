@@ -911,28 +911,28 @@ while True:
 
 ###################################################################
 # a star,#insert error checking so that only coodinates which also have nodes are passed in ie check the pciked location and change to nearest tile if impassabl#need to update nodes beforehand to have h cost for the corect destination  
-##def astar(destinationx,destinationy,startx,starty):
-##
-##    #loop sets the destinations of the nodes 
-##    endnode = (destinationx,destinationy)
-##    for i in range(len(node_list)):
-##        if node_list[i] = None:
-##            pass
-##        else:
-##            node_list[i].updatetogo(destinationx,destinationy)            
-##
-##    openlist = []
-##    closedlist = []
-##    startnode = node_list((startx//tilesize),(starty//tilesize))
-##    found = False
-##    count = 0
-##    openlist.append(startnode)
-##    while found =False:
-##        for i in range(len(openlist)):
-##            lowestf = 0
-##            if openlist[i].
-##        if current = destination :
-##            found = True
+def astar(destinationx,destinationy,startx,starty):
+
+    #loop sets the destinations of the nodes 
+    endnode = (destinationx,destinationy)
+    for i in range(len(node_list)):
+        if node_list[i] = None:
+            pass
+        else:
+            node_list[i].updatetogo(destinationx,destinationy)            
+
+    openlist = []
+    closedlist = []
+    startnode = node_list((startx//tilesize),(starty//tilesize))
+    found = False
+    count = 0
+    openlist.append(startnode)
+    while found =False:
+        for i in range(len(openlist)):
+            lowestf = 0
+            if openlist[i].
+        if current = destination :
+            found = True
         #find each neighbour of the current
                     
     
