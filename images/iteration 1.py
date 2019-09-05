@@ -383,7 +383,7 @@ class node():
     #gcost
     distance_travelled = 0
     #f cost
-    distane_togo = 0#heuristic cost
+    distance_togo = 0#heuristic cost
     H_cost = (distance_travelled + distance_togo)
 
     def updatetrav(self,parentx,parenty):
@@ -941,11 +941,17 @@ def astar(destinationx,destinationy,startx,starty):
         
         if (current.xpos == destinationx) and (current.ypos == destinationy) :
             found = True
-
+            
+        x=current.xpos//tilesize
+        y=current.ypos//tilesize
         #find each neighbour of the current
         xrows = current.xpos//tilesize
         yrows = current.ypos//tilesize
-
+        listofneighbours = []
+        left = True
+        right = True
+        top = True
+        below = True
         if xrows ==0:
             left = False
         elif xrows == 10:
@@ -954,7 +960,43 @@ def astar(destinationx,destinationy,startx,starty):
             top = False
         elif yrows == 10:
             below = False
+            #l
+        if left == True:
+            listofneighbours.append(node[(y)][(x-1)])
+            #ld
+        if (left == True) and (below ==True):
+            listofneighbours.append(node[(y+1)][(x-1)])
+            #d
+        if below == True:
+            listofneighbours.append(node[(y+1)][(x)])
+            #dr
+        if (below == True)and(right == True):
+            listofneighbours.append(node[(y+1)][(x+1)])
+            #r
+        if right == True:
+            listofneighbours.append(node[(y)][(x+1)])
+            #rt
+        if (right ==True )and(top == True):
+            listofneighbours.append(node[(y-1)][(x+1)])
+            #t
+        if top == True:
+            listofneighbours.append(node[(y-1)][(x)])
+            #tl
+        if (top==True)and(left==True):
+            listofneighbours.append(node[(y-1)][(x-1)])
+
+        for i in range(len(listofneighbours)):
+            
+            pass
         
+           
+            
+            
+            
+            
+            
+        
+     
     
         
                 
