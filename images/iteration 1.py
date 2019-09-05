@@ -986,8 +986,18 @@ def astar(destinationx,destinationy,startx,starty):
             listofneighbours.append(node[(y-1)][(x-1)])
 
         for i in range(len(listofneighbours)):
+            if listofneighbours[i] == None:
+                listofneighbours.remove(listofneighbours[i])
+                i+=1
+            for k in range (len(closedlist)):
+                if closedlist[k] == listofneighbours[i]:
+                    listofneighours.remove(listofneighbours[i])
+                    i+=1
             
-            pass
+                    
+            
+            
+            
         
            
             
