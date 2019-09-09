@@ -920,7 +920,7 @@ def astar(destinationx,destinationy,startx,starty):
             pass
         else:
             node_list[i].updatetogo(destinationx,destinationy)            
-
+    shortest = 0
     openlist = []
     closedlist = []
     startnode = node_list((startx//tilesize),(starty//tilesize))
@@ -988,12 +988,28 @@ def astar(destinationx,destinationy,startx,starty):
         for i in range(len(listofneighbours)):
             if listofneighbours[i] == None:
                 listofneighbours.remove(listofneighbours[i])
-                i+=1
+                #i+=1
             for k in range (len(closedlist)):
                 if closedlist[k] == listofneighbours[i]:
                     listofneighours.remove(listofneighbours[i])
-                    i+=1
-            
+                    #i+=1
+#now have a list of traversable neighbours
+        for i in range(len(listofneighbours)):
+            listofneighbours[i].updatetogo(destinationx,destinationy)
+            listofneighbours[i].updatetrav(x,y)
+#updated the neighbours with their distance to go and travelled
+        
+def shortest(listofneigbhours,shortest)
+    changecheck = shortest
+    for i in range(len(listofneighbours,shortest)):
+        if listofneighbours[i].distance_travelled <= shortest.distance_travelled:
+            shortest = listofneighbours[i]
+    if changecheck != shortest:
+        return True
+def neighbouropen(listofneighbours,openlist)
+    
+        
+        
             
                     
             
