@@ -994,6 +994,7 @@ def astar(destinationx,destinationy,startx,starty):
                     listofneighours.remove(listofneighbours[i])
                     i+=1
             
+            
                     
             
             
