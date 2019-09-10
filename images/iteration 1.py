@@ -996,18 +996,28 @@ def astar(destinationx,destinationy,startx,starty):
 #now have a list of traversable neighbours
         for i in range(len(listofneighbours)):
             listofneighbours[i].updatetogo(destinationx,destinationy)
-            listofneighbours[i].updatetrav(x,y)
+            listofneighbours[i].updatetrav(xrows,yrows)
 #updated the neighbours with their distance to go and travelled
         
 def shortest(listofneigbhours,shortest)
     changecheck = shortest
-    for i in range(len(listofneighbours,shortest)):
+    for i in range(len(listofneighbours)):
         if listofneighbours[i].distance_travelled <= shortest.distance_travelled:
             shortest = listofneighbours[i]
     if changecheck != shortest:
         return True
-def neighbouropen(listofneighbours,openlist)
-    
+def neighbouropen(listofneighbours,openlist):
+    for j in range(len(listofneighbours)):
+        for i in range(len(openlist)):
+            if listofneighbours[j] == openlist[i]:
+                inopen = True
+    if inopen == True
+        return False
+    else:
+        return True
+
+    if (shortest(listofneighbours,shortest) == True) or (neighbouropen(listofneighbours,openlist) == True):
+        
         
         
             
