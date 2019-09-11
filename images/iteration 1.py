@@ -654,10 +654,13 @@ pygame.display.flip()
 
 
 #displaying the map
-
+#setting up the clock
+Clock = pygame.time.Clock
+clock = Clock()
 
 #----game loop#----------
 while True:
+    clock.tick_busy_loop(40)
 
 # redrawing the background image
     newc = False
@@ -1013,25 +1016,25 @@ def astar(destinationx,destinationy,startx,starty):
 #updated the neighbours with their distance to go and travelled
 #loops thru neighbours and picks the one with the shortest distance 
 
-def shortest(listofneigbhours,shortest):
-    changecheck = shortest
-    for i in range(len(listofneighbours)):
-        if listofneighbours[i].distance_travelled <= shortest.distance_travelled:
-            shortest = listofneighbours[i]
-    if changecheck.distance_travelled < shortest.distance_travelled:
-        return False
-    else:
-        return True
-    
-def neighbouropen(listofneighbours,openlist):
-    for j in range(len(listofneighbours)):
-        for i in range(len(openlist)):
-            if listofneighbours[j] == openlist[i]:
-                inopen = True
-    if inopen == True:
-        return False
-    else:
-        return True
+    def shortest(listofneigbhours,shortest):
+        changecheck = shortest
+        for i in range(len(listofneighbours)):
+            if listofneighbours[i].distance_travelled <= shortest.distance_travelled:
+                shortest = listofneighbours[i]
+        if changecheck.distance_travelled < shortest.distance_travelled:
+            return False
+        else:
+            return True
+        
+    def neighbouropen(listofneighbours,openlist):
+        for j in range(len(listofneighbours)):
+            for i in range(len(openlist)):
+                if listofneighbours[j] == openlist[i]:
+                    inopen = True
+        if inopen == True:
+            return False
+        else:
+            return True
     for i in range(len(listofneighbours)):
         shortest = listofneighbours[i]
         if (shortest(listofneighbours,shortest) == True) or (neighbouropen(listofneighbours,openlist) == True):
