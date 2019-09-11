@@ -380,6 +380,9 @@ class node():
     #record parent
     parentx = 0
     parenty = 0
+    #record child
+    childx = 0
+    childy = 0
     #gcost
     distance_travelled = 0
     #f cost
@@ -398,6 +401,16 @@ class node():
         DISTANCE = (((destx -self.xpost)**2) + (desty-self.ypost)**2)
         DISTANCE = int(round(DISTANCE**0.5))
         return DISTANCE
+    def updateparent (self,px,py):
+        if px!=self.parentx:
+            self.parentx = px
+        if py!=self.parenty:
+            self.parenty =py
+    def updatechild (self,px,py):
+        if px!=self.childx:
+            self.childx = px
+        if py!=self.childy:
+            self.childy =py
     def __init__(self,xpost,ypost):
         self.xpos = xpost
         self.ypos = ypost
@@ -994,33 +1007,46 @@ def astar(destinationx,destinationy,startx,starty):
                     listofneighours.remove(listofneighbours[i])
                     #i+=1
 #now have a list of traversable neighbours
-        for i in range(len(listofneighbours)):
-            listofneighbours[i].updatetogo(destinationx,destinationy)
-            listofneighbours[i].updatetrav(xrows,yrows)
+ #       for i in range(len(listofneighbours)):
+  #          listofneighbours[i].updatetogo(destinationx,destinationy)
+   #         listofneighbours[i].updatetrav(xrows,yrows)
 #updated the neighbours with their distance to go and travelled
-        
-def shortest(listofneigbhours,shortest)
+#loops thru neighbours and picks the one with the shortest distance 
+
+def shortest(listofneigbhours,shortest):
     changecheck = shortest
     for i in range(len(listofneighbours)):
         if listofneighbours[i].distance_travelled <= shortest.distance_travelled:
             shortest = listofneighbours[i]
-    if changecheck != shortest:
+    if changecheck.distance_travelled < shortest.distance_travelled:
+        return False
+    else:
         return True
+    
 def neighbouropen(listofneighbours,openlist):
     for j in range(len(listofneighbours)):
         for i in range(len(openlist)):
             if listofneighbours[j] == openlist[i]:
                 inopen = True
-    if inopen == True
+    if inopen == True:
         return False
     else:
         return True
+    for i in range(len(listofneighbours)):
+        shortest = listofneighbours[i]
+        if (shortest(listofneighbours,shortest) == True) or (neighbouropen(listofneighbours,openlist) == True):
+            listofneighbours[i].updatetrav(current.xpos,current.ypos)
+            listofneighbours[i].updatetogo(destinationx,destinationy)
+            listofneighbours[i].updateparent(current.xposr,current.ypos)
+            current.updatechild(listofneighbours[i].xpos,listofneighbours[i].yos)
+            current = listofneighbours[i]
+            for i in range(len(openlist)):
+                if openlist[i] == current:
+                    pass
+                else:
+                    openlist.append(current)
 
-    if (shortest(listofneighbours,shortest) == True) or (neighbouropen(listofneighbours,openlist) == True):
-        
-        
-        
-            
+#follow parents to get the path     
                     
             
             
