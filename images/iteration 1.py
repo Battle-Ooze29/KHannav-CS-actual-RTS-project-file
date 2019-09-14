@@ -1056,6 +1056,32 @@ def astar(destinationx,destinationy,startx,starty):
     destx = destinationx//tilesize
     desty = destinationy//tilesize
     listofdests = []
+    initial = mapOB[destx][desty]
+    current = initial
+    for i in range (spaceneeded):
+        if i == 0:
+            if current.passable == True
+               listofdests.append[current]
+        if i == 1:
+            current = mapOB[(destx-1)][desty]
+            if current.passable == True
+                listofdests.append[current]
+        if i == 2:
+            current = mapOB[(destx-1)][(desty-1)]
+            if current.passable ==True:
+                listofdests.append[current]
+        if i ==3:
+            current = mapOB[destx][(desty-1)]
+            if current.passable ==True:
+                listofdests.append[current]
+        if i ==4:
+            current = mapOB[(destx+1)][desty]
+            if current.passable ==True:
+                listofdests.append[current]
+        
+ 
+        
+ 
     
     
         
