@@ -85,14 +85,14 @@ min_range = {
 
 #####################maps-add the tilemap strings here###############################
 map1 = [["F","F","F","F","F","F","F","F","F","F"],
-        ["F","F","F","F","F","F","F","F","F","F"],
-        ["F","F","F","F","F","F","F","F","F","F"],
-        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","M","W","F","F","F"],
+        ["F","F","F","F","F","H","W","F","F","F"],
+        ["F","F","F","F","F","F","W","F","F","F"],
         ["F","F","F","L","F","M","FJ","F","W","F"],
+        ["F","F","F","F","F","F","F","H","W","F"],
+        ["F","F","F","F","F","F","F","H","H","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
-        ["F","F","F","F","F","F","F","F","F","F"],
-        ["F","F","F","F","F","F","F","F","F","F"],
-        ["F","F","F","F","F","F","F","F","F","F"],
+        ["F","F","F","F","F","F","F","F","W","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
         ]
 
@@ -660,7 +660,7 @@ clock = Clock()
 
 #----game loop#----------
 while True:
-    clock.tick_busy_loop(40)
+    clock.tick_busy_loop(60)
 
 # redrawing the background image
     newc = False
@@ -1049,8 +1049,16 @@ def astar(destinationx,destinationy,startx,starty):
                 else:
                     openlist.append(current)
 
-#follow parents to get the path     
-                    
+#follow parents to get the path
+#picking destinations for units
+
+    spacesneeded = len(player_armyhighlight)
+    destx = destinationx//tilesize
+    desty = destinationy//tilesize
+    listofdests = []
+    
+    
+        
             
             
             
