@@ -1047,6 +1047,8 @@ def astar(destinationx,destinationy,startx,starty):
     #each unit needs to be multithreaded for movement
     #movement function 
         #movement code
+
+#take the destinations and the unit  being moved 
     def move(x,y,unit):
         #the x and y are the targets for the unit to move to ]
         #the unit should be the head unit in the columb or the only unit
