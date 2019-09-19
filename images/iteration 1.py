@@ -1,4 +1,4 @@
-import pygame, pygame.font, pygame.event, pygame.draw, string,time,random
+import pygame, pygame.font, pygame.event, pygame.draw, string,time,random,concurrent.futures
 from math import *
 from pygame.locals import*
 import time
@@ -1093,6 +1093,13 @@ def astar(destinationx,destinationy,startx,starty):
             unit.ypost = (unit.ypost+unitspeedy)
     #multithreading#moving into the columb
 
+    if __name == "__main__":
+         format = "%(asctime)s: %(message)s"
+        logging.basicConfig(format=format, level=logging.INFO,
+                        datefmt="%H:%M:%S")
+        with concurrent.futures.ThreadPoolExecuter(max_workers=6)as executer:
+            for index in range(6):
+                
       
         
         
