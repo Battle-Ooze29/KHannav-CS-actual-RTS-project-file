@@ -1,0 +1,12 @@
+BUILD REWORK 2
+as i add multithrading have concurrency issues due to the changing maps and overlapping paths
+the system I had previously implemented used child and parent nodes wouild have worked for a single path 
+but when several paths are made at once and they overlap then the new paths would delete the old ones and the 
+paths would be lost 
+To overcome this and another concurrency issue with the map being constant across the threads and to minimise the use of global variables with the threads
+I also have to change the way that I store my map 
+
+SOlution
+Use a adjacency list or matrix to hold my vertices on my graph 
+then hold my paths in lists rather than nodes, these lists will have to be returned into the code at the end of the function 
+and then used as parameters to the movement algorithm, this will also allow me to use localised pathfinding 
