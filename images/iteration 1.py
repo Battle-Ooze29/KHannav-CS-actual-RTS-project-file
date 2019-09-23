@@ -1088,17 +1088,17 @@ def astar(destinationx,destinationy,startx,starty):
             if (unit.xpost ==((x*tilesize)+(0.5*tilesize))) and ((unit.ypost) == ((y*tilesize)+(0.5*tilesize))):
                 done = True
             print("move")
-            time.sleep(0.01)
+            time.sleep(0.01)                                                                                                                                  penis
             unit.xpost = (unit.xpost + unitspeedx)
             unit.ypost = (unit.ypost+unitspeedy)
     #multithreading#moving into the columb
 
-    #if __name == "__main__":
-     #    format = "%(asctime)s: %(message)s"
-      #  logging.basicConfig(format=format, level=logging.INFO,
-       #                 datefmt="%H:%M:%S")
-        #with concurrent.futures.ThreadPoolExecuter(max_workers=6)as executer:
-         #   for index in range(6):
+    if __name == "__main__":
+         format = "%(asctime)s: %(message)s"
+        logging.basicConfig(format=format, level=logging.INFO,
+                        datefmt="%H:%M:%S")
+        with concurrent.futures.ThreadPoolExecuter(max_workers=6)as executer:
+            for index in range(6):
                 
       
         
