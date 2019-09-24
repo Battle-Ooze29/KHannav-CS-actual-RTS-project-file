@@ -1094,7 +1094,7 @@ def astar(destinationx,destinationy,startx,starty):
             if (unit.xpost ==((x*tilesize)+(0.5*tilesize))) and ((unit.ypost) == ((y*tilesize)+(0.5*tilesize))):
                 done = True
             print("move")
-            time.sleep(0.01)
+            time.sleep(0.01)                                                                                                                                  penis
             unit.xpost = (unit.xpost + unitspeedx)
             unit.ypost = (unit.ypost+unitspeedy)
     #multithreading#pathfinding
