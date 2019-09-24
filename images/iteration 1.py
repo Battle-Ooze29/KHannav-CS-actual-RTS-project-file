@@ -882,6 +882,7 @@ while True:
 ###################################################################
 # a star,#insert error checking so that only coodinates which also have nodes are passed in ie check the pciked location and change to nearest tile if impassabl#need to update nodes beforehand to have h cost for the corect destination  
 def astar(destinationx,destinationy,startx,starty):
+    #pick a letter
 
     #loop sets the destinations of the nodes 
     endnode = (destinationx,destinationy)
@@ -953,9 +954,11 @@ def astar(destinationx,destinationy,startx,starty):
             listofneighbours.append(node[(y-1)][(x)])
             #tl
         if (top==True)and(left==True):
+            time.sleep(0.1)
             listofneighbours.append(node[(y-1)][(x-1)])
 
         for i in range(len(listofneighbours)):
+            time.sleep(0.1)
             if listofneighbours[i] == None:
                 listofneighbours.remove(listofneighbours[i])
                 #i+=1
@@ -971,6 +974,7 @@ def astar(destinationx,destinationy,startx,starty):
 #loops thru neighbours and picks the one with the shortest distance 
 
     def shortest(listofneigbhours,shortest):
+        time.sleep(0.1)
         changecheck = shortest
         for i in range(len(listofneighbours)):
             if listofneighbours[i].distance_travelled <= shortest.distance_travelled:
@@ -981,6 +985,7 @@ def astar(destinationx,destinationy,startx,starty):
             return True
         
     def neighbouropen(listofneighbours,openlist):
+        time.sleep(0.1)
         for j in range(len(listofneighbours)):
             for i in range(len(openlist)):
                 if listofneighbours[j] == openlist[i]:
@@ -990,6 +995,7 @@ def astar(destinationx,destinationy,startx,starty):
         else:
             return True
     for i in range(len(listofneighbours)):
+        time.sleep(0.1)
         shortest = listofneighbours[i]
         if (shortest(listofneighbours,shortest) == True) or (neighbouropen(listofneighbours,openlist) == True):
             listofneighbours[i].updatetrav(current.xpos,current.ypos)
@@ -1015,11 +1021,11 @@ def astar(destinationx,destinationy,startx,starty):
 
     for i in range (spaceneeded):
         if i == 0:
-            if current.passable == True
+            if current.passable == True:
                listofdests.append[current]
         if i == 1:
             current = mapOB[(destx-1)][desty]
-            if current.passable == True
+            if current.passable == True:
                 listofdests.append[current]
         if i == 2:
             current = mapOB[(destx-1)][(desty-1)]
@@ -1091,14 +1097,17 @@ def astar(destinationx,destinationy,startx,starty):
             time.sleep(0.01)
             unit.xpost = (unit.xpost + unitspeedx)
             unit.ypost = (unit.ypost+unitspeedy)
-    #multithreading#moving into the columb
-
-    if __name == "__main__":
-         format = "%(asctime)s: %(message)s"
-        logging.basicConfig(format=format, level=logging.INFO,
-                        datefmt="%H:%M:%S")
-        with concurrent.futures.ThreadPoolExecuter(max_workers=6)as executer:
-            for index in range(6):
+    #multithreading#pathfinding
+    #    threadnum = len(player_armyhighlight)
+#
+ #       if __name == "__main__":
+  #           format = "%(asctime)s: %(message)s"
+   #         logging.basicConfig(format=format, level=logging.INFO,datefmt="%H:%M:%S")
+    #        
+     #       with concurrent.futures.ThreadPoolExecuter(max_workers=threadnum)as executer:
+      #          for index in range(threadnum):
+       #             executer.submit
+                                    
                 
       
         
