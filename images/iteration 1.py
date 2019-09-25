@@ -1,3 +1,4 @@
+#importing libraries which I will need
 import pygame, pygame.font, pygame.event, pygame.draw, string,time,random,concurrent.futures
 from math import *
 from pygame.locals import*
@@ -5,6 +6,7 @@ import time
 import math
 import threading
 import pygame
+#colors which I may delete if not used but will keep for now 
 WHITE=(255,255,255)
 blue=(0,0,255)
 lblue=(0,255,255)
@@ -88,9 +90,9 @@ map1 = [["F","F","F","F","F","F","F","F","F","F"],
         ["F","F","F","F","F","M","W","F","F","F"],
         ["F","F","F","F","F","H","W","F","F","F"],
         ["F","F","F","F","F","F","W","F","F","F"],
-        ["F","F","F","L","F","M","FJ","F","W","F"],
-        ["F","F","F","F","F","F","F","H","W","F"],
-        ["F","F","F","F","F","F","F","H","H","F"],
+        ["F","W","F","L","F","M","FJ","F","W","F"],
+        ["F","M","F","F","F","F","F","H","W","F"],
+        ["F","FJ","F","F","F","F","F","H","H","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
         ["F","F","F","F","F","F","F","F","W","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
@@ -159,7 +161,7 @@ class map:
     def getterrain(self):
         return self.terraintype
 
-
+#water
 class water(map):
     passable = False
     def __init__(self,xpos,ypos):
@@ -167,7 +169,7 @@ class water(map):
         self.ypos = ypos
         self.img = scale("water texture.PNG")
 
-
+#mountain
 class mountain(map):
     passable = False
     def __init__(self,xpos,ypos):
@@ -175,7 +177,7 @@ class mountain(map):
         self.ypos = ypos
         self.img = scale("newmountain texture.PNG")
 
-
+#lake
 class lake(map):
     passable = False
     def __init__(self,xpos,ypos):
@@ -184,7 +186,7 @@ class lake(map):
         self.img = scale("lake texture.PNG")
 
         
-
+#fjord
 class fjord(map):
     passable = True
     speedmod = 0.6
@@ -195,7 +197,7 @@ class fjord(map):
         self.ypos = ypos
         self.img = scale("fjord texture.PNG")
 
-
+#plains
 class plains(map):
     passable = True
     speedmod = 1
@@ -206,7 +208,7 @@ class plains(map):
         self.ypos = ypos
         self.img = scale("newflat texture.PNG")
 
-
+#gentleslope
 class gentleslope(map):
     passable = True
     speedmod = 0.8
@@ -217,7 +219,7 @@ class gentleslope(map):
         self.ypos = ypos
         self.img = scale("gentleslope texture.PNG")
 
-
+#steepslope
 class steepslope(map):
     passable = True
     speedmod = 0.7
@@ -228,7 +230,7 @@ class steepslope(map):
         self.ypos = ypos
         self.img = scale("steepslope texture.PNG")
 
-
+#hill
 class hill(map):
     passable = True
     speedmod = 0.6
@@ -389,7 +391,9 @@ class node():
     #f cost
     distance_togo = 0#heuristic cost
     H_cost = (distance_travelled + distance_togo)
-
+#updating the distance travelled
+    #looks at parent
+    #calculates cost to move to the current tile and adds the cost 
     def updatetrav(self,parentx,parenty):
         if (parentx != self.xpos) and (parenty != self.ypost):
             dist = 14
@@ -397,21 +401,24 @@ class node():
             dist = 10
         travelled = self.distance_travelled + dist
         return travelled
-
+#updates the distance from the destination
     def updatetogo(self,destx,desty):
         DISTANCE = (((destx -self.xpost)**2) + (desty-self.ypost)**2)
         DISTANCE = int(round(DISTANCE**0.5))
         return DISTANCE
+#updates where the parent node is 
     def updateparent (self,px,py):
         if px!=self.parentx:
             self.parentx = px
         if py!=self.parenty:
             self.parenty =py
+#updates the child of the node
     def updatechild (self,px,py):
         if px!=self.childx:
             self.childx = px
         if py!=self.childy:
             self.childy =py
+#constructor for the node 
     def __init__(self,xpost,ypost):
         self.xpos = xpost
         self.ypos = ypost
@@ -431,7 +438,6 @@ def tileround(x,tilesize):
         
     
 #randomiser to make combat more indicidualised
-
 
 def randomdmg():
     randmap = {
@@ -458,15 +464,16 @@ iconsize = {
 2:44,
 3:58
 }
+#gets an input from the user for what tilesize they want 
 sizechoice = input("enter 1 for small, 2 for medium and 3 for a large display")
 done = False
+#loop to ensure the entry is valid, ie is a choice in the dictionary
 while not done:
     if int(sizechoice) in displaysize:
         choice = int(sizechoice)
         tilesize = displaysize.get(choice)
-        print(tilesize)
         unitsize = iconsize.get(choice)
-        print(unitsize)
+        #sets the display, it is 10 tiles by 10 tiles
         DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
         done = True
 
@@ -500,11 +507,8 @@ def unitinput(unitchoice):
     elif unitchoice ==6:
         player_armyOB.append(catapult())
 
-        
+# the user wil input a number between 1 and 6 to choose a unit  
 
-
-# for now the enemy army will mimic the players army but will get 2 more units for the sake of balance                                     
-#----------------------------------------------
 #function to make a numebr positive
 def positive(number):
     if number < 0:
@@ -512,14 +516,16 @@ def positive(number):
         return number
     else:
         return number
-#before the game loop the player needs to choose their army, done on a cost basis#however for now they will just pick until they have 6 units 
 #picking units###########################################################################################
 print("Welcome to the battle simulator army picking menue")
 
 done_input = False
+#counter to track the number of chosen units
 counter = 0
+#loop to ensure valid entry and that 6 items are reached 
 while done_input == False:
     unitchoice = input("please enter your unit,1-melee cav,2-bow cav,3-swordsmen,4-archer,5-pikemen,6-catapult")
+    #checks that the entered value is a valid choice 
     if int(unitchoice) in menuemap:
         unitinput(unitchoice)
         counter+=1
@@ -545,9 +551,7 @@ mapOB = [[None,None,None,None,None,None,None,None,None,None],
          [None,None,None,None,None,None,None,None,None,None],
          [None,None,None,None,None,None,None,None,None,None],
          ]
-         
 
-#initialising the map
 newc = False
 ccount = 0
 newr = False
@@ -565,7 +569,7 @@ node_list = [[None,None,None,None,None,None,None,None,None,None],
          [None,None,None,None,None,None,None,None,None,None],
          [None,None,None,None,None,None,None,None,None,None],
          ]
-         
+#initialising the map, the nodes and then creating the visual map fromt the text in the map        
 for i in range (10):
 
     for j in range (10):
@@ -1088,19 +1092,18 @@ def astar(destinationx,destinationy,startx,starty):
             if (unit.xpost ==((x*tilesize)+(0.5*tilesize))) and ((unit.ypost) == ((y*tilesize)+(0.5*tilesize))):
                 done = True
             print("move")
-            time.sleep(0.01)                                                                                                                                  penis
+            time.sleep(0.01)                                                                                                                                  
             unit.xpost = (unit.xpost + unitspeedx)
             unit.ypost = (unit.ypost+unitspeedy)
     #multithreading#moving into the columb
 
-    if __name == "__main__":
-         format = "%(asctime)s: %(message)s"
-        logging.basicConfig(format=format, level=logging.INFO,
-                        datefmt="%H:%M:%S")
-        with concurrent.futures.ThreadPoolExecuter(max_workers=6)as executer:
-            for index in range(6):
-                
-      
+##    if __name == "__main__":
+##        format = "%(asctime)s: %(message)s"
+##        logging.basicConfig(format=format,level=logging.INFO,datefmt="%H:%M:%S")
+##        with concurrent.futures.ThreadPoolExecuter(max_workers=6)as executer:
+##            for index in range(6):
+##                
+##      
         
         
                 
