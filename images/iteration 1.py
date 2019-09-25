@@ -570,10 +570,14 @@ node_list = [[None,None,None,None,None,None,None,None,None,None],
          [None,None,None,None,None,None,None,None,None,None],
          ]
 #initialising the map, the nodes and then creating the visual map fromt the text in the map        
+#10 loops as the game is 10 by 10 
 for i in range (10):
-
+    #nested loop so that the 10 columbs are done and then the loops loves down to the next row 
     for j in range (10):
-        landtype = map1[i][j]#change map1 to mapchoice once the power to select a map is added
+        #each of these if statements will run depending on the piece of text in that postition in the map
+            # they will add an initialised objecgt to the map objects list and do the same for a node at the same postition
+            #they will then blit the image of that tile at its given coordinates 
+        landtype = map1[i][j]
         if landtype == "F":
             mapOB[i][j] = plains(columb,row)
             node_list[i][j] = node(columb,row)
@@ -640,7 +644,7 @@ for i in range (10):
             newc = True
             ccount +=1
             impassable.append(mapOB[i][j])
-
+#ensures that it loops the correct number of times 
         if ccount == 10:
             newr = True
             columb = 0
@@ -662,9 +666,11 @@ clock = Clock()
 
 #----game loop#----------
 while True:
+    #this ensures the loop only runs 60 times per second 
     clock.tick_busy_loop(60)
 
 # redrawing the background image
+#same loop as earlier but removed everything which initialised an object this just reads the map and then blits the images to the screen
     newc = False
     ccount = 0
     newr = False
@@ -735,24 +741,31 @@ while True:
 
     #drawing icons
     
+    #loops by the number of uits chosen by the player, fixed for now 
     for i in range(len(player_armyOB)):
         icon = player_armyOB[i]
-
+    #displays the corresponding icon of that unit type tot he map at the postitions of the unit 
         DISPLAY.blit((icon.icon),((player_armyOB[i].xpost),(player_armyOB[i].ypost)))
         pygame.display.flip()
 
 #highlighting#################################################
-    
+    #gets the mouse postitions 
     mousex = pygame.mouse.get_pos()[0]
     mousey = pygame.mouse.get_pos()[1]
+    #gets an event 
     event1 = pygame.event.poll()
+    #check what the event is
 
+    #this clears the held information as the button has been released so the highlight is complete 
     if KEYDOWN == False:
         startpost.clear()
         startpost.append(mousex)
         startpost.append(mousey)
+    
     pygame.event.poll()
+#if the mouse is clicked or is held down then th code to highlight the units and draw a corresponding square on the map runs 
     if (event1.type == pygame.MOUSEBUTTONDOWN) or ((pygame.mouse.get_pressed()[0])==True):
+    #the start is immedietely stored and now the end is stored and refreshed as long as left mouse button is held 
         endpost.clear()
         endpost.append(mousex)
         endpost.append(mousey)
@@ -778,8 +791,7 @@ while True:
             upperybound = startpost[1]
                  
                     
-        #if endpost[1] > startpost[1]:
-         #   startpost[1] = endpost[1]
+        #this draws the highlight square but only if the mouse has actually moved 
         if (endpost != startpost) and (KEYDOWN == True):
 
             pygame.draw.line(DISPLAY,BRICK,[startpost[0],startpost[1]],[endpost[0],startpost[1]],3)
@@ -791,18 +803,19 @@ while True:
             pygame.draw.line(DISPLAY,BRICK,[endpost[0],endpost[1]],[endpost[0],startpost[1]],3)
             pygame.display.flip()
 
-                    #check x
-
+                    
+            #checking if the unit is within the range
             for i in range (len(player_armyOB)):
-
+                #checks if its in the x range
                 if ((player_armyOB[i].getxpost()) >= lowerxbound) and ((player_armyOB[i].getxpost()) <= upperxbound):
-
-                    #check y
+                    #only checks y if its within the x range to minimise the number of checks run
+                    #checks the y range 
                     if ((player_armyOB[i].getypost()) >= lowerybound) and ((player_armyOB[i].getypost()) <= upperybound):
-
+                        #adds the unit to a list of highlighted units 
                         player_armyhighlight.append(player_armyOB[i])
+                        #runs the highlight function which is held in the class definition for the units 
                         player_armyOB[i].highlight()
-#redrawing
+#redrawing the units over the highlight square 
                         icon = player_armyOB[i]
                         DISPLAY.blit((icon.icon),((player_armyOB[i].xpost),(player_armyOB[i].ypost)))
                         pygame.display.flip()
@@ -811,7 +824,7 @@ while True:
         elif startpost == endpost:
             #time.sleep(0.1)
             KEYDOWN = True
-    
+    #if the event is a right click instead then it means that rather than highlghting that a destination for mvement is being set or a target if its an enemy unit     
     elif event1.type == pygame.MOUSEBUTTONUP:
         KEYDOWN = False
         #background()
@@ -821,11 +834,12 @@ while True:
         pass
 
     if (pygame.mouse.get_pressed()[2])==True:
+        #sets the destination coordinated
         destination = []
         destination.clear()
         destination.append(mousex)
         destination.append(mousey)
-        #need to -1 to use these as index values
+        #rounds the destination coordinates to a specific tile 
         destinationxcords = destination[0]//tilesize
         destinationycords = destination[1]//tilesize
         #grouping units for movement
@@ -835,9 +849,9 @@ while True:
         else:
             formcolumb = False
         if formcolumb == True:
-        #search within the cords for units within 2 tiles 
+        #if their are multiple units 
             #sort using bubble sort by speed
-            #bubble sort function modified to compare speeds 
+            #bubble sort function modified to compare speeds
 
             xmin = 0
             xmax = 0
@@ -847,7 +861,7 @@ while True:
          
             # Traverse through all array elements
             for i in range(n-2):
-                #use to loop to fin the x and y point to form a columb on 
+                #use to loop to find the x and y point to form a columb on 
                 if (player_armyhighlight[i].xpost//tilesize) <= xmin:
                     xmin = (player_armyhighlight[i].xpost//tilesize)
 
@@ -872,13 +886,11 @@ while True:
             ymid= int(round((ymax-ymin)/2))
             columbx = (xmid*tilesize)+(0.5*tilesize)
             columby = (ymid*tilesize)+(0.5*tilesize)
-            #print("columb")
-#            for i in range(len(player_armyhighlight)):
+
+
 ##########################################################################   A STAR####################################
 
-            
-
-
+    
 #movement function will be a modified version of a star with localised checks 
 
 
