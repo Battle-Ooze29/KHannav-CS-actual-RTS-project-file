@@ -247,14 +247,10 @@ class hill(map):
 
 #########################################################unit classes
 class unit:
-##    health = 0
-##    defence = 0
-##    attack = 0
-##    xpost = 0
-##    ypost = 0
-##    min_range = 0
+
     destpostx = 0
     destposty = 0
+    #functions output attributes when needed 
     def gethealth(self):
         return self.health
 
@@ -266,7 +262,7 @@ class unit:
 
     def getypost(self):
         return(int(self.ypost))
-
+    #updates the coordinates 
     def updatepost(self,newpostx,newposty):
         xpost = newpostx
         ypost = newposty
@@ -334,7 +330,6 @@ class archer(unit):
     speed = speed['archer']
     min_range = min_range['archer']
     ranged = True
-    #img = ADD IMAGE HERE
     def __init__(self):
         self.icon = scaleunit("archer icon.PNG")
         self.xpost = 200
@@ -349,7 +344,6 @@ class pikemen(unit):
     speed = speed['pikemen']
     min_range = min_range['pikemen']
     ranged = False
-    #img = ADD IMAGE HERE
     def __init__(self):        
         self.xpost = 300
         self.ypost = 300
@@ -364,7 +358,6 @@ class catapult(unit):
     speed = speed['catapult']
     min_range = min_range['catapult']
     ranged = True
-    #img = ADD IMAGE HERE
     def __init__(self):
         self.xpost = 350
         self.ypost = 350
