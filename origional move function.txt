@@ -1,0 +1,94 @@
+    def move(x,y,unit):
+        #the x and y are the targets for the unit to move to ]
+        #the unit should be the head unit in the columb or the only unit
+
+        if tilesize ==64:
+            pixelmod = 1
+        elif tilesize == 72:
+            pixelmod = 1.125
+        elif tilesize == 96:
+            pixelmod =1.5
+
+        speed = unit.speed
+        xindex = (x//tilesize)
+        yindex = (x//tilesize)
+        mapmod = mapOB[xindex,yindex].speedmod
+        unitspeed = ((speed * mapmod) *pixelmod)
+        done = False
+        
+        while done == False:
+            if (unit.xpost ==((x*tilesize)+(0.5*tilesize))) and ((unit.ypost) == ((y*tilesize)+(0.5*tilesize))):
+                done = True
+            else:
+                #pick the initial direction direction to move in
+
+                if (x  >= unit.xpost):
+                    directionxmod = 1
+
+                elif ((x<= unit.xpost)):
+                    directionxmod = -1
+
+                if y >= unit.ypost :
+                    directionymod = 1
+
+                elif y <= unit.ypost:
+                    directionymod = -1
+                print("chosen direction" & directionymod)
+
+                unitspeedx = unitspeed * directionxmod
+                unitspeedy = unitspeed* directionymod
+                print("move")
+                time.sleep(0.01)                                                                                                                                  
+                unit.xpost = (unit.xpost + unitspeedx)
+                unit.ypost = (unit.ypost+unitspeedy)
+
+
+
+
+
+
+
+
+    def move(x,y,unit):
+        #the x and y are the targets for the unit to move to ]
+        #the unit should be the head unit in the columb or the only unit
+
+        if tilesize ==64:
+            pixelmod = 1
+        elif tilesize == 72:
+            pixelmod = 1.125
+        elif tilesize == 96:
+            pixelmod =1.5
+
+        speed = unit.speed
+        xindex = (x//tilesize)
+        yindex = (x//tilesize)
+        mapmod = mapOB[xindex,yindex].speedmod
+        unitspeed = ((speed * mapmod) *pixelmod)
+        done = False
+        #pick the direction to move in
+
+        if (x  >= unit.xpost):
+            directionxmod = 1
+
+        elif ((x<= unit.xpost)):
+            directionxmod = -1
+
+        if y >= unit.ypost :
+            directionymod = 1
+
+        elif y <= unit.ypost:
+            directionymod = -1
+        print("chosen direction" & directionymod)
+
+        unitspeedx = unitspeed * directionxmod
+        unitspeedy = unitspeed* directionymod
+        
+        while done == False:
+            if (unit.xpost ==((x*tilesize)+(0.5*tilesize))) and ((unit.ypost) == ((y*tilesize)+(0.5*tilesize))):
+                done = True
+            print("move")
+            time.sleep(0.01)                                                                                                                                  
+            unit.xpost = (unit.xpost + unitspeedx)
+            unit.ypost = (unit.ypost+unitspeedy)
+    #multithreading#moving into the columb
