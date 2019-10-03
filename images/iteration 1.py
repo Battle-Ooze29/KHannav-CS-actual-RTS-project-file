@@ -804,7 +804,8 @@ while True:
                     #only checks y if its within the x range to minimise the number of checks run
                     #checks the y range 
                     if ((player_armyOB[i].getypost()) >= lowerybound) and ((player_armyOB[i].getypost()) <= upperybound):
-                        #adds the unit to a list of highlighted units 
+                        #adds the unit to a list of highlighted units
+                        print("highlighted")
                         player_armyhighlight.append(player_armyOB[i])
                         #runs the highlight function which is held in the class definition for the units 
                         player_armyOB[i].highlight()
@@ -823,10 +824,8 @@ while True:
         #background()
         pygame.display.flip()
             
-    else:
-        pass
-
-    if (pygame.mouse.get_pressed()[2])==True:
+    elif (pygame.mouse.get_pressed()[2])==True:
+        print("right click")    
         #sets the destination coordinated
         destination = []
         destination.clear()
@@ -835,23 +834,23 @@ while True:
         #rounds the destination coordinates to a specific tile 
         destinationxcords = destination[0]//tilesize
         destinationycords = destination[1]//tilesize
-        #grouping units for movement
-        formcolumb = False
-        if (len(player_armyhighlight)) >= 2:
-            formcolumb = True
-        else:
-            formcolumb = False
-        if formcolumb == True:
-        #if their are multiple units 
-            #sort using bubble sort by speed
-            #bubble sort function modified to compare speeds
-
-            xmin = 0
-            xmax = 0
-            ymin = 0
-            ymax = 0
-            n = len(player_armyhighlight)
-         
+            #grouping units for movement
+##            formcolumb = False
+##            if (len(player_armyhighlight)) >= 2:
+##                formcolumb = True
+##            else:
+##                formcolumb = False
+##            if formcolumb == True:
+##            #if their are multiple units 
+##                #sort using bubble sort by speed
+##                #bubble sort function modified to compare speeds
+##
+##                xmin = 0
+##                xmax = 0
+##                ymin = 0
+##                ymax = 0
+##                n = len(player_armyhighlight)
+##             
             # Traverse through all array elements
 ##            for i in range(n-2):
 ##                #use to loop to find the x and y point to form a columb on 
@@ -910,6 +909,7 @@ def neighbouropen(listofneighbours,openlist):
     else:
         return True
 def astar(destinationx,destinationy,startx,starty):
+    print("astat")
 
     #loop sets the destinations of the nodes so it can be used in the heuristic 
     endnode = (destinationx,destinationy)
@@ -1126,7 +1126,7 @@ def astar(destinationx,destinationy,startx,starty):
 ##            for index in range(6):
 ##                
 ##      
-        
+    
     if len(player_armyhighlight) == 1:
         print("doing things")
         path = astar(destination[0],destination[1],player_armyhighlight[0].xpos,player_armyhighligh[0].ypos)
