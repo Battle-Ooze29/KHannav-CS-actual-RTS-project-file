@@ -657,236 +657,6 @@ pygame.display.flip()
 Clock = pygame.time.Clock
 clock = Clock()
 
-#----game loop#----------
-while True:
-    #this ensures the loop only runs 60 times per second 
-    clock.tick_busy_loop(60)
-
-# redrawing the background image
-#same loop as earlier but removed everything which initialised an object this just reads the map and then blits the images to the screen
-    newc = False
-    ccount = 0
-    newr = False
-    row = 0
-    columb = 0
-    for i in range (10):
-
-        for j in range (10):
-            landtype = map1[i][j]#change map1 to mapchoice once the power to select a map is added
-            if landtype == "F":
-                img = mapOB[i][j]
-                DISPLAY.blit(img.img,(img.xpos,img.ypos))
-                newc = True
-                ccount +=1
-                
-            elif landtype == "H":
-                img = mapOB[i][j]
-                DISPLAY.blit(img.img,(img.xpos,img.ypos))
-                newc = True
-                ccount +=1
-                
-            elif landtype == "W":
-                img = mapOB[i][j]
-                DISPLAY.blit(img.img,(img.xpos,img.ypos))
-                newc = True
-                ccount +=1
-                
-            elif landtype == "M":
-                img = mapOB[i][j]
-                DISPLAY.blit(img.img,(img.xpos,img.ypos))
-                newc = True
-                ccount +=1
-                
-            elif landtype == "FJ":
-                img = mapOB[i][j]
-                DISPLAY.blit(img.img,(img.xpos,img.ypos))
-                newc = True
-                ccount +=1
-                
-            elif landtype == "GS":
-                img = mapOB[i][j]
-                DISPLAY.blit(img.img,(img.xpos,img.ypos))
-                newc = True
-                ccount +=1
-                
-            elif landtype == "SS":
-                img = mapOB[i][j]
-                DISPLAY.blit(img.img,(img.xpos,img.ypos))
-                newc = True
-                ccount +=1
-                
-            elif landtype == "L":
-                img = mapOB[i][j]
-                DISPLAY.blit(img.img,(img.xpos,img.ypos))
-                newc = True
-                ccount +=1
-                
-            if ccount == 10:
-                newr = True
-                columb = 0
-                ccount = 0
-            if (newc == True) and (ccount != 0):
-                columb += tilesize
-        if newr == True:
-            row+=tilesize
-            
-    pygame.display.flip()
-
-    #drawing icons
-    
-    #loops by the number of uits chosen by the player, fixed for now 
-    for i in range(len(player_armyOB)):
-        icon = player_armyOB[i]
-    #displays the corresponding icon of that unit type tot he map at the postitions of the unit 
-        DISPLAY.blit((icon.icon),((player_armyOB[i].xpost),(player_armyOB[i].ypost)))
-        pygame.display.flip()
-
-#highlighting#################################################
-    #gets the mouse postitions 
-    mousex = pygame.mouse.get_pos()[0]
-    mousey = pygame.mouse.get_pos()[1]
-    #gets an event 
-    event1 = pygame.event.poll()
-    #check what the event is
-
-    #this clears the held information as the button has been released so the highlight is complete 
-    if KEYDOWN == False:
-        startpost.clear()
-        startpost.append(mousex)
-        startpost.append(mousey)
-    
-    pygame.event.poll()
-#if the mouse is clicked or is held down then th code to highlight the units and draw a corresponding square on the map runs 
-    if (event1.type == pygame.MOUSEBUTTONDOWN) or ((pygame.mouse.get_pressed()[0])==True):
-    #the start is immedietely stored and now the end is stored and refreshed as long as left mouse button is held 
-        endpost.clear()
-        endpost.append(mousex)
-        endpost.append(mousey)
-        
-        ######checking if a unit is within the higlighted square
-        #establish a range within to check
-
-  
-        if startpost[0] <= endpost[0]:
-            lowerxbound = startpost[0]
-            upperxbound = endpost[0]
-
-        else:
-            lowerxbound = endpost[0]
-            upperxbound =  startpost[0]
-
-        if startpost[1] <= endpost[1]:      
-            lowerybound = startpost[1]
-            upperybound = endpost[1]
-
-        else:
-            lowerybound = endpost[1]
-            upperybound = startpost[1]
-                 
-                    
-        #this draws the highlight square but only if the mouse has actually moved 
-        if (endpost != startpost) and (KEYDOWN == True):
-
-            pygame.draw.line(DISPLAY,BRICK,[startpost[0],startpost[1]],[endpost[0],startpost[1]],3)
-            #line from start to end on the x
-            pygame.draw.line(DISPLAY,BRICK,[startpost[0],startpost[1]],[startpost[0],endpost[1]],3)
-            #line vertical
-            pygame.draw.line(DISPLAY,BRICK,[endpost[0],endpost[1]],[startpost[0],endpost[1]],3)
-            #line horizontal from end
-            pygame.draw.line(DISPLAY,BRICK,[endpost[0],endpost[1]],[endpost[0],startpost[1]],3)
-            pygame.display.flip()
-
-                    
-            #checking if the unit is within the range
-            for i in range (len(player_armyOB)):
-                #checks if its in the x range
-                if ((player_armyOB[i].getxpost()) >= lowerxbound) and ((player_armyOB[i].getxpost()) <= upperxbound):
-                    #only checks y if its within the x range to minimise the number of checks run
-                    #checks the y range 
-                    if ((player_armyOB[i].getypost()) >= lowerybound) and ((player_armyOB[i].getypost()) <= upperybound):
-                        #adds the unit to a list of highlighted units
-                        print("highlighted")
-                        player_armyhighlight.append(player_armyOB[i])
-                        #runs the highlight function which is held in the class definition for the units 
-                        player_armyOB[i].highlight()
-#redrawing the units over the highlight square 
-                        icon = player_armyOB[i]
-                        DISPLAY.blit((icon.icon),((player_armyOB[i].xpost),(player_armyOB[i].ypost)))
-                        pygame.display.flip()
-
-
-        elif startpost == endpost:
-            #time.sleep(0.1)
-            KEYDOWN = True
-    #if the event is a right click instead then it means that rather than highlghting that a destination for mvement is being set or a target if its an enemy unit     
-    elif event1.type == pygame.MOUSEBUTTONUP:
-        KEYDOWN = False
-        #background()
-        pygame.display.flip()
-            
-    elif (pygame.mouse.get_pressed()[2])==True:
-        print("right click")    
-        #sets the destination coordinated
-        destination = []
-        destination.clear()
-        destination.append(mousex)
-        destination.append(mousey)
-        #rounds the destination coordinates to a specific tile 
-        destinationxcords = destination[0]//tilesize
-        destinationycords = destination[1]//tilesize
-            #grouping units for movement
-##            formcolumb = False
-##            if (len(player_armyhighlight)) >= 2:
-##                formcolumb = True
-##            else:
-##                formcolumb = False
-##            if formcolumb == True:
-##            #if their are multiple units 
-##                #sort using bubble sort by speed
-##                #bubble sort function modified to compare speeds
-##
-##                xmin = 0
-##                xmax = 0
-##                ymin = 0
-##                ymax = 0
-##                n = len(player_armyhighlight)
-##             
-            # Traverse through all array elements
-##            for i in range(n-2):
-##                #use to loop to find the x and y point to form a columb on 
-##                if (player_armyhighlight[i].xpost//tilesize) <= xmin:
-##                    xmin = (player_armyhighlight[i].xpost//tilesize)
-##
-##                elif (player_armyhighlight[i].xpost//tilesize) >= xmax:
-##                    xmax = player_armyhighlight[i].xpost//tilesize
-##
-##                if (player_armyhighlight[i].ypost//tilesize) <= ymin:
-##                    ymin = player_armyhighlight[i].ypost//tilesize
-##
-##                elif (player_armyhighlight[i].ypost//tilesize) >= ymax:
-##                    ymax = (player_armyhighlight[i].ypost//tilesize)
-##         
-##                # Last i elements are already in place
-##         
-##                if ((player_armyhighlight[i].speed) >= (player_armyhighlight[i+1].speed)) :
-##                    temp = player_armyhighlight.pop(i) 
-##                    #player_armyhighlight.insert(i,player_armyhighlight[i+1])
-##                    player_armyhighlight.insert((i+1),temp)
-##            #now that they are sorted move the units into a columb 
-##            #picking the head point of the columb
-##            xmid = int(round((xmax-xmin)/2))
-##            ymid= int(round((ymax-ymin)/2))
-##            columbx = (xmid*tilesize)+(0.5*tilesize)
-##            columby = (ymid*tilesize)+(0.5*tilesize)
-
-
-##########################################################################   A STAR####################################
-
-    
-#movement function will be a modified version of a star with localised checks 
-
-
-
 ###################################################################
 # a star,#insert error checking so that only coodinates which also have nodes are passed in ie check the pciked location and change to nearest tile if impassabl#need to update nodes beforehand to have h cost for the corect destination  
 def shortest(listofneigbhours,shortest):
@@ -1003,19 +773,19 @@ def astar(destinationx,destinationy,startx,starty):
 #loops thru neighbours and picks the one with the shortest distance 
 
 
-    for i in range(len(listofneighbours)):
-        shortest = listofneighbours[i]
-        if (shortest(listofneighbours,shortest) == True) or (neighbouropen(listofneighbours,openlist) == True):
-            listofneighbours[i].updatetrav(current.xpos,current.ypos)
-            listofneighbours[i].updatetogo(destinationx,destinationy)
-            listofneighbours[i].updateparent(current.xposr,current.ypos)
-            current.updatechild(listofneighbours[i].xpos,listofneighbours[i].ypos)
-            current = listofneighbours[i]
-            for i in range(len(openlist)):
-                if openlist[i] == current:
-                    pass
-                else:
-                    openlist.append(current)
+        for i in range(len(listofneighbours)):
+            shortest = listofneighbours[i]
+            if (shortest(listofneighbours,shortest) == True) or (neighbouropen(listofneighbours,openlist) == True):
+                listofneighbours[i].updatetrav(current.xpos,current.ypos)
+                listofneighbours[i].updatetogo(destinationx,destinationy)
+                listofneighbours[i].updateparent(current.xposr,current.ypos)
+                current.updatechild(listofneighbours[i].xpos,listofneighbours[i].ypos)
+                current = listofneighbours[i]
+                for i in range(len(openlist)):
+                    if openlist[i] == current:
+                        pass
+                    else:
+                        openlist.append(current)
 
 ###################################################################
 #picking destinations for units
@@ -1063,58 +833,291 @@ def astar(destinationx,destinationy,startx,starty):
         #movement code
 
 #take the destinations and the unit  being moved 
-    def move(x,y,unit):
-        #the x and y are the targets for the unit to move to ]
-        #the unit should be the head unit in the columb or the only unit
+def move(x,y,unit):
+    #the x and y are the targets for the unit to move to ]
+    #the unit should be the head unit in the columb or the only unit
 
-        if tilesize ==64:
-            pixelmod = 1
-        elif tilesize == 72:
-            pixelmod = 1.125
-        elif tilesize == 96:
-            pixelmod =1.5
+    if tilesize ==64:
+        pixelmod = 1
+    elif tilesize == 72:
+        pixelmod = 1.125
+    elif tilesize == 96:
+        pixelmod =1.5
 
-        
-        while done == False:
-            if (unit.xpost ==((x*tilesize)+(0.5*tilesize))) and ((unit.ypost) == ((y*tilesize)+(0.5*tilesize))):
-                done = True
-            else:#setting the speed, this has to be redone each loop due to terrian costs
-                speed = unit.speed
-                xindex = (x//tilesize)
-                yindex = (x//tilesize)
-                mapmod = mapOB[xindex,yindex].speedmod
-                unitspeed = ((speed * mapmod) *pixelmod)
-                done = False
-                currentnode = node_list[xindex][yindex]
-                #getting the next node, looking at child of current node
-                nextNodex = currentnode.childx
-                nextNodey = currentnode.childy
-                #pick the  direction direction to move in
+    
+    while done == False:
+        if (unit.xpost ==((x*tilesize)+(0.5*tilesize))) and ((unit.ypost) == ((y*tilesize)+(0.5*tilesize))):
+            done = True
+        else:#setting the speed, this has to be redone each loop due to terrian costs
+            speed = unit.speed
+            xindex = (x//tilesize)
+            yindex = (x//tilesize)
+            mapmod = mapOB[xindex,yindex].speedmod
+            unitspeed = ((speed * mapmod) *pixelmod)
+            done = False
+            currentnode = node_list[xindex][yindex]
+            #getting the next node, looking at child of current node
+            nextNodex = currentnode.childx
+            nextNodey = currentnode.childy
+            #pick the  direction direction to move in
+            
+            if (nextNodex  >= unit.xpost):
+                directionxmod = 1
+
+            elif ((nextNodex<= unit.xpost)):
+                directionxmod = -1
+
+            if nextNodey >= unit.ypost :
+                directionymod = 1
+
+            elif nextNodey <= unit.ypost:
+                directionymod = -1
+            print("chosen direction" & directionymod)
+
+            unitspeedx = unitspeed * directionxmod
+            unitspeedy = unitspeed* directionymod
+            print("move")
+            time.sleep(0.01)                                                                                                                                  
+            unit.xpost = (unit.xpost + unitspeedx)
+            unit.ypost = (unit.ypost+unitspeedy)
+    if done == True:
+        return None 
+
+
+
+
+
+
+#----game loop#----------
+while True:
+    #this ensures the loop only runs 60 times per second 
+    clock.tick_busy_loop(60)
+
+# redrawing the background image
+#same loop as earlier but removed everything which initialised an object this just reads the map and then blits the images to the screen
+    newc = False
+    ccount = 0
+    newr = False
+    row = 0
+    columb = 0
+    for i in range (10):
+
+        for j in range (10):
+            landtype = map1[i][j]#change map1 to mapchoice once the power to select a map is added
+            if landtype == "F":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
                 
-                if (nextNodex  >= unit.xpost):
-                    directionxmod = 1
+            elif landtype == "H":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "W":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "M":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "FJ":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "GS":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "SS":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            elif landtype == "L":
+                img = mapOB[i][j]
+                DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                newc = True
+                ccount +=1
+                
+            if ccount == 10:
+                newr = True
+                columb = 0
+                ccount = 0
+            if (newc == True) and (ccount != 0):
+                columb += tilesize
+        if newr == True:
+            row+=tilesize
+            
+    pygame.display.flip()
 
-                elif ((nextNodex<= unit.xpost)):
-                    directionxmod = -1
+    #drawing icons
+    
+    #loops by the number of uits chosen by the player, fixed for now 
+    for i in range(len(player_armyOB)):
+        icon = player_armyOB[i]
+    #displays the corresponding icon of that unit type tot he map at the postitions of the unit 
+        DISPLAY.blit((icon.icon),((player_armyOB[i].xpost),(player_armyOB[i].ypost)))
+        pygame.display.flip()
 
-                if nextNodey >= unit.ypost :
-                    directionymod = 1
+#highlighting#################################################
+    #gets the mouse postitions 
+    mousex = pygame.mouse.get_pos()[0]
+    mousey = pygame.mouse.get_pos()[1]
+    #gets an event 
+    event1 = pygame.event.poll()
+    #check what the event is
 
-                elif nextNodey <= unit.ypost:
-                    directionymod = -1
-                print("chosen direction" & directionymod)
+    #this clears the held information as the button has been released so the highlight is complete 
+    if KEYDOWN == False:
+        startpost.clear()
+        startpost.append(mousex)
+        startpost.append(mousey)
+    
+    pygame.event.poll()
+#if the mouse is clicked or is held down then th code to highlight the units and draw a corresponding square on the map runs 
+    if (event1.type == pygame.MOUSEBUTTONDOWN) or ((pygame.mouse.get_pressed()[0])==True):
+    #the start is immedietely stored and now the end is stored and refreshed as long as left mouse button is held 
+        endpost.clear()
+        endpost.append(mousex)
+        endpost.append(mousey)
+        player_armyhighlight = []
+        
+        ######checking if a unit is within the higlighted square
+        #establish a range within to check
 
-                unitspeedx = unitspeed * directionxmod
-                unitspeedy = unitspeed* directionymod
-                print("move")
-                time.sleep(0.01)                                                                                                                                  
-                unit.xpost = (unit.xpost + unitspeedx)
-                unit.ypost = (unit.ypost+unitspeedy)
-        if done == True:
-            return None 
+  
+        if startpost[0] <= endpost[0]:
+            lowerxbound = startpost[0]
+            upperxbound = endpost[0]
+
+        else:
+            lowerxbound = endpost[0]
+            upperxbound =  startpost[0]
+
+        if startpost[1] <= endpost[1]:      
+            lowerybound = startpost[1]
+            upperybound = endpost[1]
+
+        else:
+            lowerybound = endpost[1]
+            upperybound = startpost[1]
+                 
+                    
+        #this draws the highlight square but only if the mouse has actually moved 
+        if (endpost != startpost) and (KEYDOWN == True):
+
+            pygame.draw.line(DISPLAY,BRICK,[startpost[0],startpost[1]],[endpost[0],startpost[1]],3)
+            #line from start to end on the x
+            pygame.draw.line(DISPLAY,BRICK,[startpost[0],startpost[1]],[startpost[0],endpost[1]],3)
+            #line vertical
+            pygame.draw.line(DISPLAY,BRICK,[endpost[0],endpost[1]],[startpost[0],endpost[1]],3)
+            #line horizontal from end
+            pygame.draw.line(DISPLAY,BRICK,[endpost[0],endpost[1]],[endpost[0],startpost[1]],3)
+            pygame.display.flip()
+
+                    
+            #checking if the unit is within the range
+            for i in range (len(player_armyOB)):
+                #checks if its in the x range
+                if ((player_armyOB[i].getxpost()) >= lowerxbound) and ((player_armyOB[i].getxpost()) <= upperxbound):
+                    #only checks y if its within the x range to minimise the number of checks run
+                    #checks the y range 
+                    if ((player_armyOB[i].getypost()) >= lowerybound) and ((player_armyOB[i].getypost()) <= upperybound):
+                        #adds the unit to a list of highlighted units
+                        print("highlighted")
+                        print(len(player_armyhighlight))
+                        player_armyhighlight.append(player_armyOB[i])
+                        #runs the highlight function which is held in the class definition for the units 
+                        player_armyOB[i].highlight()
+#redrawing the units over the highlight square 
+                        icon = player_armyOB[i]
+                        DISPLAY.blit((icon.icon),((player_armyOB[i].xpost),(player_armyOB[i].ypost)))
+                        pygame.display.flip()
 
 
+        elif startpost == endpost:
+            #time.sleep(0.1)
+            KEYDOWN = True
+    #if the event is a right click instead then it means that rather than highlghting that a destination for mvement is being set or a target if its an enemy unit     
+    elif event1.type == pygame.MOUSEBUTTONUP:
+        KEYDOWN = False
+        #background()
+        pygame.display.flip()
+            
+    elif (pygame.mouse.get_pressed()[2])==True:
+        print("right click")    
+        #sets the destination coordinated
+        destination = []
+        destination.clear()
+        destination.append(mousex)
+        destination.append(mousey)
+        #rounds the destination coordinates to a specific tile 
+        destinationxcords = destination[0]//tilesize
+        destinationycords = destination[1]//tilesize
+        print("THINGS")
+            #grouping units for movement
+##            formcolumb = False
+##            if (len(player_armyhighlight)) >= 2:
+##                formcolumb = True
+##            else:
+##                formcolumb = False
+##            if formcolumb == True:
+##            #if their are multiple units 
+##                #sort using bubble sort by speed
+##                #bubble sort function modified to compare speeds
+##
+##                xmin = 0
+##                xmax = 0
+##                ymin = 0
+##                ymax = 0
+##                n = len(player_armyhighlight)
+##             
+            # Traverse through all array elements
+##            for i in range(n-2):
+##                #use to loop to find the x and y point to form a columb on 
+##                if (player_armyhighlight[i].xpost//tilesize) <= xmin:
+##                    xmin = (player_armyhighlight[i].xpost//tilesize)
+##
+##                elif (player_armyhighlight[i].xpost//tilesize) >= xmax:
+##                    xmax = player_armyhighlight[i].xpost//tilesize
+##
+##                if (player_armyhighlight[i].ypost//tilesize) <= ymin:
+##                    ymin = player_armyhighlight[i].ypost//tilesize
+##
+##                elif (player_armyhighlight[i].ypost//tilesize) >= ymax:
+##                    ymax = (player_armyhighlight[i].ypost//tilesize)
+##         
+##                # Last i elements are already in place
+##         
+##                if ((player_armyhighlight[i].speed) >= (player_armyhighlight[i+1].speed)) :
+##                    temp = player_armyhighlight.pop(i) 
+##                    #player_armyhighlight.insert(i,player_armyhighlight[i+1])
+##                    player_armyhighlight.insert((i+1),temp)
+##            #now that they are sorted move the units into a columb 
+##            #picking the head point of the columb
+##            xmid = int(round((xmax-xmin)/2))
+##            ymid= int(round((ymax-ymin)/2))
+##            columbx = (xmid*tilesize)+(0.5*tilesize)
+##            columby = (ymid*tilesize)+(0.5*tilesize)
 
+
+##########################################################################   A STAR####################################
+
+    
+#movement function will be a modified version of a star with localised checks 
 
 
 
@@ -1126,12 +1129,12 @@ def astar(destinationx,destinationy,startx,starty):
 ##            for index in range(6):
 ##                
 ##      
-    
-    if len(player_armyhighlight) == 1:
-        print("doing things")
-        path = astar(destination[0],destination[1],player_armyhighlight[0].xpos,player_armyhighligh[0].ypos)
-        movement = move(destination[0],destination[1],player_armyhighlight[0].xpos,player_armyhighligh[0].ypos)
-        pass
+        print((len(player_armyhighlight))+1)
+        if ((len(player_armyhighlight))+1) == 1:
+            print("doing things")
+            path = astar(destination[0],destination[1],player_armyhighlight[0].xpos,player_armyhighligh[0].ypos)
+            movement = move(destination[0],destination[1],player_armyhighlight[0].xpos,player_armyhighligh[0].ypos)
+            pass
                 
 ###########################################################################################################
         
