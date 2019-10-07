@@ -988,12 +988,12 @@ while True:
     
     pygame.event.poll()
 #if the mouse is clicked or is held down then th code to highlight the units and draw a corresponding square on the map runs 
-    if (event1.type == pygame.MOUSEBUTTONDOWN) or ((pygame.mouse.get_pressed()[0])==True):
+    if  ((pygame.mouse.get_pressed()[0])==True):#(event1.type == pygame.MOUSEBUTTONDOWN) or----removed code 
     #the start is immedietely stored and now the end is stored and refreshed as long as left mouse button is held 
         endpost.clear()
         endpost.append(mousex)
         endpost.append(mousey)
-        player_armyhighlight = []
+        player_armyhighlight = []    
         
         ######checking if a unit is within the higlighted square
         #establish a range within to check
@@ -1017,7 +1017,7 @@ while True:
                  
                     
         #this draws the highlight square but only if the mouse has actually moved 
-        if (endpost != startpost) and (KEYDOWN == True):
+        if (endpost != startpost) :#and (KEYDOWN == True):
 
             pygame.draw.line(DISPLAY,BRICK,[startpost[0],startpost[1]],[endpost[0],startpost[1]],3)
             #line from start to end on the x
@@ -1031,26 +1031,31 @@ while True:
                     
             #checking if the unit is within the range
             for i in range (len(player_armyOB)):
+                #shows that this loop does run 6 times 
+                print("LOOPING")
                 #checks if its in the x range
                 if ((player_armyOB[i].getxpost()) >= lowerxbound) and ((player_armyOB[i].getxpost()) <= upperxbound):
                     #only checks y if its within the x range to minimise the number of checks run
-                    #checks the y range 
+                    #checks the y range
+                    print("withinyrange")
                     if ((player_armyOB[i].getypost()) >= lowerybound) and ((player_armyOB[i].getypost()) <= upperybound):
                         #adds the unit to a list of highlighted units
                         print("highlighted")
                         print(len(player_armyhighlight))
                         player_armyhighlight.append(player_armyOB[i])
+                        print(len(player_armyhighlight))
                         #runs the highlight function which is held in the class definition for the units 
                         player_armyOB[i].highlight()
-#redrawing the units over the highlight square 
+                        #redrawing the units over the highlight square 
                         icon = player_armyOB[i]
                         DISPLAY.blit((icon.icon),((player_armyOB[i].xpost),(player_armyOB[i].ypost)))
                         pygame.display.flip()
 
-
+        #if the startpost and he endpost are the same then the mouse hasnt moved so nothing new needs to be drawn 
         elif startpost == endpost:
             #time.sleep(0.1)
             KEYDOWN = True
+           # player_armyhighlight = []
     #if the event is a right click instead then it means that rather than highlghting that a destination for mvement is being set or a target if its an enemy unit     
     elif event1.type == pygame.MOUSEBUTTONUP:
         KEYDOWN = False
@@ -1068,6 +1073,17 @@ while True:
         destinationxcords = destination[0]//tilesize
         destinationycords = destination[1]//tilesize
         print("THINGS")
+        print((len(player_armyhighlight)))
+        if ((len(player_armyhighlight))) == 1:
+            print("doing things")
+            print(destination[0])
+            print(destination[1])
+            print(player_armyhighlight[0].xpost)
+            print(player_armyhighlight[0].ypost)
+            path = astar(destination[0],destination[1],player_armyhighlight[0].xpos,player_armyhighligh[0].ypos)
+            movement = move(destination[0],destination[1],player_armyhighlight[0].xpos,player_armyhighligh[0].ypos)
+            pass
+                
             #grouping units for movement
 ##            formcolumb = False
 ##            if (len(player_armyhighlight)) >= 2:
@@ -1129,13 +1145,7 @@ while True:
 ##            for index in range(6):
 ##                
 ##      
-        print((len(player_armyhighlight))+1)
-        if ((len(player_armyhighlight))+1) == 1:
-            print("doing things")
-            path = astar(destination[0],destination[1],player_armyhighlight[0].xpos,player_armyhighligh[0].ypos)
-            movement = move(destination[0],destination[1],player_armyhighlight[0].xpos,player_armyhighligh[0].ypos)
-            pass
-                
+
 ###########################################################################################################
         
 
