@@ -1,0 +1,6 @@
+the issue was with my units x postition
+found an additional issue where right clicks are registered as clicks and as a result the highlight square extends rather than set a postition 
+the issue is that the units x postition appears out of range 
+
+FIX
+-had to add a line to delete the contents of player_armyhiglight every time a new box is drawn
