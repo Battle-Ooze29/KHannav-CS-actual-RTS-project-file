@@ -396,7 +396,7 @@ class node():
         return travelled
 #updates the distance from the destination
     def updatetogo(self,destx,desty):
-        DISTANCE = (((destx -self.xpost)**2) + (desty-self.ypost)**2)
+        DISTANCE = (((destx -self.xpos)**2) + (desty-self.ypos)**2)
         DISTANCE = int(round(DISTANCE**0.5))
         return DISTANCE
 #updates where the parent node is 
@@ -681,18 +681,20 @@ def neighbouropen(listofneighbours,openlist):
 def astar(destinationx,destinationy,startx,starty):
     print("astat")
 
-    #loop sets the destinations of the nodes so it can be used in the heuristic 
+    #loop sets the destinations of the nodes so it can be used in the heuristic
+    #need to change this loop to go thorugh a 2d array 
     endnode = (destinationx,destinationy)
-    for i in range(len(node_list)):
-        if node_list[i] == None:
-            pass
-        else:
-            node_list[i].updatetogo(destinationx,destinationy)            
+    for i in range(9):
+        for j in range(9):
+            if node_list[i][j] == None:
+                pass
+            else:
+                node_list[i][j].updatetogo(destinationx,destinationy)            
     shortest = 0
     openlist = []
     closedlist = []
     #sets the start node using floor division 
-    startnode = node_list((startx//tilesize),(starty//tilesize))
+    startnode = node_list[(startx//tilesize)][(starty//tilesize)]
     found = False
     count = 0
     openlist.append(startnode)
