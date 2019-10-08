@@ -1080,8 +1080,8 @@ while True:
             print(destination[1])
             print(player_armyhighlight[0].xpost)
             print(player_armyhighlight[0].ypost)
-            path = astar(destination[0],destination[1],player_armyhighlight[0].xpos,player_armyhighligh[0].ypos)
-            movement = move(destination[0],destination[1],player_armyhighlight[0].xpos,player_armyhighligh[0].ypos)
+            path = astar(destination[0],destination[1],player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
+            movement = move(destination[0],destination[1],player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
             pass
                 
             #grouping units for movement
