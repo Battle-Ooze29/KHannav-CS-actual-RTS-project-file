@@ -672,7 +672,7 @@ def shortest(listofneigbhours,shortest):
 def neighbouropen(listofneighbours,openlist):
     for j in range(len(listofneighbours)):
         for i in range(len(openlist)):
-            if listofneighbours[j] == openlist[i]:
+            if listofneighbours[i][j] == openlist[i]:
                 inopen = True
     if inopen == True:
         return False
@@ -736,33 +736,34 @@ def astar(destinationx,destinationy,startx,starty):
                 below = False
                 #l
             if left == True:
-                listofneighbours.append(node[(y)][(x-1)])
+                listofneighbours.append(node_list[(y)][(x-1)])
                 #ld
             if (left == True) and (below ==True):
-                listofneighbours.append(node[(y+1)][(x-1)])
+                listofneighbours.append(node_list[(y+1)][(x-1)])
                 #d
             if below == True:
-                listofneighbours.append(node[(y+1)][(x)])
+                listofneighbours.append(node_list[(y+1)][(x)])
                 #dr
             if (below == True)and(right == True):
-                listofneighbours.append(node[(y+1)][(x+1)])
+                listofneighbours.append(node_list[(y+1)][(x+1)])
                 #r
             if right == True:
-                listofneighbours.append(node[(y)][(x+1)])
+                listofneighbours.append(node_list[(y)][(x+1)])
                 #rt
             if (right ==True )and(top == True):
-                listofneighbours.append(node[(y-1)][(x+1)])
+                listofneighbours.append(node_list[(y-1)][(x+1)])
                 #t
             if top == True:
-                listofneighbours.append(node[(y-1)][(x)])
+                listofneighbours.append(node_list[(y-1)][(x)])
                 #tl
             if (top==True)and(left==True):
-                listofneighbours.append(node[(y-1)][(x-1)])
+                listofneighbours.append(node_list[(y-1)][(x-1)])
 
-            for i in range(len(listofneighbours)):
-                if listofneighbours[i] == None:
-                    listofneighbours.remove(listofneighbours[i])
-                    #i+=1
+            for i in range (9):
+                for j in range (9):
+                    if listofneighbours[j][i] == None:
+                        listofneighbours.remove(listofneighbours[i])
+                        #i+=1
                 for k in range (len(closedlist)):
                     if closedlist[k] == listofneighbours[i]:
                         listofneighours.remove(listofneighbours[i])
