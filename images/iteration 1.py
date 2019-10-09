@@ -679,41 +679,43 @@ def neighbouropen(listofneighbours,openlist):
     else:
         return True
 def astar(destinationx,destinationy,startx,starty):
-    print("astat")
-
+    print("astar")
+    startnode = node_list[(startx//tilesize)][(starty//tilesize)]
+    current = startnode    
     #loop sets the destinations of the nodes so it can be used in the heuristic
     #need to change this loop to go thorugh a 2d array 
-    endnode = (destinationx,destinationy)
+    endnode = node_list[destinationx//tilesize][destinationy//tilesize]
     for i in range(9):
         for j in range(9):
-            if node_list[i][j] == None:
+            if node_list[j][i] == None:
                 pass
             else:
-                node_list[i][j].updatetogo(destinationx,destinationy)            
-    shortest = 0
-    openlist = []
-    closedlist = []
-    #sets the start node using floor division 
-    startnode = node_list[(startx//tilesize)][(starty//tilesize)]
-    found = False
-    count = 0
-    openlist.append(startnode)
+                node_list[j][i].updatetogo(destinationx,destinationy)            
+        shortest = 0
+        openlist = []
+        closedlist = []
+        #sets the start node using floor division 
+
+        found = False
+        count = 0
+        openlist.append(startnode)
     
-    while found ==False:
-        for i in range(len(openlist)):
-            lowestfnode = []
-            lowestf = 0
-            if openlist[i].H_cost <= lowestf:
-                lowestfnode = openlist[i]
-                lowestf = openlist[i].H_cost
-        current = lowestfnode
-        try:
-            openlist.remove(current)
-        except:
-            pass
+##        while found ==False:
+##            for i in range(len(openlist)):
+##                lowestfnode = []
+##                lowestf = 0
+##                if openlist[i].H_cost <= lowestf:
+##                    lowestfnode = openlist[i]
+##                    lowestf = openlist[i].H_cost
+##            current = lowestfnode
+##            try:
+##                openlist.remove(current) 
+##            except:
+##                print("it just failed")
+##                pass
 
         closedlist.append(current)
-        
+    
         if (current.xpos == destinationx) and (current.ypos == destinationy) :
             found = True
             return True
