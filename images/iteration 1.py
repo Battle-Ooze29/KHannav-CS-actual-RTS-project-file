@@ -388,7 +388,7 @@ class node():
     #looks at parent
     #calculates cost to move to the current tile and adds the cost 
     def updatetrav(self,parentx,parenty):
-        if (parentx != self.xpos) and (parenty != self.ypost):
+        if (parentx != self.xpos) and (parenty != self.ypos):
             dist = 14
         else:
             dist = 10
@@ -659,7 +659,7 @@ clock = Clock()
 
 ###################################################################
 # a star,#insert error checking so that only coodinates which also have nodes are passed in ie check the pciked location and change to nearest tile if impassabl#need to update nodes beforehand to have h cost for the corect destination  
-def shortest(listofneigbhours,shortest):
+def shortestpath(listofneighbours,shortest):
     changecheck = shortest
     for i in range(len(listofneighbours)):
         if listofneighbours[i].distance_travelled <= shortest.distance_travelled:
@@ -707,7 +707,11 @@ def astar(destinationx,destinationy,startx,starty):
                 lowestfnode = openlist[i]
                 lowestf = openlist[i].H_cost
         current = lowestfnode
-        openlist.remove(current)
+        try:
+            openlist.remove(current)
+        except:
+            pass
+
         closedlist.append(current)
         
         if (current.xpos == destinationx) and (current.ypos == destinationy) :
@@ -759,11 +763,11 @@ def astar(destinationx,destinationy,startx,starty):
             if (top==True)and(left==True):
                 listofneighbours.append(node_list[(y-1)][(x-1)])
 
-            for i in range (9):
-                for j in range (9):
-                    if listofneighbours[j][i] == None:
-                        listofneighbours.remove(listofneighbours[i])
-                        #i+=1
+            for i in range ((len(listofneighbours))-1):
+            
+                if listofneighbours[i] == None:
+                    listofneighbours.remove(listofneighbours[i])
+                    
                 for k in range (len(closedlist)):
                     if closedlist[k] == listofneighbours[i]:
                         listofneighours.remove(listofneighbours[i])
@@ -777,11 +781,12 @@ def astar(destinationx,destinationy,startx,starty):
 
 
         for i in range(len(listofneighbours)):
-            shortest = listofneighbours[i]
-            if (shortest(listofneighbours,shortest) == True) or (neighbouropen(listofneighbours,openlist) == True):
+            inp = listofneighbours[i]
+            #print(listofneighbours)
+            if (shortestpath(listofneighbours,inp) == True) or (neighbouropen(listofneighbours,openlist) == True):
                 listofneighbours[i].updatetrav(current.xpos,current.ypos)
                 listofneighbours[i].updatetogo(destinationx,destinationy)
-                listofneighbours[i].updateparent(current.xposr,current.ypos)
+                listofneighbours[i].updateparent(current.xpos,current.ypos)
                 current.updatechild(listofneighbours[i].xpos,listofneighbours[i].ypos)
                 current = listofneighbours[i]
                 for i in range(len(openlist)):
