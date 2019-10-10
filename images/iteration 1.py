@@ -679,12 +679,13 @@ def neighbouropen(listofneighbours,openlist):
     else:
         return True
 def astar(destinationx,destinationy,startx,starty):
+    lowestf = 1000000000000000000000000000000000000
     print("astar")
+    #SETTING THE STARTNODE AND ENDNODE TO SEARCH FOR 
     startnode = node_list[(startx//tilesize)][(starty//tilesize)]
     current = startnode    
-    #loop sets the destinations of the nodes so it can be used in the heuristic
-    #need to change this loop to go thorugh a 2d array 
     endnode = node_list[destinationx//tilesize][destinationy//tilesize]
+    #loops through and sets the destinations of the nodes
     for i in range(9):
         for j in range(9):
             if node_list[j][i] == None:
@@ -694,108 +695,108 @@ def astar(destinationx,destinationy,startx,starty):
         shortest = 0
         openlist = []
         closedlist = []
-        #sets the start node using floor division 
-
-        found = False
-        count = 0
-        openlist.append(startnode)
     
-##        while found ==False:
-##            for i in range(len(openlist)):
-##                lowestfnode = []
-##                lowestf = 0
-##                if openlist[i].H_cost <= lowestf:
-##                    lowestfnode = openlist[i]
-##                    lowestf = openlist[i].H_cost
-##            current = lowestfnode
-##            try:
-##                openlist.remove(current) 
-##            except:
-##                print("it just failed")
-##                pass
 
-        closedlist.append(current)
-    
-        if (current.xpos == destinationx) and (current.ypos == destinationy) :
-            found = True
-            return True
-        else:
-            
-            x=current.xpos//tilesize
-            y=current.ypos//tilesize
-            #find each neighbour of the current
-            xrows = current.xpos//tilesize
-            yrows = current.ypos//tilesize
-            listofneighbours = []
-            #finding neighbours 
-            left = True
-            right = True
-            top = True
-            below = True
-            if xrows ==0:
-                left = False
-            elif xrows == 10:
-                right = False
-            elif yrows == 0:
-                top = False
-            elif yrows == 10:
-                below = False
-                #l
-            if left == True:
-                listofneighbours.append(node_list[(y)][(x-1)])
-                #ld
-            if (left == True) and (below ==True):
-                listofneighbours.append(node_list[(y+1)][(x-1)])
-                #d
-            if below == True:
-                listofneighbours.append(node_list[(y+1)][(x)])
-                #dr
-            if (below == True)and(right == True):
-                listofneighbours.append(node_list[(y+1)][(x+1)])
-                #r
-            if right == True:
-                listofneighbours.append(node_list[(y)][(x+1)])
-                #rt
-            if (right ==True )and(top == True):
-                listofneighbours.append(node_list[(y-1)][(x+1)])
-                #t
-            if top == True:
-                listofneighbours.append(node_list[(y-1)][(x)])
-                #tl
-            if (top==True)and(left==True):
-                listofneighbours.append(node_list[(y-1)][(x-1)])
+    found = False
+    count = 0
+    openlist.append(startnode)
 
-            for i in range ((len(listofneighbours))-1):
-            
-                if listofneighbours[i] == None:
-                    listofneighbours.remove(listofneighbours[i])
-                    
-                for k in range (len(closedlist)):
-                    if closedlist[k] == listofneighbours[i]:
-                        listofneighours.remove(listofneighbours[i])
-                    #i+=1
+    while found ==False:
+        for i in range(len(openlist)):
+            lowestfnode = []
+
+            if openlist[i].H_cost <= lowestf:
+                lowestfnode = openlist[i]
+                lowestf = openlist[i].H_cost
+        current = lowestfnode
+        try:
+            openlist.remove(current) 
+        except:
+            print("it just failed")
+            pass
+
+    closedlist.append(current)
+
+    if (current.xpos == destinationx) and (current.ypos == destinationy) :
+        found = True
+        return True
+    else:
+        
+        x=current.xpos//tilesize
+        y=current.ypos//tilesize
+        #find each neighbour of the current
+        xrows = current.xpos//tilesize
+        yrows = current.ypos//tilesize
+        listofneighbours = []
+        #finding neighbours 
+        left = True
+        right = True
+        top = True
+        below = True
+        if xrows ==0:
+            left = False
+        elif xrows == 10:
+            right = False
+        elif yrows == 0:
+            top = False
+        elif yrows == 10:
+            below = False
+            #l
+        if left == True:
+            listofneighbours.append(node_list[(y)][(x-1)])
+            #ld
+        if (left == True) and (below ==True):
+            listofneighbours.append(node_list[(y+1)][(x-1)])
+            #d
+        if below == True:
+            listofneighbours.append(node_list[(y+1)][(x)])
+            #dr
+        if (below == True)and(right == True):
+            listofneighbours.append(node_list[(y+1)][(x+1)])
+            #r
+        if right == True:
+            listofneighbours.append(node_list[(y)][(x+1)])
+            #rt
+        if (right ==True )and(top == True):
+            listofneighbours.append(node_list[(y-1)][(x+1)])
+            #t
+        if top == True:
+            listofneighbours.append(node_list[(y-1)][(x)])
+            #tl
+        if (top==True)and(left==True):
+            listofneighbours.append(node_list[(y-1)][(x-1)])
+
+        for i in range ((len(listofneighbours))-1):
+        
+            if listofneighbours[i] == None:
+                listofneighbours.remove(listofneighbours[i])
+                
+            for k in range (len(closedlist)):
+                if closedlist[k] == listofneighbours[i]:
+                    listofneighours.remove(listofneighbours[i])
+                #i+=1
 #now have a list of traversable neighbours
- #       for i in range(len(listofneighbours)):
-  #          listofneighbours[i].updatetogo(destinationx,destinationy)
-   #         listofneighbours[i].updatetrav(xrows,yrows)
+#       for i in range(len(listofneighbours)):
+#          listofneighbours[i].updatetogo(destinationx,destinationy)
+#         listofneighbours[i].updatetrav(xrows,yrows)
 #updated the neighbours with their distance to go and travelled
 #loops thru neighbours and picks the one with the shortest distance 
 
 
-        for i in range(len(listofneighbours)):
-            inp = listofneighbours[i]
-            #print(listofneighbours)
-            if (shortestpath(listofneighbours,inp) == True) or (neighbouropen(listofneighbours,openlist) == True):
-                listofneighbours[i].updatetrav(current.xpos,current.ypos)
-                listofneighbours[i].updatetogo(destinationx,destinationy)
-                listofneighbours[i].updateparent(current.xpos,current.ypos)
-                current.updatechild(listofneighbours[i].xpos,listofneighbours[i].ypos)
-                current = listofneighbours[i]
-                for i in range(len(openlist)):
-                    if openlist[i] == current:
-                        pass
-                    else:
-                        openlist.append(current)
+    for i in range(len(listofneighbours)):
+        inp = listofneighbours[i]
+        #print(listofneighbours)
+        if (shortestpath(listofneighbours,inp) == True) or (neighbouropen(listofneighbours,openlist) == True):
+            listofneighbours[i].updatetrav(current.xpos,current.ypos)
+            listofneighbours[i].updatetogo(destinationx,destinationy)
+            listofneighbours[i].updateparent(current.xpos,current.ypos)
+            current.updatechild(listofneighbours[i].xpos,listofneighbours[i].ypos)
+            current = listofneighbours[i]
+            for i in range(len(openlist)):
+                if openlist[i] == current:
+                    pass
+                else:
+                    openlist.append(current)
 
 ###################################################################
 #picking destinations for units
