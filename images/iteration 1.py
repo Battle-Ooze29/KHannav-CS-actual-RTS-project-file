@@ -679,6 +679,7 @@ def neighbouropen(listofneighbours,openlist):
     else:
         return True
 def astar(destinationx,destinationy,startx,starty):
+    
     lowesth = 1000000000000000000000000000000000000
     print("astar")
     #SETTING THE STARTNODE AND ENDNODE TO SEARCH FOR 
@@ -691,8 +692,6 @@ def astar(destinationx,destinationy,startx,starty):
     openlist.append(startnode)
     #starting at a 
     lowestfnode = 10000000000000000000000000
-
-   
     endnode = node_list[destinationx//tilesize][destinationy//tilesize]
     #loops through and sets the destinations of the nodes,this will then be used to calculate the heuristic 
     for i in range(9):
@@ -712,12 +711,12 @@ def astar(destinationx,destinationy,startx,starty):
             if openlist[i].H_cost <= lowesth:
                 lowestfnode = openlist[i]
                 lowestf = openlist[i].H_cost
-        current = lowestfnode
-        try:
-            openlist.remove(current) 
-        except:
-            print("it just failed")
-            pass
+                current = lowestfnode
+                try:
+                    openlist.remove(current) 
+                except:
+                    print("it just failed")
+                    pass
 
         #closedlist.append(current)
 
@@ -769,9 +768,9 @@ def astar(destinationx,destinationy,startx,starty):
                 #tl
             if (top==True)and(left==True):
                 listofneighbours.append(node_list[(y-1)][(x-1)])
-
-            for i in range ((len(listofneighbours))-1):
-            
+            print(len(listofneighbours))
+            for i in range ((len(listofneighbours))):
+                print(i)
                 if listofneighbours[i] == None:
                     listofneighbours.remove(listofneighbours[i])
                     
