@@ -768,8 +768,11 @@ def astar(destinationx,destinationy,startx,starty):
                 #tl
             if (top==True)and(left==True):
                 listofneighbours.append(node_list[(y-1)][(x-1)])
+
+
             print(len(listofneighbours))
-            for i in range ((len(listofneighbours))):
+            lenlist = len(listofneighbours)
+            for i in range (lenlist):
                 print(i)
                 if listofneighbours[i] == None:
                     listofneighbours.remove(listofneighbours[i])
