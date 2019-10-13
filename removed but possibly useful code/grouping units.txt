@@ -1,0 +1,44 @@
+            #grouping units for movement
+##            formcolumb = False
+##            if (len(player_armyhighlight)) >= 2:
+##                formcolumb = True
+##            else:
+##                formcolumb = False
+##            if formcolumb == True:
+##            #if their are multiple units 
+##                #sort using bubble sort by speed
+##                #bubble sort function modified to compare speeds
+##
+##                xmin = 0
+##                xmax = 0
+##                ymin = 0
+##                ymax = 0
+##                n = len(player_armyhighlight)
+##             
+            # Traverse through all array elements
+##            for i in range(n-2):
+##                #use to loop to find the x and y point to form a columb on 
+##                if (player_armyhighlight[i].xpost//tilesize) <= xmin:
+##                    xmin = (player_armyhighlight[i].xpost//tilesize)
+##
+##                elif (player_armyhighlight[i].xpost//tilesize) >= xmax:
+##                    xmax = player_armyhighlight[i].xpost//tilesize
+##
+##                if (player_armyhighlight[i].ypost//tilesize) <= ymin:
+##                    ymin = player_armyhighlight[i].ypost//tilesize
+##
+##                elif (player_armyhighlight[i].ypost//tilesize) >= ymax:
+##                    ymax = (player_armyhighlight[i].ypost//tilesize)
+##         
+##                # Last i elements are already in place
+##         
+##                if ((player_armyhighlight[i].speed) >= (player_armyhighlight[i+1].speed)) :
+##                    temp = player_armyhighlight.pop(i) 
+##                    #player_armyhighlight.insert(i,player_armyhighlight[i+1])
+##                    player_armyhighlight.insert((i+1),temp)
+##            #now that they are sorted move the units into a columb 
+##            #picking the head point of the columb
+##            xmid = int(round((xmax-xmin)/2))
+##            ymid= int(round((ymax-ymin)/2))
+##            columbx = (xmid*tilesize)+(0.5*tilesize)
+##            columby = (ymid*tilesize)+(0.5*tilesize)
