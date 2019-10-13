@@ -684,6 +684,8 @@ def astar(destinationx,destinationy,startx,starty):
     print("astar")
     #SETTING THE STARTNODE AND ENDNODE TO SEARCH FOR 
     startnode = node_list[(startx//tilesize)][(starty//tilesize)]
+    print(startnode.xpos)
+    print(startnode.ypos)
     current = startnode
     #initialising lists to use in the algo
     shortest = 0
@@ -707,7 +709,7 @@ def astar(destinationx,destinationy,startx,starty):
 
     while found ==False:
         for i in range(len(openlist)):
-
+            
             if openlist[i].H_cost <= lowesth:
                 lowestfnode = openlist[i]
                 lowestf = openlist[i].H_cost
@@ -715,7 +717,6 @@ def astar(destinationx,destinationy,startx,starty):
                 try:
                     openlist.remove(current) 
                 except:
-                    print("it just failed")
                     pass
 
         #closedlist.append(current)
@@ -724,13 +725,17 @@ def astar(destinationx,destinationy,startx,starty):
             found = True
             return True
         else:
-            if (len(closedlist ))<= 0):
-                x=current.xpos//tilesize
-                y=current.ypos//tilesize
+            if ((len(closedlist ))<= 0):
+                x=(current.xpos)//tilesize
+                y=(current.ypos)//tilesize
                 #find each neighbour of the current
                 xrows = current.xpos//tilesize
                 yrows = current.ypos//tilesize
                 listofneighbours = []
+                #printing the postitions
+                print("the postitions")
+                print(xrows)
+                print(yrows)
                 #finding neighbours 
                 left = True
                 right = True
@@ -738,44 +743,50 @@ def astar(destinationx,destinationy,startx,starty):
                 below = True
                 if xrows ==0:
                     left = False
-                elif xrows == 10:
+                if xrows == 9:
                     right = False
-                elif yrows == 0:
+                if yrows == 0:
                     top = False
-                elif yrows == 10:
+                if yrows == 9:
                     below = False
                     #l
                 if left == True:
+                    print("left")
                     listofneighbours.append(node_list[(y)][(x-1)])
                     #ld
                 if (left == True) and (below ==True):
+                    print("left1")
                     listofneighbours.append(node_list[(y+1)][(x-1)])
                     #d
                 if below == True:
+                    print("left2")
                     listofneighbours.append(node_list[(y+1)][(x)])
                     #dr
                 if (below == True)and(right == True):
+                    print("left3")
                     listofneighbours.append(node_list[(y+1)][(x+1)])
                     #r
                 if right == True:
+                    print("left4")
                     listofneighbours.append(node_list[(y)][(x+1)])
                     #rt
                 if (right ==True )and(top == True):
+                    print("left5")
                     listofneighbours.append(node_list[(y-1)][(x+1)])
                     #t
                 if top == True:
+                    print("left6")
                     listofneighbours.append(node_list[(y-1)][(x)])
                     #tl
                 if (top==True)and(left==True):
+                    print("left7")
                     listofneighbours.append(node_list[(y-1)][(x-1)])
 
-
+#using while loops to loop through the lists and remove elements, cant use for as the length of the list changes
             searched = False
             i = 0
             while searched == False:
-                print("into loop")
                 if listofneighbours[i] == None:
-                    print("delete")
                     listofneighbours.remove(listofneighbours[i])
 
                 k = 0
@@ -797,9 +808,11 @@ def astar(destinationx,destinationy,startx,starty):
 
                 i +=1
                 if i == len(listofneighbours):
-                    print("searched")
                     searched = True
                     
+
+
+
                     #i+=1
     #now have a list of traversable neighbours
     #       for i in range(len(listofneighbours)):
@@ -807,6 +820,10 @@ def astar(destinationx,destinationy,startx,starty):
     #         listofneighbours[i].updatetrav(xrows,yrows)
     #updated the neighbours with their distance to go and travelled
     #loops thru neighbours and picks the one with the shortest distance 
+
+
+
+
 
 
         for i in range(len(listofneighbours)):
@@ -823,6 +840,11 @@ def astar(destinationx,destinationy,startx,starty):
                         pass
                     else:
                         openlist.append(current)
+
+
+
+
+
 
 ###################################################################
 #picking destinations for units
@@ -868,6 +890,9 @@ def astar(destinationx,destinationy,startx,starty):
     #each unit needs to be multithreaded for movement
     #movement function 
         #movement code
+
+
+
 
 #take the destinations and the unit  being moved 
 def move(x,y,unit):
@@ -1069,18 +1094,13 @@ while True:
             #checking if the unit is within the range
             for i in range (len(player_armyOB)):
                 #shows that this loop does run 6 times 
-                print("LOOPING")
                 #checks if its in the x range
                 if ((player_armyOB[i].getxpost()) >= lowerxbound) and ((player_armyOB[i].getxpost()) <= upperxbound):
                     #only checks y if its within the x range to minimise the number of checks run
                     #checks the y range
-                    print("withinyrange")
                     if ((player_armyOB[i].getypost()) >= lowerybound) and ((player_armyOB[i].getypost()) <= upperybound):
                         #adds the unit to a list of highlighted units
-                        print("highlighted")
-                        print(len(player_armyhighlight))
                         player_armyhighlight.append(player_armyOB[i])
-                        print(len(player_armyhighlight))
                         #runs the highlight function which is held in the class definition for the units 
                         player_armyOB[i].highlight()
                         #redrawing the units over the highlight square 
@@ -1099,72 +1119,26 @@ while True:
         #background()
         pygame.display.flip()
             
-    elif (pygame.mouse.get_pressed()[2])==True:
-        print("right click")    
+    elif (pygame.mouse.get_pressed()[2])==True:   
         #sets the destination coordinated
         destination = []
-        destination.clear()
+        #destination.clear()
         destination.append(mousex)
         destination.append(mousey)
         #rounds the destination coordinates to a specific tile 
-        destinationxcords = destination[0]//tilesize
-        destinationycords = destination[1]//tilesize
-        print("THINGS")
-        print((len(player_armyhighlight)))
+        destinationxcords = (destination[0])//tilesize
+        destinationycords = (destination[1])//tilesize
         if ((len(player_armyhighlight))) == 1:
-            print("doing things")
-            print(destination[0])
-            print(destination[1])
-            print(player_armyhighlight[0].xpost)
-            print(player_armyhighlight[0].ypost)
+##            print("doing things")
+##            print(destination[0])
+##            print(destination[1])
+##            print(player_armyhighlight[0].xpost)
+##            print(player_armyhighlight[0].ypost)
             path = astar(destination[0],destination[1],player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
-            movement = move(destination[0],destination[1],player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
+            #movement = move(destination[0],destination[1],player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
+            print("path has been found")
             pass
                 
-            #grouping units for movement
-##            formcolumb = False
-##            if (len(player_armyhighlight)) >= 2:
-##                formcolumb = True
-##            else:
-##                formcolumb = False
-##            if formcolumb == True:
-##            #if their are multiple units 
-##                #sort using bubble sort by speed
-##                #bubble sort function modified to compare speeds
-##
-##                xmin = 0
-##                xmax = 0
-##                ymin = 0
-##                ymax = 0
-##                n = len(player_armyhighlight)
-##             
-            # Traverse through all array elements
-##            for i in range(n-2):
-##                #use to loop to find the x and y point to form a columb on 
-##                if (player_armyhighlight[i].xpost//tilesize) <= xmin:
-##                    xmin = (player_armyhighlight[i].xpost//tilesize)
-##
-##                elif (player_armyhighlight[i].xpost//tilesize) >= xmax:
-##                    xmax = player_armyhighlight[i].xpost//tilesize
-##
-##                if (player_armyhighlight[i].ypost//tilesize) <= ymin:
-##                    ymin = player_armyhighlight[i].ypost//tilesize
-##
-##                elif (player_armyhighlight[i].ypost//tilesize) >= ymax:
-##                    ymax = (player_armyhighlight[i].ypost//tilesize)
-##         
-##                # Last i elements are already in place
-##         
-##                if ((player_armyhighlight[i].speed) >= (player_armyhighlight[i+1].speed)) :
-##                    temp = player_armyhighlight.pop(i) 
-##                    #player_armyhighlight.insert(i,player_armyhighlight[i+1])
-##                    player_armyhighlight.insert((i+1),temp)
-##            #now that they are sorted move the units into a columb 
-##            #picking the head point of the columb
-##            xmid = int(round((xmax-xmin)/2))
-##            ymid= int(round((ymax-ymin)/2))
-##            columbx = (xmid*tilesize)+(0.5*tilesize)
-##            columby = (ymid*tilesize)+(0.5*tilesize)
 
 
 ##########################################################################   A STAR####################################
