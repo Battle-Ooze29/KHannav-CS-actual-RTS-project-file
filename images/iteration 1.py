@@ -740,7 +740,7 @@ def astar(destinationx,destinationy,startx,starty):
             #finding neighbours 
             left = True
             right = True
-            top = True
+            top = True                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
             below = True
             if xrows ==0:
                 left = False
@@ -788,8 +788,10 @@ def astar(destinationx,destinationy,startx,starty):
             i = 0
             while searched == False:
                 if listofneighbours[i] == None:
-                    listofneighbours.remove(listofneighbours[i])
-
+                    try:
+                        listofneighbours.remove(listofneighbours[i])
+                    except:
+                        pass
                 k = 0
                 searchk = False
                 #checks if there are elements in the closed list to check
@@ -801,7 +803,10 @@ def astar(destinationx,destinationy,startx,starty):
                 #search through the closed list 
                 while searchk == False:
                     if closedlist[k] == listofneighbours[i]:
-                        listofneighours.remove(listofneighbours[i])
+                        try:
+                            listofneighours.remove(listofneighbours[i])
+                        except:
+                            pass
                     k +=1
 
                     if k == (len(closedlist)):
