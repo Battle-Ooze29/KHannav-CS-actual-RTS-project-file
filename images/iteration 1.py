@@ -724,62 +724,82 @@ def astar(destinationx,destinationy,startx,starty):
             found = True
             return True
         else:
-            
-            x=current.xpos//tilesize
-            y=current.ypos//tilesize
-            #find each neighbour of the current
-            xrows = current.xpos//tilesize
-            yrows = current.ypos//tilesize
-            listofneighbours = []
-            #finding neighbours 
-            left = True
-            right = True
-            top = True
-            below = True
-            if xrows ==0:
-                left = False
-            elif xrows == 10:
-                right = False
-            elif yrows == 0:
-                top = False
-            elif yrows == 10:
-                below = False
-                #l
-            if left == True:
-                listofneighbours.append(node_list[(y)][(x-1)])
-                #ld
-            if (left == True) and (below ==True):
-                listofneighbours.append(node_list[(y+1)][(x-1)])
-                #d
-            if below == True:
-                listofneighbours.append(node_list[(y+1)][(x)])
-                #dr
-            if (below == True)and(right == True):
-                listofneighbours.append(node_list[(y+1)][(x+1)])
-                #r
-            if right == True:
-                listofneighbours.append(node_list[(y)][(x+1)])
-                #rt
-            if (right ==True )and(top == True):
-                listofneighbours.append(node_list[(y-1)][(x+1)])
-                #t
-            if top == True:
-                listofneighbours.append(node_list[(y-1)][(x)])
-                #tl
-            if (top==True)and(left==True):
-                listofneighbours.append(node_list[(y-1)][(x-1)])
+            if (len(closedlist ))<= 0):
+                x=current.xpos//tilesize
+                y=current.ypos//tilesize
+                #find each neighbour of the current
+                xrows = current.xpos//tilesize
+                yrows = current.ypos//tilesize
+                listofneighbours = []
+                #finding neighbours 
+                left = True
+                right = True
+                top = True
+                below = True
+                if xrows ==0:
+                    left = False
+                elif xrows == 10:
+                    right = False
+                elif yrows == 0:
+                    top = False
+                elif yrows == 10:
+                    below = False
+                    #l
+                if left == True:
+                    listofneighbours.append(node_list[(y)][(x-1)])
+                    #ld
+                if (left == True) and (below ==True):
+                    listofneighbours.append(node_list[(y+1)][(x-1)])
+                    #d
+                if below == True:
+                    listofneighbours.append(node_list[(y+1)][(x)])
+                    #dr
+                if (below == True)and(right == True):
+                    listofneighbours.append(node_list[(y+1)][(x+1)])
+                    #r
+                if right == True:
+                    listofneighbours.append(node_list[(y)][(x+1)])
+                    #rt
+                if (right ==True )and(top == True):
+                    listofneighbours.append(node_list[(y-1)][(x+1)])
+                    #t
+                if top == True:
+                    listofneighbours.append(node_list[(y-1)][(x)])
+                    #tl
+                if (top==True)and(left==True):
+                    listofneighbours.append(node_list[(y-1)][(x-1)])
 
 
-            print(len(listofneighbours))
-            lenlist = len(listofneighbours)
-            for i in range (lenlist):
-                print(i)
+            searched = False
+            i = 0
+            while searched == False:
+                print("into loop")
                 if listofneighbours[i] == None:
+                    print("delete")
                     listofneighbours.remove(listofneighbours[i])
-                    
-                for k in range (len(closedlist)):
+
+                k = 0
+                searchk = False
+                #checks if there are elements in the closed list to check
+                try:
+                    print(closedlist[0])
+
+                except IndexError:
+                    searchk = True
+                #search through the closed list 
+                while searchk == False:
                     if closedlist[k] == listofneighbours[i]:
                         listofneighours.remove(listofneighbours[i])
+                    k +=1
+
+                    if k == (len(closedlist)):
+                        searchk = True
+
+                i +=1
+                if i == len(listofneighbours):
+                    print("searched")
+                    searched = True
+                    
                     #i+=1
     #now have a list of traversable neighbours
     #       for i in range(len(listofneighbours)):
