@@ -829,10 +829,21 @@ def astar(destinationx,destinationy,startx,starty):
 
 
 
+    #check if is in openlist
+        #if not then search 
+    #if is the shortest path-----#to do this need to loop through the entire list and check their distances
+        #select shortest
+        #search
+
+    #set the f cost
+    #set the parent of this node to current
+    #if neighbour is not in open then add to open 
 
 
 
-        for i in range(len(listofneighbours)):
+
+    for i in range(len(listofneighbours)):
+        
             inp = listofneighbours[i]
             #print(listofneighbours)
             if (shortestpath(listofneighbours,inp) == True) or (neighbouropen(listofneighbours,openlist) == True):
@@ -846,7 +857,6 @@ def astar(destinationx,destinationy,startx,starty):
                         pass
                     else:
                         openlist.append(current)
-
 
 
 
