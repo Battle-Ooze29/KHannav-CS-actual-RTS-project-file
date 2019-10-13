@@ -684,6 +684,7 @@ def astar(destinationx,destinationy,startx,starty):
     print("astar")
     #SETTING THE STARTNODE AND ENDNODE TO SEARCH FOR 
     startnode = node_list[(startx//tilesize)][(starty//tilesize)]
+    print("startnode")
     print(startnode.xpos)
     print(startnode.ypos)
     current = startnode
@@ -715,72 +716,72 @@ def astar(destinationx,destinationy,startx,starty):
                 lowestf = openlist[i].H_cost
                 current = lowestfnode
                 try:
+                    print("removing")
                     openlist.remove(current) 
                 except:
                     pass
 
-        #closedlist.append(current)
+            closedlist.append(current)
 
         if (current.xpos == destinationx) and (current.ypos == destinationy) :
             found = True
             return True
         else:
-            if ((len(closedlist ))<= 0):
-                x=(current.xpos)//tilesize
-                y=(current.ypos)//tilesize
-                #find each neighbour of the current
-                xrows = current.xpos//tilesize
-                yrows = current.ypos//tilesize
-                listofneighbours = []
-                #printing the postitions
-                print("the postitions")
-                print(xrows)
-                print(yrows)
-                #finding neighbours 
-                left = True
-                right = True
-                top = True
-                below = True
-                if xrows ==0:
-                    left = False
-                if xrows == 9:
-                    right = False
-                if yrows == 0:
-                    top = False
-                if yrows == 9:
-                    below = False
-                    #l
-                if left == True:
-                    print("left")
-                    listofneighbours.append(node_list[(y)][(x-1)])
-                    #ld
-                if (left == True) and (below ==True):
-                    print("left1")
-                    listofneighbours.append(node_list[(y+1)][(x-1)])
-                    #d
-                if below == True:
-                    print("left2")
-                    listofneighbours.append(node_list[(y+1)][(x)])
-                    #dr
-                if (below == True)and(right == True):
-                    print("left3")
-                    listofneighbours.append(node_list[(y+1)][(x+1)])
-                    #r
-                if right == True:
-                    print("left4")
-                    listofneighbours.append(node_list[(y)][(x+1)])
-                    #rt
-                if (right ==True )and(top == True):
-                    print("left5")
-                    listofneighbours.append(node_list[(y-1)][(x+1)])
-                    #t
-                if top == True:
-                    print("left6")
-                    listofneighbours.append(node_list[(y-1)][(x)])
-                    #tl
-                if (top==True)and(left==True):
-                    print("left7")
-                    listofneighbours.append(node_list[(y-1)][(x-1)])
+            x=(current.xpos)//tilesize
+            y=(current.ypos)//tilesize
+            #find each neighbour of the current
+            xrows = current.xpos//tilesize
+            yrows = current.ypos//tilesize
+            listofneighbours = []
+            #printing the postitions
+            print("the postitions")
+            print(xrows)
+            print(yrows)
+            #finding neighbours 
+            left = True
+            right = True
+            top = True
+            below = True
+            if xrows ==0:
+                left = False
+            if xrows == 9:
+                right = False
+            if yrows == 0:
+                top = False
+            if yrows == 9:
+                below = False
+                #l
+            if left == True:
+                print("left")
+                listofneighbours.append(node_list[(y)][(x-1)])
+                #ld
+            if (left == True) and (below ==True):
+                print("left1")
+                listofneighbours.append(node_list[(y+1)][(x-1)])
+                #d
+            if below == True:
+                print("left2")
+                listofneighbours.append(node_list[(y+1)][(x)])
+                #dr
+            if (below == True)and(right == True):
+                print("left3")
+                listofneighbours.append(node_list[(y+1)][(x+1)])
+                #r
+            if right == True:
+                print("left4")
+                listofneighbours.append(node_list[(y)][(x+1)])
+                #rt
+            if (right ==True )and(top == True):
+                print("left5")
+                listofneighbours.append(node_list[(y-1)][(x+1)])
+                #t
+            if top == True:
+                print("left6")
+                listofneighbours.append(node_list[(y-1)][(x)])
+                #tl
+            if (top==True)and(left==True):
+                print("left7")
+                listofneighbours.append(node_list[(y-1)][(x-1)])
 
 #using while loops to loop through the lists and remove elements, cant use for as the length of the list changes
             searched = False
@@ -793,7 +794,7 @@ def astar(destinationx,destinationy,startx,starty):
                 searchk = False
                 #checks if there are elements in the closed list to check
                 try:
-                    print(closedlist[0])
+                    x =(closedlist[0])
 
                 except IndexError:
                     searchk = True
