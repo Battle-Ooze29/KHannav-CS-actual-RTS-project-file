@@ -690,15 +690,19 @@ def astar(destinationx,destinationy,startx,starty):
     print(startnode.xpos)
     print(startnode.ypos)
     current = startnode
+    print(current.xpos)
+    print(current.ypos)
     #initialising lists to use in the algo
     shortest = 0
     openlist = []
     closedlist = []
     openlist.append(startnode)
     #starting at a 
-    lowestfnode = 10000000000000000000000000
+    lowestfnode = current.H_cost
     endnode = node_list[destinationx//tilesize][destinationy//tilesize]
-    #loops through and sets the destinations of the nodes,this will then be used to calculate the heuristic 
+    #loops through and sets the destinations of the nodes,this will then be used to calculate the heuristic
+    pygame.draw.rect(DISPLAY,blue,(current.xpos//tilesize,current.ypos//tilesize,current.xpos//tilesize+5,current.ypos//tilesize+5))
+    pygame.display.flip()
     for i in range(9):
         for j in range(9):
             if node_list[j][i] == None:
@@ -1179,11 +1183,11 @@ while True:
         destinationxcords = (destination[0])//tilesize
         destinationycords = (destination[1])//tilesize
         if ((len(player_armyhighlight))) == 1:
-            print("doing things")
-            print(destination[0])
-            print(destination[1])
-            print(player_armyhighlight[0].xpost)
-            print(player_armyhighlight[0].ypost)
+##            print("doing things")
+##            print(destination[0])
+##            print(destination[1])
+##            print(player_armyhighlight[0].xpost)
+##            print(player_armyhighlight[0].ypost)
             path = astar(destination[0],destination[1],player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
             #movement = move(destination[0],destination[1],player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
             print("path has been found")
