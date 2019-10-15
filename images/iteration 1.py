@@ -680,11 +680,9 @@ def shortestpath(listofneighbours,shortest):
 ##        return True
 def astar(destinationx,destinationy,startx,starty):
     
-    lowesth = 1000000000000000000000000000000000000
+    #lowesth = 1000000000000000000000000000000000000
     print("astar")
     #SETTING THE STARTNODE AND ENDNODE TO SEARCH FOR
-    print(startx)
-    print(starty)
     startnode = node_list[(startx//tilesize)][(starty//tilesize)]
     print("startnode")
     print(startnode.xpos)
@@ -700,8 +698,13 @@ def astar(destinationx,destinationy,startx,starty):
     #starting at a 
     lowestfnode = current.H_cost
     endnode = node_list[destinationx//tilesize][destinationy//tilesize]
+    print("first rect")
     #loops through and sets the destinations of the nodes,this will then be used to calculate the heuristic
-    pygame.draw.rect(DISPLAY,blue,(current.xpos//tilesize,current.ypos//tilesize,current.xpos//tilesize+5,current.ypos//tilesize+5))
+    pygame.draw.rect(DISPLAY,blue,(current.xpos,current.ypos,current.xpos+5,current.ypos+5))
+    print(endnode.ypos+5)
+    print(endnode.xpos)
+    pygame.draw.rect(DISPLAY,YELLOW,(endnode.xpos,endnode.ypos,endnode.xpos+5,endnode.ypos+5))
+    print("drawn")
     pygame.display.flip()
     for i in range(9):
         for j in range(9):
