@@ -413,8 +413,8 @@ class node():
             self.childy =py
 #constructor for the node 
     def __init__(self,xpost,ypost):
-        self.xpos = xpost
-        self.ypos = ypost
+        self.xpos = xpost*tilesize
+        self.ypos = ypost*tilesize
         self.distance_travelled = 0
         
 
@@ -679,17 +679,14 @@ def shortestpath(listofneighbours,shortest):
 ##    else:
 ##        return True
 def astar(destinationx,destinationy,startx,starty):
-    
-    #lowesth = 1000000000000000000000000000000000000
+    print(destinationx)
+    print(destinationy)
+    lowesth = 1000000000000000000000000000000000000
     print("astar")
-    #SETTING THE STARTNODE AND ENDNODE TO SEARCH FOR
+    #SETTING THE STARTNODE
     startnode = node_list[(startx//tilesize)][(starty//tilesize)]
-    print("startnode")
-    print(startnode.xpos)
-    print(startnode.ypos)
+    endnode = node_list[destinationx//tilesize][destinationy//tilesize]
     current = startnode
-    print(current.xpos)
-    print(current.ypos)
     #initialising lists to use in the algo
     shortest = 0
     openlist = []
@@ -697,14 +694,10 @@ def astar(destinationx,destinationy,startx,starty):
     openlist.append(startnode)
     #starting at a 
     lowestfnode = current.H_cost
-    endnode = node_list[destinationx//tilesize][destinationy//tilesize]
-    print("first rect")
+
     #loops through and sets the destinations of the nodes,this will then be used to calculate the heuristic
-    pygame.draw.rect(DISPLAY,blue,(current.xpos,current.ypos,current.xpos+5,current.ypos+5))
-    print(endnode.ypos+5)
-    print(endnode.xpos)
-    pygame.draw.rect(DISPLAY,YELLOW,(endnode.xpos,endnode.ypos,endnode.xpos+5,endnode.ypos+5))
-    print("drawn")
+    pygame.draw.rect(DISPLAY,blue,((startnode.xpos,startnode.ypos),(10,10)))
+    pygame.draw.rect(DISPLAY,YELLOW,((endnode.xpos,endnode.ypos),(10,10)))
     pygame.display.flip()
     for i in range(9):
         for j in range(9):
@@ -725,7 +718,7 @@ def astar(destinationx,destinationy,startx,starty):
                 lowestf = openlist[i].H_cost
                 print("new current")
                 current = lowestfnode
-                pygame.draw.rect(DISPLAY,blue,(current.xpos//tilesize,current.ypos//tilesize,current.xpos//tilesize+5,current.ypos//tilesize+5))
+                pygame.draw.rect(DISPLAY,blue,(current.xpos,current.ypos,(10,10)))
                 pygame.display.flip()
 
                 try:
