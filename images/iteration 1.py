@@ -697,9 +697,6 @@ def astar(destinationx,destinationy,startx,starty):
     #loops through and sets the destinations of the nodes,this will then be used to calculate the heuristic
     pygame.draw.rect(DISPLAY,BLACK,((startnode.xpos,startnode.ypos),(10,10)))
     pygame.draw.rect(DISPLAY,YELLOW,((endnode.xpos,endnode.ypos),(10,10)))
-    print("endnode cords")
-    print(endnode.xpos//tilesize)
-    print(endnode.ypos//tilesize)
     pygame.display.flip()
     for i in range(9):
         for j in range(9):
@@ -814,6 +811,8 @@ def astar(destinationx,destinationy,startx,starty):
                 i +=1
                 if i == len(listofneighbours):
                     searched = True
+            print("reduced list of neighbours")
+            print(len(listofneighbours))
             
                     
 
