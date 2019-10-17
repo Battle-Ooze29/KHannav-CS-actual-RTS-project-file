@@ -396,7 +396,7 @@ class node():
     def updatetogo(self,destx,desty):
         DISTANCE = (((destx -self.xpos)**2) + (desty-self.ypos)**2)
         DISTANCE = int(round(DISTANCE**0.5))
-        return DISTANCE
+        distance_togo = DISTANCE
 #updates where the parent node is 
     def updateparent (self,px,py):
         if px!=self.parentx:
@@ -695,23 +695,26 @@ def astar(destinationx,destinationy,startx,starty):
     #starting at a 
     lowestfnode = current.H_cost
     #loops through and sets the destinations of the nodes,this will then be used to calculate the heuristic
-    pygame.draw.rect(DISPLAY,BLACK,((startnode.xpos,startnode.ypos),(10,10)))
-    pygame.draw.rect(DISPLAY,YELLOW,((endnode.xpos,endnode.ypos),(10,10)))
+    pygame.draw.rect(DISPLAY,BLACK,((startnode.xpos,startnode.ypos),(20,20)))
+    pygame.draw.rect(DISPLAY,YELLOW,((endnode.xpos,endnode.ypos),(20,20)))
     pygame.display.flip()
     for i in range(9):
         for j in range(9):
-            if node_list[j][i] == None:
+            if node_list[i][j] == None:
                 pass
             else:
-                node_list[j][i].updatetogo(destinationx,destinationy)            
+                node_list[i][j].updatetogo(destinationx,destinationy)            
  
 
     found = False
     count = 0
 
     while found ==False:
-        
+        #h cost is the total cost of the node
+        print("before the loop")
+        #isse found openlist is 0 so this loop isnt running, prospective neighbours are not being added 
         for i in range(len(openlist)):
+            print("h is being checked")
             if openlist[i].H_cost <= lowesth:
                 lowestfnode = openlist[i]
                 lowestf = openlist[i].H_cost
@@ -733,6 +736,7 @@ def astar(destinationx,destinationy,startx,starty):
             found = True
             return True
         else:
+            #tested-workds
             x=0
             y=0
             x=(current.xpos)//tilesize
@@ -780,6 +784,7 @@ def astar(destinationx,destinationy,startx,starty):
                 listofneighbours.append(node_list[(y-1)][(x-1)])
 
 #using while loops to loop through the lists and remove elements, cant use for as the length of the list changes
+            #THIS WORKS-tested
             searched = False
             i = 0
             while searched == False:
@@ -811,12 +816,6 @@ def astar(destinationx,destinationy,startx,starty):
                 i +=1
                 if i == len(listofneighbours):
                     searched = True
-            print("reduced list of neighbours")
-            print(len(listofneighbours))
-            
-                    
-
-
 
                     #i+=1
     #now have a list of traversable neighbours
@@ -838,7 +837,7 @@ def astar(destinationx,destinationy,startx,starty):
     #set the parent of this node to current
     #if neighbour is not in open then add to open 
 
-#remove the elements 
+#remove the elements which have are already qued to be searched 
     todelete = []
     present = False
     for i in range(len(listofneighbours)):
