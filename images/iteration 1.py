@@ -734,7 +734,6 @@ def astar(destinationx,destinationy,startx,starty):
             found = True
             return True
         else:
-            print("into lop")
             x=0
             y=0
             x=(current.xpos)//tilesize
