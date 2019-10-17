@@ -374,9 +374,9 @@ class node():
     #record parent
     parentx = 0
     parenty = 0
-    #record child
-    childx = 0
-    childy = 0
+##    #record child
+##    childx = 0
+##    childy = 0
     #gcost
     distance_travelled = 0
     #f cost
@@ -404,11 +404,11 @@ class node():
         if py!=self.parenty:
             self.parenty =py//tilesize
 #updates the child of the node
-    def updatechild (self,px,py):
-        if px!=self.childx:
-            self.childx = px
-        if py!=self.childy:
-            self.childy =py
+##    def updatechild (self,px,py):
+##        if px!=self.childx:
+##            self.childx = px
+##        if py!=self.childy:
+##            self.childy =py
 #constructor for the node 
     def __init__(self,xpost,ypost):
         self.xpos = xpost
@@ -710,7 +710,6 @@ def astar(destinationx,destinationy,startx,starty):
     count = 0 
     while found ==False:
         #h cost is the total cost of the node
-        print("before the loop")
         #isse found openlist is 0 so this loop isnt running, prospective neighbours are not being added
         lowesth =10000000000
         for i in range(len(openlist)):
@@ -800,44 +799,6 @@ def astar(destinationx,destinationy,startx,starty):
             templist = [x for x in listofneighbours if x not in (listtodelete)]
             listofneighbours = templist
 
-####            searched = False
-####            i = 0
-####            while searched == False:
-####                print("searching")
-####                if listofneighbours[i] == None:
-####                    try:
-####                        print("removed none")
-####                        listofneighbours.remove(listofneighbours[i])
-####                    except:
-####                        print("failed to remove a none")
-####                        pass
-####                k = 0
-####                searchk = False
-####                #checks if there are elements in the closed list to check
-####                try:
-####                    x =(closedlist[0])
-####
-####                except IndexError:
-####                    searchk = True
-####                #search through the closed list 
-####                while searchk == False:
-####                    if closedlist[k] == listofneighbours[i]:
-####                        try:
-####                            print("removed something in closed")
-####                            listofneighours.remove(listofneighbours[i])
-####                        except:
-####                            print("failed to remove a seached")
-####                            pass
-####                    if k == (len(closedlist)):
-####                        searchk = True
-####                    k +=1
-####
-####
-####
-####                i +=1
-####                if i == (len(listofneighbours)):
-####                    searched = True
-
                     #i+=1
     #now have a list of traversable neighbours
     #       for i in range(len(listofneighbours)):
@@ -845,38 +806,27 @@ def astar(destinationx,destinationy,startx,starty):
     #         listofneighbours[i].updatetrav(xrows,yrows)
     #updated the neighbours with their distance to go and travelled
     #loops thru neighbours and picks the one with the shortest distance 
-
-
-    #set the f cost
-    #set the parent of this node to current
-    #if neighbour is not in open then add to open 
-
 #remove the elements which have are already qued to be searched
-        print("in the bit that doesnt work")
         todelete = []
         present = False
-        print(len(listofneighbours))
         for i in range(len(listofneighbours)):
             for k in range(len(openlist)):
                 if listofneighbours[i] == openlist[k]:
                     todelete.append(listofneighbours[i])
-            #actually removes
+            #actually removes the items this lets me utilise an easy for next loop to find the elements rather than logically confusing while loops
             templist = [x for x in listofneighbours if x not in (todelete)]
-
             listofneighbours = templist
             for i in range (len(listofneighbours)):
                 listofneighbours[i].updatetrav(current.xpos,current.ypos)
                 listofneighbours[i].updatetogo(destinationx,destinationy,current.xpos,current.ypos)
                 listofneighbours[i].updateparent(current.xpos,current.ypos)
-    #            current.updatechild(listofneighbours[i].xpos,listofneighbours[i].ypos)
                 current = listofneighbours[i]
                 for i in range(len(openlist)):
                     if openlist[i] == current:
                         pass
                     else:
                         openlist.append(current)
-
-
+                        print(len(openlist))
 
     #distances have been updated
                         #now check the path lengths 
@@ -888,13 +838,13 @@ def astar(destinationx,destinationy,startx,starty):
                     listofneighbours[i].updatetrav(current.xpos,current.ypos)
                     listofneighbours[i].updatetogo(destinationx,destinationy,current.xpos,current.ypos)
                     listofneighbours[i].updateparent(current.xpos,current.ypos)
-        #            current.updatechild(listofneighbours[i].xpos,listofneighbours[i].ypos)
                     current = listofneighbours[i]
                     for i in range(len(openlist)):
                         if openlist[i] == current:
                             pass
                         else:
                             openlist.append(current)
+                            print(len(openlist))
                     
         
                     
