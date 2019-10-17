@@ -98,8 +98,6 @@ map1 = [["F","F","F","F","F","F","F","F","F","F"],
         ["F","F","F","F","F","F","F","F","F","F"],
         ]
 
-
-
 #postitioning functiont
 def postition(x,y):
     #x
@@ -318,8 +316,8 @@ class swordsman(unit):
     icon = 0
     def __init__(self):
         self.icon = scaleunit('swordsman.PNG')
-        self.xpost = 50
-        self.ypost = 50
+        self.xpost = 80
+        self.ypost = 250
 
 
 #class archer
@@ -681,12 +679,13 @@ def shortestpath(listofneighbours,shortest):
 def astar(destinationx,destinationy,startx,starty):
     lowesth = 1000000000000000000000000000000000000
     #SETTING THE STARTNODE
-    startnode = node_list[(startx//tilesize)][(starty//tilesize)]
-    endnode = node_list[destinationx][destinationy]
+    startnode = node_list[(starty//tilesize)][(startx//tilesize)]
+    endnode = node_list[destinationy][destinationx]
     if endnode ==  None:
         pygame.draw.rect(DISPLAY,WHITE,((destinationx)*tilesize,(destinationy*tilesize),10,10))
         print("its NOOOONE")
         return False
+
     current = startnode
     #initialising lists to use in the algo
     shortest = 0
@@ -697,7 +696,10 @@ def astar(destinationx,destinationy,startx,starty):
     lowestfnode = current.H_cost
     #loops through and sets the destinations of the nodes,this will then be used to calculate the heuristic
     pygame.draw.rect(DISPLAY,BLACK,((startnode.xpos,startnode.ypos),(10,10)))
-    pygame.draw.rect(DISPLAY,YELLOW,((endnode.ypos,endnode.xpos),(10,10)))
+    pygame.draw.rect(DISPLAY,YELLOW,((endnode.xpos,endnode.ypos),(10,10)))
+    print("endnode cords")
+    print(endnode.xpos//tilesize)
+    print(endnode.ypos//tilesize)
     pygame.display.flip()
     for i in range(9):
         for j in range(9):
@@ -1179,17 +1181,12 @@ while True:
         #sets the destination coordinated
         destination = []
         #destination.clear()
-        destination.append(mousex)
-        destination.append(mousey)
+        #destination.append(mousex)
+        #destination.append(mousey)
         #rounds the destination coordinates to a specific tile index 
-        destinationxcords = (destination[0])//tilesize
-        destinationycords = (destination[1])//tilesize
+        destinationxcords = (mousex//tilesize)
+        destinationycords = (mousey//tilesize)
         if ((len(player_armyhighlight))) == 1:
-##            print("doing things")
-##            print(destination[0])
-##            print(destination[1])
-##            print(player_armyhighlight[0].xpost)
-##            print(player_armyhighlight[0].ypost)
             path = astar(destinationxcords,destinationycords,player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
             #movement = move(destination[0],destination[1],player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
             print("path has been found")
