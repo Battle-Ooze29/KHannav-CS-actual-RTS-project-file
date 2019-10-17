@@ -393,16 +393,16 @@ class node():
         travelled = self.distance_travelled + dist
         return travelled
 #updates the distance from the destination
-    def updatetogo(self,destx,desty):
-        DISTANCE = (((destx -self.xpos)**2) + (desty-self.ypos)**2)
+    def updatetogo(self,destx,desty,currentx,currenty):
+        DISTANCE = (((destx -currentx)**2) + (desty-currenty)**2)
         DISTANCE = int(round(DISTANCE**0.5))
         distance_togo = DISTANCE
 #updates where the parent node is 
     def updateparent (self,px,py):
         if px!=self.parentx:
-            self.parentx = px
+            self.parentx = px//tilesize
         if py!=self.parenty:
-            self.parenty =py
+            self.parenty =py//tilesize
 #updates the child of the node
     def updatechild (self,px,py):
         if px!=self.childx:
@@ -703,12 +703,11 @@ def astar(destinationx,destinationy,startx,starty):
             if node_list[i][j] == None:
                 pass
             else:
-                node_list[i][j].updatetogo(destinationx,destinationy)            
+                node_list[i][j].updatetogo(destinationx,destinationy,current.xpos,current.ypos)            
  
 
     found = False
-    count = 0
-
+    count = 0 
     while found ==False:
         #h cost is the total cost of the node
         print("before the loop")
@@ -733,8 +732,14 @@ def astar(destinationx,destinationy,startx,starty):
             closedlist.append(current)
 
         if (current.xpos == (destinationx*tilesize)) and (current.ypos == (destinationy*tilesize)):
+            pathlist = []
             print("found")
             found = True
+            #need to follow the nodes to append to a list starting at the end
+            while node != startnode:
+                pathlist.append(current)
+                current = node_list[current.parenty][current.parentx]
+            print(pathlist)
             return True
         else:
             #tested-workds
@@ -842,13 +847,6 @@ def astar(destinationx,destinationy,startx,starty):
     #loops thru neighbours and picks the one with the shortest distance 
 
 
-
-    #check if is in openlist
-        #if not then search 
-    #if is the shortest path-----#to do this need to loop through the entire list and check their distances
-        #select shortest
-        #search
-
     #set the f cost
     #set the parent of this node to current
     #if neighbour is not in open then add to open 
@@ -860,20 +858,15 @@ def astar(destinationx,destinationy,startx,starty):
         print(len(listofneighbours))
         for i in range(len(listofneighbours)):
             for k in range(len(openlist)):
-                print("openlistsearch")
                 if listofneighbours[i] == openlist[k]:
-                    print("removed element")
                     todelete.append(listofneighbours[i])
-                print(len(listofneighbours))
             #actually removes
             templist = [x for x in listofneighbours if x not in (todelete)]
-            print(len(listofneighbours))
+
             listofneighbours = templist
             for i in range (len(listofneighbours)):
-                if listofneighbours[i] == None:
-                    print("theres a none here1")
                 listofneighbours[i].updatetrav(current.xpos,current.ypos)
-                listofneighbours[i].updatetogo(destinationx,destinationy)
+                listofneighbours[i].updatetogo(destinationx,destinationy,current.xpos,current.ypos)
                 listofneighbours[i].updateparent(current.xpos,current.ypos)
     #            current.updatechild(listofneighbours[i].xpos,listofneighbours[i].ypos)
                 current = listofneighbours[i]
@@ -882,8 +875,7 @@ def astar(destinationx,destinationy,startx,starty):
                         pass
                     else:
                         openlist.append(current)
-                        print("the l of openlist is ")
-                        print(len(openlist))
+
 
 
     #distances have been updated
@@ -893,11 +885,8 @@ def astar(destinationx,destinationy,startx,starty):
                 lowestH = current.H_cost
                 if listofneighbours[i].H_cost <= lowestH:
                     lowestH = listofneighbours[i].H_cost
-                    if listofneighbours[i] == None:
-                        print("theres a none here2")
-                    print(listofneighbours[i])
                     listofneighbours[i].updatetrav(current.xpos,current.ypos)
-                    listofneighbours[i].updatetogo(destinationx,destinationy)
+                    listofneighbours[i].updatetogo(destinationx,destinationy,current.xpos,current.ypos)
                     listofneighbours[i].updateparent(current.xpos,current.ypos)
         #            current.updatechild(listofneighbours[i].xpos,listofneighbours[i].ypos)
                     current = listofneighbours[i]
