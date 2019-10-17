@@ -413,8 +413,8 @@ class node():
             self.childy =py
 #constructor for the node 
     def __init__(self,xpost,ypost):
-        self.xpos = xpost*tilesize
-        self.ypos = ypost*tilesize
+        self.xpos = xpost
+        self.ypos = ypost
         self.distance_travelled = 0
         
 
@@ -679,13 +679,14 @@ def shortestpath(listofneighbours,shortest):
 ##    else:
 ##        return True
 def astar(destinationx,destinationy,startx,starty):
-    print(destinationx)
-    print(destinationy)
     lowesth = 1000000000000000000000000000000000000
-    print("astar")
     #SETTING THE STARTNODE
     startnode = node_list[(startx//tilesize)][(starty//tilesize)]
-    endnode = node_list[destinationx//tilesize][destinationy//tilesize]
+    endnode = node_list[destinationx][destinationy]
+    if endnode ==  None:
+        pygame.draw.rect(DISPLAY,WHITE,((destinationx)*tilesize,(destinationy*tilesize),10,10))
+        print("its NOOOONE")
+        return False
     current = startnode
     #initialising lists to use in the algo
     shortest = 0
@@ -694,10 +695,9 @@ def astar(destinationx,destinationy,startx,starty):
     openlist.append(startnode)
     #starting at a 
     lowestfnode = current.H_cost
-
     #loops through and sets the destinations of the nodes,this will then be used to calculate the heuristic
-    pygame.draw.rect(DISPLAY,blue,((startnode.xpos,startnode.ypos),(10,10)))
-    pygame.draw.rect(DISPLAY,YELLOW,((endnode.xpos,endnode.ypos),(10,10)))
+    pygame.draw.rect(DISPLAY,BLACK,((startnode.xpos,startnode.ypos),(10,10)))
+    pygame.draw.rect(DISPLAY,YELLOW,((endnode.ypos,endnode.xpos),(10,10)))
     pygame.display.flip()
     for i in range(9):
         for j in range(9):
@@ -716,22 +716,27 @@ def astar(destinationx,destinationy,startx,starty):
             if openlist[i].H_cost <= lowesth:
                 lowestfnode = openlist[i]
                 lowestf = openlist[i].H_cost
-                print("new current")
                 current = lowestfnode
-                pygame.draw.rect(DISPLAY,blue,(current.xpos,current.ypos,(10,10)))
+                print("current has changed")
+                pygame.draw.rect(DISPLAY,blue,(current.xpos,current.ypos,10,10))
                 pygame.display.flip()
 
                 try:
-                    openlist.remove(current) 
+                    openlist.remove(current)
+                    print("removed current")
                 except:
                     pass
 
             closedlist.append(current)
 
-        if (current.xpos == destinationx) and (current.ypos == destinationy) :
+        if (current.xpos == (destinationx*tilesize)) and (current.ypos == (destinationy*tilesize)):
+            print("found")
             found = True
             return True
         else:
+            print("into lop")
+            x=0
+            y=0
             x=(current.xpos)//tilesize
             y=(current.ypos)//tilesize
             #find each neighbour of the current
@@ -808,6 +813,7 @@ def astar(destinationx,destinationy,startx,starty):
                 i +=1
                 if i == len(listofneighbours):
                     searched = True
+            
                     
 
 
@@ -837,6 +843,7 @@ def astar(destinationx,destinationy,startx,starty):
     present = False
     for i in range(len(listofneighbours)):
         for k in range(len(openlist)):
+            print("openlistsearch")
             if listofneighbours[i] == openlist[k]:
                 todelete.append(listofneighbours[i])
 
@@ -1175,7 +1182,7 @@ while True:
         #destination.clear()
         destination.append(mousex)
         destination.append(mousey)
-        #rounds the destination coordinates to a specific tile 
+        #rounds the destination coordinates to a specific tile index 
         destinationxcords = (destination[0])//tilesize
         destinationycords = (destination[1])//tilesize
         if ((len(player_armyhighlight))) == 1:
@@ -1184,7 +1191,7 @@ while True:
 ##            print(destination[1])
 ##            print(player_armyhighlight[0].xpost)
 ##            print(player_armyhighlight[0].ypost)
-            path = astar(destination[0],destination[1],player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
+            path = astar(destinationxcords,destinationycords,player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
             #movement = move(destination[0],destination[1],player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
             print("path has been found")
             pass
