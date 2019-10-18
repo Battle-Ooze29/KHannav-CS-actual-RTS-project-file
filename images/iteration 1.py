@@ -800,44 +800,6 @@ def astar(destinationx,destinationy,startx,starty):
             templist = [x for x in listofneighbours if x not in (listtodelete)]
             listofneighbours = templist
 
-####            searched = False
-####            i = 0
-####            while searched == False:
-####                print("searching")
-####                if listofneighbours[i] == None:
-####                    try:
-####                        print("removed none")
-####                        listofneighbours.remove(listofneighbours[i])
-####                    except:
-####                        print("failed to remove a none")
-####                        pass
-####                k = 0
-####                searchk = False
-####                #checks if there are elements in the closed list to check
-####                try:
-####                    x =(closedlist[0])
-####
-####                except IndexError:
-####                    searchk = True
-####                #search through the closed list 
-####                while searchk == False:
-####                    if closedlist[k] == listofneighbours[i]:
-####                        try:
-####                            print("removed something in closed")
-####                            listofneighours.remove(listofneighbours[i])
-####                        except:
-####                            print("failed to remove a seached")
-####                            pass
-####                    if k == (len(closedlist)):
-####                        searchk = True
-####                    k +=1
-####
-####
-####
-####                i +=1
-####                if i == (len(listofneighbours)):
-####                    searched = True
-
                     #i+=1
     #now have a list of traversable neighbours
     #       for i in range(len(listofneighbours)):
