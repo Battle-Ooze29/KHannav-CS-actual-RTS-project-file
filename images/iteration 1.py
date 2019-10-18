@@ -659,25 +659,7 @@ clock = Clock()
 
 ###################################################################
 # a star,#insert error checking so that only coodinates which also have nodes are passed in ie check the pciked location and change to nearest tile if impassabl#need to update nodes beforehand to have h cost for the corect destination  
-##def shortestpath(listofneighbours,shortest):
-##    changecheck = shortest
-##    for i in range(len(listofneighbours)):
-##        if listofneighbours[i].distance_travelled <= shortest.distance_travelled:
-##            shortest = listofneighbours[i]
-##    if changecheck.distance_travelled < shortest.distance_travelled:
-##        return False
-##    else:
-##        return True
-    
-##def neighbouropen(listofneighbours,openlist):
-##    for j in range(len(listofneighbours)):
-##        for i in range(len(openlist)):
-##            if listofneighbours[i][j] == openlist[i]:
-##                inopen = True
-##    if inopen == True:
-##        return False
-##    else:
-##        return True
+
 
 def astar(destinationx,destinationy,startx,starty):
     lowesttogo = 10000000
@@ -705,13 +687,12 @@ def astar(destinationx,destinationy,startx,starty):
         lowesth =1000000000
         pygame.draw.rect(DISPLAY,blue,(current.xpos,current.ypos,10,10))
         pygame.display.flip()
-
+        lowesth = 10000
         
         for i in range(len(openlist)):
-            openlist[i].updatetogo(destinationx,destinationy)
-            if openlist[i].distance_togo <= lowesttogo:
+            if openlist[i].H_cost <= lowesth:
                 lowesttogonode = openlist[i]
-                lowesttogo = openlist[i].distance_togo
+                lowesth = openlist[i].H_cost
             current = lowesttogonode
                 
         openlist.remove(current)
