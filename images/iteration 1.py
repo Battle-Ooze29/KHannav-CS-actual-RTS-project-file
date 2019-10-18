@@ -657,35 +657,14 @@ clock = Clock()
 
 ###################################################################
 # a star,#insert error checking so that only coodinates which also have nodes are passed in ie check the pciked location and change to nearest tile if impassabl#need to update nodes beforehand to have h cost for the corect destination  
-def shortestpath(listofneighbours,shortest):
-    changecheck = shortest
-    for i in range(len(listofneighbours)):
-        if listofneighbours[i].distance_travelled <= shortest.distance_travelled:
-            shortest = listofneighbours[i]
-    if changecheck.distance_travelled < shortest.distance_travelled:
-        return False
-    else:
-        return True
-    
-##def neighbouropen(listofneighbours,openlist):
-##    for j in range(len(listofneighbours)):
-##        for i in range(len(openlist)):
-##            if listofneighbours[i][j] == openlist[i]:
-##                inopen = True
-##    if inopen == True:
-##        return False
-##    else:
-##        return True
+
 def astar(destinationx,destinationy,startx,starty):
-    lowesth = 1000000000000000000000000000000000000
-    #SETTING THE STARTNODE
+##    print(destinationx)
+##    print(destinationy)
+    lowesth = 10000000000
+    #SETTING THE STARTNODE and endnode
     startnode = node_list[(starty//tilesize)][(startx//tilesize)]
     endnode = node_list[destinationy][destinationx]
-    if endnode ==  None:
-        pygame.draw.rect(DISPLAY,WHITE,((destinationx)*tilesize,(destinationy*tilesize),10,10))
-        print("its NOOOONE")
-        return False
-
     current = startnode
     #initialising lists to use in the algo
     shortest = 0
@@ -698,26 +677,22 @@ def astar(destinationx,destinationy,startx,starty):
     pygame.draw.rect(DISPLAY,BLACK,((startnode.xpos,startnode.ypos),(20,20)))
     pygame.draw.rect(DISPLAY,YELLOW,((endnode.xpos,endnode.ypos),(20,20)))
     pygame.display.flip()
-    for i in range(9):
-        for j in range(9):
-            if node_list[i][j] == None:
-                pass
-            else:
-                node_list[i][j].updatetogo(destinationx,destinationy,current.xpos,current.ypos)            
- 
-
     found = False
     count = 0 
+
+    if endnode == None:
+        return False
+
     while found ==False:
         #h cost is the total cost of the node
         #isse found openlist is 0 so this loop isnt running, prospective neighbours are not being added
-        lowesth =10000000000
+        travelled =10000000000
         for i in range(len(openlist)):
             print("h is being checked")
-            if openlist[i].H_cost <= lowesth:
-                lowestfnode = openlist[i]
-                lowestf = openlist[i].H_cost
-                current = lowestfnode
+            if openlist[i].distance_travelled <= travelled:
+                lowestgnode = openlist[i]
+                travelled = openlist[i].distance_travelled
+                current = lowestgnode
                 print("current has changed")
                 pygame.draw.rect(DISPLAY,blue,(current.xpos,current.ypos,10,10))
                 pygame.display.flip()
@@ -730,16 +705,23 @@ def astar(destinationx,destinationy,startx,starty):
 
             closedlist.append(current)
 
+#LOOP HHAS FOUND THE DESTINATION
         if (current.xpos == (destinationx*tilesize)) and (current.ypos == (destinationy*tilesize)):
             pathlist = []
             print("found")
             found = True
             #need to follow the nodes to append to a list starting at the end
-            while node != startnode:
+            print("dying")
+            while current != startnode:
+                print("dead")
                 pathlist.append(current)
+                pygame.draw.rect(DISPLAY,blue,(current.xpos,current.ypos,15,15))
                 current = node_list[current.parenty][current.parentx]
             print(pathlist)
             return True
+
+
+
         else:
             #tested-workds
             x=0
@@ -789,6 +771,7 @@ def astar(destinationx,destinationy,startx,starty):
                 listofneighbours.append(node_list[(y-1)][(x-1)])
 
 #using while loops to loop through the lists and remove elements, cant use for as the length of the list changes
+            #WORKS 
             listtodelete = []
             for i in range(len(listofneighbours)):
                 if listofneighbours[i] == None:
@@ -796,6 +779,10 @@ def astar(destinationx,destinationy,startx,starty):
                 for k in range(len(closedlist)):
                     if closedlist[k] == listofneighbours[i]:
                         listtodelete.append(listofneighbours[i])
+                #for g in range(len(openlist)):
+                #    if listofneighbours[i] == openlist[g]:
+                #        listtodelete.append(listofneighbours[i])
+            #REMOVES THE UNWANTED ELEMMENTS 
             templist = [x for x in listofneighbours if x not in (listtodelete)]
             listofneighbours = templist
 
@@ -808,25 +795,17 @@ def astar(destinationx,destinationy,startx,starty):
     #loops thru neighbours and picks the one with the shortest distance 
 #remove the elements which have are already qued to be searched
         todelete = []
-        present = False
-        for i in range(len(listofneighbours)):
-            for k in range(len(openlist)):
-                if listofneighbours[i] == openlist[k]:
-                    todelete.append(listofneighbours[i])
-            #actually removes the items this lets me utilise an easy for next loop to find the elements rather than logically confusing while loops
-            templist = [x for x in listofneighbours if x not in (todelete)]
-            listofneighbours = templist
-            for i in range (len(listofneighbours)):
-                listofneighbours[i].updatetrav(current.xpos,current.ypos)
-                listofneighbours[i].updatetogo(destinationx,destinationy,current.xpos,current.ypos)
-                listofneighbours[i].updateparent(current.xpos,current.ypos)
-                current = listofneighbours[i]
-                for i in range(len(openlist)):
-                    if openlist[i] == current:
-                        pass
-                    else:
-                        openlist.append(current)
-                        print(len(openlist))
+        for i in range (len(listofneighbours)):
+            listofneighbours[i].updatetrav(current.xpos,current.ypos)
+            listofneighbours[i].updatetogo(destinationx,destinationy,current.xpos,current.ypos)
+            listofneighbours[i].updateparent(current.xpos,current.ypos)
+            current = listofneighbours[i]
+            for i in range(len(openlist)):
+                if openlist[i] == current:
+                    pass
+                else:
+                    openlist.append(current)
+                    print(len(openlist))
 
     #distances have been updated
                         #now check the path lengths 
