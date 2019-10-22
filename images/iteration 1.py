@@ -374,43 +374,48 @@ class node():
     #record parent
     parentx = 0
     parenty = 0
-    #tcost
+    #tcost- the speed modifier of the terrain type 
     tcost = 1
     #gcost
     distance_travelled = 0
     #f cost
-    distance_togo = 0#heuristic cost
-    #overall cost 
+    distance_togo = 0
+    #overall cost- this is the total heuristic, found by summing teh g,f and t cost
     H_cost = 0
 #updating the distance travelled
     #looks at parent
     #calculates cost to move to the current tile and adds the cost
+
     def updateH(self):
-        self.H_cost = self.distance_travelled+self.distance_togo+self.tcost
+        self.H_cost = (self.distance_travelled)+(self.distance_togo)+(self.tcost)
+
     def updatetrav(self,parentx,parenty):
         if (parentx != self.xpos) and (parenty != self.ypos):
             dist = 14
         else:
             dist = 10
-        travelled = self.distance_travelled + dist
-        return travelled
-#updates the distance from the destination
+        self.distance_travelled = self.distance_travelled + dist
+        #updates the distance from the destination
+
     def updatetogo(self,destx,desty):
         DISTANCE = (((destx -self.xpos)**2) + (desty-self.xpos)**2)
         DISTANCE = int(round(DISTANCE**0.5))
         distance_togo = DISTANCE
+
 #updates where the parent node is 
     def updateparent (self,px,py):
         if px!=self.parentx:
             self.parentx = px//tilesize
         if py!=self.parenty:
             self.parenty =py//tilesize
+
 #updates the child of the node
     def updatechild (self,px,py):
         if px!=self.childx:
             self.childx = px
         if py!=self.childy:
             self.childy =py
+
 #constructor for the node 
     def __init__(self,xpost,ypost):
         self.xpos = xpost
@@ -1144,14 +1149,9 @@ while True:
             pass
                 
 
-
 ##########################################################################   A STAR####################################
 
-    
 #movement function will be a modified version of a star with localised checks 
-
-
-
 
 ##    if __name == "__main__":
 ##        format = "%(asctime)s: %(message)s"
