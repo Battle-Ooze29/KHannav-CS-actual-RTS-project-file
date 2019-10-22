@@ -392,12 +392,12 @@ class node():
 
     def updatetrav(self,startx,starty):
         #updates the distance from the destination
-        DISTANCE = (((positive(self.xpos-startx))**2) + (positive(self.ypos-starty))**2)
+        DISTANCE = (((positive((self.xpos//tilesize)-(startx//tilesize)))**2) + (positive((self.ypos//tilesize)-(starty//tilesize)))**2)
         DISTANCE = int(round(DISTANCE**0.5))
         self.gcost = self.gcost + DISTANCE
     #updates distance to go 
     def updatetogo(self,destx,desty):
-        DISTANCE = (((positive(destx -self.xpos))**2) + (positive(desty-self.xpos))**2)
+        DISTANCE = (((positive((destx//tilesize) -(self.xpos//tilesize)))**2) + (positive((desty//tilesize)-(self.xpos//tilesize)))**2)
         DISTANCE = int(round(DISTANCE**0.5))
         self.fcost = DISTANCE
 
@@ -689,14 +689,14 @@ def astar(destinationx,destinationy,startx,starty):
         #togo is the distance from that node to the destination
         #isse found openlist is 0 so this loop isnt running, prospective neighbours are not being added
         lowesth =10000000
-        pygame.draw.rect(DISPLAY,blue,(current.xpos,current.ypos,10,10))
-        pygame.display.flip()
 
         for i in range(len(openlist)):
             if openlist[i].fcost <= lowesth:
                 lowesttogonode = openlist[i]
                 lowesth = openlist[i].fcost
             current = lowesttogonode
+        pygame.draw.rect(DISPLAY,BLACK,(current.xpos,current.ypos,10,10))
+        pygame.display.flip()
 
 
         openlist.remove(current)
@@ -707,17 +707,16 @@ def astar(destinationx,destinationy,startx,starty):
 ##                print("\n")
 
         closedlist.append(current)
-
-        if ((current.xpos//tilesize) == (destinationx)) and ((current.ypos//tilesize) == (destinationy*tilesize)):
+        if ((current.xpos//tilesize) == (destinationx)) and ((current.ypos//tilesize) == (destinationy)):
             pathlist = []
             print("found")
-            node = endnode
-            found = True
-            #need to follow the nodes to append to a list starting at the end
-            while node != startnode:
-                pathlist.append(current)
-                current = node_list[current.parenty][current.parentx]
-            print(pathlist)
+##            node = endnode
+##            found = True
+##            #need to follow the nodes to append to a list starting at the end
+##            while node != startnode:
+##                pathlist.append(current)
+##                current = node_list[current.parenty][current.parentx]
+##            print(pathlist)
             return True
 
 
@@ -802,9 +801,9 @@ def astar(destinationx,destinationy,startx,starty):
                 print("hcost")
                 print(listofneighbours[i].H_cost)
                 print("togo")
-                print(listofneighbours[i].gcost)
-                print("distance travelled")
                 print(listofneighbours[i].fcost)
+                print("distance travelled")
+                print(listofneighbours[i].gcost)
                 print("t cost")
                 print(listofneighbours[i].tcost)
             #now i have the list of valid neighbours and will pick the best option
