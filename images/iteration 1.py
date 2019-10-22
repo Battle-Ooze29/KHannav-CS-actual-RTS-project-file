@@ -387,20 +387,19 @@ class node():
     #calculates cost to move to the current tile and adds the cost
 
     def updateH(self):
-        self.H_cost = (self.distance_travelled)+(self.distance_togo)+(self.tcost)
+        self.H_cost = ((self.distance_travelled)+(self.distance_togo))*(self.tcost)
 
-    def updatetrav(self,parentx,parenty):
-        if (parentx != self.xpos) and (parenty != self.ypos):
-            dist = 14
-        else:
-            dist = 10
-        self.distance_travelled = self.distance_travelled + dist
+    def updatetrav(self,startx,starty):
+
         #updates the distance from the destination
+        DISTANCE = (((positive(self.xpos-startx))**2) + (positive(self.ypos-starty))**2)
+        DISTANCE = int(round(DISTANCE**0.5))
+        self.distance_travelled = DISTANCE
 
     def updatetogo(self,destx,desty):
-        DISTANCE = (((destx -self.xpos)**2) + (desty-self.xpos)**2)
+        DISTANCE = (((positive(destx -self.xpos))**2) + (positive(desty-self.xpos))**2)
         DISTANCE = int(round(DISTANCE**0.5))
-        distance_togo = DISTANCE
+        self.distance_togo = DISTANCE
 
 #updates where the parent node is 
     def updateparent (self,px,py):
@@ -689,10 +688,9 @@ def astar(destinationx,destinationy,startx,starty):
     while found ==False:
         #togo is the distance from that node to the destination
         #isse found openlist is 0 so this loop isnt running, prospective neighbours are not being added
-        lowesth =1000000000
+        lowesth =10000000
         pygame.draw.rect(DISPLAY,blue,(current.xpos,current.ypos,10,10))
         pygame.display.flip()
-        lowesth = 10000
         
         for i in range(len(openlist)):
             if openlist[i].H_cost <= lowesth:
@@ -709,7 +707,7 @@ def astar(destinationx,destinationy,startx,starty):
 
         closedlist.append(current)
 
-        if (current.xpos == (destinationx*tilesize)) and (current.ypos == (destinationy*tilesize)):
+        if ((current.xpos//tilesize) == (destinationx)) and ((current.ypos//tilesize) == (destinationy*tilesize)):
             pathlist = []
             print("found")
             node = endnode
@@ -787,13 +785,6 @@ def astar(destinationx,destinationy,startx,starty):
             templist = [x for x in listofneighbours if x not in (listtodelete)]
             listofneighbours = templist
 
-                    #i+=1
-    #now have a list of traversable neighbours
-    #       for i in range(len(listofneighbours)):
-    #          listofneighbours[i].updatetogo(destinationx,destinationy)
-    #         listofneighbours[i].updatetrav(xrows,yrows)
-    #updated the neighbours with their distance to go and travelled
-    #loops thru neighbours and picks the one with the shortest distance 
 
 
     #set the f cost
@@ -801,10 +792,10 @@ def astar(destinationx,destinationy,startx,starty):
     #if neighbour is not in open then add to open 
 #check if the new path is shorter
             for i in range (len(listofneighbours)):
-                listofneighbours[i].updatetrav(current.xpos,current.ypos)
+                listofneighbours[i].updatetrav(startnode.xpos,startnode.ypos)
                 listofneighbours[i].updatetogo(destinationx,destinationy)
                 listofneighbours[i].updateparent(current.xpos,current.ypos)
-                listofneighbours[i].tcost = mapOB[current.ypos//tilesize][current.xpos//tilesize].speedmod
+                listofneighbours[i].tcost = (mapOB[current.ypos//tilesize][current.xpos//tilesize]).speedmod
                 listofneighbours[i].updateH
             #now i have the list of valid neighbours and will pick the best option
             lowestH = 100000
@@ -814,12 +805,10 @@ def astar(destinationx,destinationy,startx,starty):
                     if lowestH >= listofneighbours[i].H_cost:
                         lowestH = listofneighbours[i].H_cost
                         lowestHnode = listofneighbours[i]
-                print(lowestHnode.xpos)
-                print(lowestHnode.ypos)
                 openlist.append(lowestHnode)
                         
 
-##
+
 ##    #distances have been updated
 ##                        #now check the path lengths 
 ##            
