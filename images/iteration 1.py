@@ -388,16 +388,16 @@ class node():
 
     def updateH(self,tcost):
         print("update h cost")
-        self.H_cost = ((self.gcost*tcost)+(self.fcost*0.8))
+        self.H_cost = (((self.gcost*tcost))+(self.fcost))
 
     def updatetrav(self,startx,starty):
         #updates the distance from the destination
-        DISTANCE = (((positive((self.xpos//tilesize)-(startx//tilesize)))**2) + (positive((self.ypos//tilesize)-(starty//tilesize)))**2)
+        DISTANCE = (((positive((self.xpos)-(startx)))**2) + (positive((self.ypos)-(starty)))**2)
         DISTANCE = int(round(DISTANCE**0.5))
-        self.gcost = self.gcost + DISTANCE
+        self.gcost = self.gcost
     #updates distance to go 
     def updatetogo(self,destx,desty):
-        DISTANCE = (((positive((destx//tilesize) -(self.xpos//tilesize)))**2) + (positive((desty//tilesize)-(self.xpos//tilesize)))**2)
+        DISTANCE = (((positive((destx) -(self.xpos)))**2) + (positive((desty)-(self.xpos)))**2)
         DISTANCE = int(round(DISTANCE**0.5))
         self.fcost = DISTANCE
 
@@ -408,12 +408,6 @@ class node():
         if py!=self.parenty:
             self.parenty =py//tilesize
 
-#updates the child of the node
-    def updatechild (self,px,py):
-        if px!=self.childx:
-            self.childx = px
-        if py!=self.childy:
-            self.childy =py
 
 #constructor for the node 
     def __init__(self,xpost,ypost):
