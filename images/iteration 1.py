@@ -376,30 +376,30 @@ class node():
     parenty = 0
     #tcost- the speed modifier of the terrain type 
     tcost = 1
-    #gcost
-    distance_travelled = 0
-    #f cost
-    distance_togo = 0
+    #gcost-this is the distance from the start postition
+    gcost = 0
+    #f cost-this is the distance left to travel from that node to the end node 
+    fcost = 0 
     #overall cost- this is the total heuristic, found by summing teh g,f and t cost
     H_cost = 0
 #updating the distance travelled
     #looks at parent
     #calculates cost to move to the current tile and adds the cost
 
-    def updateH(self):
-        self.H_cost = ((self.distance_travelled)+(self.distance_togo))*(self.tcost)
+    def updateH(self,tcost):
+        print("update h cost")
+        self.H_cost = ((self.gcost*tcost)+(self.fcost*0.8))
 
     def updatetrav(self,startx,starty):
-
         #updates the distance from the destination
         DISTANCE = (((positive(self.xpos-startx))**2) + (positive(self.ypos-starty))**2)
         DISTANCE = int(round(DISTANCE**0.5))
-        self.distance_travelled = DISTANCE
-
+        self.gcost = self.gcost + DISTANCE
+    #updates distance to go 
     def updatetogo(self,destx,desty):
         DISTANCE = (((positive(destx -self.xpos))**2) + (positive(desty-self.xpos))**2)
         DISTANCE = int(round(DISTANCE**0.5))
-        self.distance_togo = DISTANCE
+        self.fcost = DISTANCE
 
 #updates where the parent node is 
     def updateparent (self,px,py):
@@ -691,13 +691,14 @@ def astar(destinationx,destinationy,startx,starty):
         lowesth =10000000
         pygame.draw.rect(DISPLAY,blue,(current.xpos,current.ypos,10,10))
         pygame.display.flip()
-        
+
         for i in range(len(openlist)):
-            if openlist[i].H_cost <= lowesth:
+            if openlist[i].fcost <= lowesth:
                 lowesttogonode = openlist[i]
-                lowesth = openlist[i].H_cost
+                lowesth = openlist[i].fcost
             current = lowesttogonode
-                
+
+
         openlist.remove(current)
 ##            try:
 ## 
@@ -784,7 +785,8 @@ def astar(destinationx,destinationy,startx,starty):
                         listtodelete.append(listofneighbours[i])
             templist = [x for x in listofneighbours if x not in (listtodelete)]
             listofneighbours = templist
-
+            print("lenght of neighbours")
+            print(len(listofneighbours))
 
 
     #set the f cost
@@ -796,10 +798,18 @@ def astar(destinationx,destinationy,startx,starty):
                 listofneighbours[i].updatetogo(destinationx,destinationy)
                 listofneighbours[i].updateparent(current.xpos,current.ypos)
                 listofneighbours[i].tcost = (mapOB[current.ypos//tilesize][current.xpos//tilesize]).speedmod
-                listofneighbours[i].updateH
+                listofneighbours[i].updateH((mapOB[current.ypos//tilesize][current.xpos//tilesize]).speedmod)
+                print("hcost")
+                print(listofneighbours[i].H_cost)
+                print("togo")
+                print(listofneighbours[i].gcost)
+                print("distance travelled")
+                print(listofneighbours[i].fcost)
+                print("t cost")
+                print(listofneighbours[i].tcost)
             #now i have the list of valid neighbours and will pick the best option
             lowestH = 100000
-            if len(listofneighbours) >= 0:
+            if (len(listofneighbours)-1) >= 0:
                 lowestHnode = listofneighbours[0]
                 for i in range(len(listofneighbours)):
                     if lowestH >= listofneighbours[i].H_cost:
