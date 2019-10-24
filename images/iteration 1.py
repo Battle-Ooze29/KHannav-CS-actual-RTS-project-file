@@ -681,36 +681,42 @@ def astar(destinationx,destinationy,startx,starty):
     
     found = False
     count = 0 
-
+    openlist.append(current)
     while found ==False:
         #togo is the distance from that node to the destination
         #isse found openlist is 0 so this loop isnt running, prospective neighbours are not being added
 
         lowesth =100
-        for i in range(len(openlist)):
-            if openlist[i].H_cost <= lowesth:
+        for i in range((len(openlist))):
+            if openlist[i].H_cost < lowesth:
                 lowesttogonode = openlist[i]
                 lowesth = openlist[i].H_cost
-            current = lowesttogonode
+                print("printinghcost")
+                print(openlist[i].H_cost)
+        openlist.remove(lowesttogonode)
+        current = lowesttogonode
+        print(current.H_cost)
+        
         pygame.draw.rect(DISPLAY,BLACK,(current.xpos,current.ypos,10,10))
         pygame.display.flip()
 
-
-        openlist.remove(current)
-
-
         closedlist.append(current)
+        #openlist.remove(current)
+
+
+
         if ((current.xpos//tilesize) == (destinationx)) and ((current.ypos//tilesize) == (destinationy)):
             pathlist = []
             print("found")
-##            node = endnode
-##            found = True
-##            #need to follow the nodes to append to a list starting at the end
-##            while node != startnode:
-##                pathlist.append(current)
-##                current = node_list[current.parenty][current.parentx]
-##            print(pathlist)
-            return True
+            node = endnode
+            #need to follow the nodes to append to a list starting at the end
+            while node != startnode:
+                print("finding path")
+                pathlist.append(current)
+                current = node_list[current.parenty][current.parentx]
+                if node ==startnode:
+                    print(pathlist)
+                    return True
 
 
 
@@ -800,15 +806,16 @@ def astar(destinationx,destinationy,startx,starty):
                 print(listofneighbours[i].gcost)
                 print("t cost")
                 print(listofneighbours[i].tcost)
-            #now i have the list of valid neighbours and will pick the best option
-            lowestH = 100000
-            if (len(listofneighbours)-1) >= 0:
-                lowestHnode = listofneighbours[0]
-                for i in range(len(listofneighbours)):
-                    if lowestH >= listofneighbours[i].H_cost:
-                        lowestH = listofneighbours[i].H_cost
-                        lowestHnode = listofneighbours[i]
-                openlist.append(lowestHnode)
+                #now i have the list of valid neighbours and will pick the best option
+                openlist.append(listofneighbours[i])
+            #lowestH = 100000
+##            if (len(listofneighbours)-1) >= 0:
+##                lowestHnode = listofneighbours[0]
+##                for i in range(len(listofneighbours)):
+##                    if lowestH >= listofneighbours[i].H_cost:
+##                        lowestH = listofneighbours[i].H_cost
+##                        lowestHnode = listofneighbours[i]
+##                openlist.append(lowestHnode)
                         
 
 
