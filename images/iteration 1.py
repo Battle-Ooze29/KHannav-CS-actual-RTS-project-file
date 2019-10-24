@@ -377,6 +377,7 @@ class node():
     #tcost- the speed modifier of the terrain type 
     tcost = 1
     #gcost-this is the distance from the start postition
+    prevg = 0
     gcost = 0
     #f cost-this is the distance left to travel from that node to the end node 
     fcost = 0 
@@ -386,19 +387,20 @@ class node():
     #looks at parent
     #calculates cost to move to the current tile and adds the cost
 
-    def updateH(self,tcost):
+    def updateH(self):
         print("update h cost")
-        self.H_cost = (((self.gcost*tcost))+(self.fcost))
+        self.H_cost = (((self.prevg+(self.gcost*self.tcost)))+(self.fcost))
 
-    def updatetrav(self,startx,starty):
-        #updates the distance from the destination
-        DISTANCE = (((positive((self.xpos)-(startx)))**2) + (positive((self.ypos)-(starty)))**2)
-        DISTANCE = int(round(DISTANCE**0.5))
-        self.gcost = self.gcost
+    def updatetrav(self,startx,starty,prevx,prevy):
+        #updates the distance from the destination this is the g cost
+        self.prevg = self.gcost
+        DISTANCE = positive(positive((((self.xpos//tilesize)+1)-((prevx//tilesize)+1)) + positive(((self.ypos//tilesize)+1)-((prevy//tilesize)+1))))
+        self.gcost = DISTANCE 
+
+
     #updates distance to go 
     def updatetogo(self,destx,desty):
-        DISTANCE = (((positive((destx) -(self.xpos)))**2) + (positive((desty)-(self.xpos)))**2)
-        DISTANCE = int(round(DISTANCE**0.5))
+        DISTANCE = positive(((positive((destx//tilesize)+1) -((self.xpos//tilesize+1)))) + ((positive((desty//tilesize)+1))-((self.xpos//tilesize)+1)))
         self.fcost = DISTANCE
 
 #updates where the parent node is 
@@ -669,7 +671,7 @@ def astar(destinationx,destinationy,startx,starty):
     openlist = []
     closedlist = []
     openlist.append(startnode)
-    #starting at a
+    #starting node
     current = startnode
     lowesttogonode = current
     #loops through and sets the destinations of the nodes,this will then be used to calculate the heuristic
@@ -679,26 +681,23 @@ def astar(destinationx,destinationy,startx,starty):
     
     found = False
     count = 0 
+
     while found ==False:
         #togo is the distance from that node to the destination
         #isse found openlist is 0 so this loop isnt running, prospective neighbours are not being added
-        lowesth =10000000
 
+        lowesth =100
         for i in range(len(openlist)):
-            if openlist[i].fcost <= lowesth:
+            if openlist[i].H_cost <= lowesth:
                 lowesttogonode = openlist[i]
-                lowesth = openlist[i].fcost
+                lowesth = openlist[i].H_cost
             current = lowesttogonode
         pygame.draw.rect(DISPLAY,BLACK,(current.xpos,current.ypos,10,10))
         pygame.display.flip()
 
 
         openlist.remove(current)
-##            try:
-## 
-##                print("removed current")
-##            except:
-##                print("\n")
+
 
         closedlist.append(current)
         if ((current.xpos//tilesize) == (destinationx)) and ((current.ypos//tilesize) == (destinationy)):
@@ -776,6 +775,7 @@ def astar(destinationx,destinationy,startx,starty):
                 for k in range(len(openlist)):
                     if listofneighbours[i] == openlist[k]:
                         listtodelete.append(listofneighbours[i])
+
             templist = [x for x in listofneighbours if x not in (listtodelete)]
             listofneighbours = templist
             print("lenght of neighbours")
@@ -787,11 +787,11 @@ def astar(destinationx,destinationy,startx,starty):
     #if neighbour is not in open then add to open 
 #check if the new path is shorter
             for i in range (len(listofneighbours)):
-                listofneighbours[i].updatetrav(startnode.xpos,startnode.ypos)
+                listofneighbours[i].updatetrav(startnode.xpos,startnode.ypos,current.xpos,current.ypos)
                 listofneighbours[i].updatetogo(destinationx,destinationy)
                 listofneighbours[i].updateparent(current.xpos,current.ypos)
                 listofneighbours[i].tcost = (mapOB[current.ypos//tilesize][current.xpos//tilesize]).speedmod
-                listofneighbours[i].updateH((mapOB[current.ypos//tilesize][current.xpos//tilesize]).speedmod)
+                listofneighbours[i].updateH()
                 print("hcost")
                 print(listofneighbours[i].H_cost)
                 print("togo")
