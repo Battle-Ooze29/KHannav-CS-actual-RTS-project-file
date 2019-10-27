@@ -388,7 +388,6 @@ class node():
     #calculates cost to move to the current tile and adds the cost
 
     def updateH(self):
-        print("update h cost")
         self.H_cost = (((self.prevg+(self.gcost*self.tcost)))+(self.fcost))
 
     def updatetrav(self,startx,starty,prevx,prevy):
@@ -427,7 +426,8 @@ def tileround(x,tilesize):
         tilepost = (x//tilesize)
     return tilepost
         
-        
+#threading class
+class thread(threading.Thread):
         
     
 #randomiser to make combat more indicidualised
@@ -675,9 +675,9 @@ def astar(destinationx,destinationy,startx,starty):
     current = startnode
     lowesttogonode = current
     #loops through and sets the destinations of the nodes,this will then be used to calculate the heuristic
-    pygame.draw.rect(DISPLAY,BLACK,((startnode.xpos,startnode.ypos),(20,20)))
-    pygame.draw.rect(DISPLAY,YELLOW,((endnode.xpos,endnode.ypos),(20,20)))
-    pygame.display.flip()
+##    pygame.draw.rect(DISPLAY,BLACK,((startnode.xpos,startnode.ypos),(20,20)))
+##    pygame.draw.rect(DISPLAY,YELLOW,((endnode.xpos,endnode.ypos),(20,20)))
+##    pygame.display.flip()
     
     found = False
     count = 0 
@@ -691,31 +691,23 @@ def astar(destinationx,destinationy,startx,starty):
             if openlist[i].H_cost < lowesth:
                 lowesttogonode = openlist[i]
                 lowesth = openlist[i].H_cost
-                print("printinghcost")
-                print(openlist[i].H_cost)
         openlist.remove(lowesttogonode)
         current = lowesttogonode
-        print(current.H_cost)
         
-        pygame.draw.rect(DISPLAY,BLACK,(current.xpos,current.ypos,10,10))
-        pygame.display.flip()
+##        pygame.draw.rect(DISPLAY,BLACK,(current.xpos,current.ypos,10,10))
+##        pygame.display.flip()
 
         closedlist.append(current)
-        #openlist.remove(current)
-
-
 
         if ((current.xpos//tilesize) == (destinationx)) and ((current.ypos//tilesize) == (destinationy)):
             pathlist = []
-            print("found")
             node = endnode
             #need to follow the nodes to append to a list starting at the end
             while node != startnode:
-                print("finding path")
                 pathlist.append(current)
                 current = node_list[current.parenty][current.parentx]
+                node = current
                 if node ==startnode:
-                    print(pathlist)
                     return True
 
 
@@ -784,8 +776,6 @@ def astar(destinationx,destinationy,startx,starty):
 
             templist = [x for x in listofneighbours if x not in (listtodelete)]
             listofneighbours = templist
-            print("lenght of neighbours")
-            print(len(listofneighbours))
 
 
     #set the f cost
@@ -798,63 +788,8 @@ def astar(destinationx,destinationy,startx,starty):
                 listofneighbours[i].updateparent(current.xpos,current.ypos)
                 listofneighbours[i].tcost = (mapOB[current.ypos//tilesize][current.xpos//tilesize]).speedmod
                 listofneighbours[i].updateH()
-                print("hcost")
-                print(listofneighbours[i].H_cost)
-                print("togo")
-                print(listofneighbours[i].fcost)
-                print("distance travelled")
-                print(listofneighbours[i].gcost)
-                print("t cost")
-                print(listofneighbours[i].tcost)
                 #now i have the list of valid neighbours and will pick the best option
                 openlist.append(listofneighbours[i])
-            #lowestH = 100000
-##            if (len(listofneighbours)-1) >= 0:
-##                lowestHnode = listofneighbours[0]
-##                for i in range(len(listofneighbours)):
-##                    if lowestH >= listofneighbours[i].H_cost:
-##                        lowestH = listofneighbours[i].H_cost
-##                        lowestHnode = listofneighbours[i]
-##                openlist.append(lowestHnode)
-                        
-
-
-##    #distances have been updated
-##                        #now check the path lengths 
-##            
-##            for i in range(len(listofneighbours)):
-##                lowestH = current.H_cost
-##                if listofneighbours[i].H_cost <= lowestH:
-##                    lowestH = listofneighbours[i].H_cost
-##                    listofneighbours[i].updatetrav(current.xpos,current.ypos)
-##                    listofneighbours[i].updatetogo(destinationx,destinationy)
-##                    listofneighbours[i].updateparent(current.xpos,current.ypos)
-##        #            current.updatechild(listofneighbours[i].xpos,listofneighbours[i].ypos)
-##                    current = listofneighbours[i]
-##                    for i in range(len(openlist)):
-##                        if openlist[i] == current:
-##                            pass
-##                        else:
-##                            openlist.append(current)
-##            
-
-                
-        
-        
-##        inp = listofneighbours[i]
-##        #print(listofneighbours)
-##        if (shortestpath(listofneighbours,inp) == True) or (neighbouropen(listofneighbours,openlist) == True):
-##            listofneighbours[i].updatetrav(current.xpos,current.ypos)
-##            listofneighbours[i].updatetogo(destinationx,destinationy)
-##            listofneighbours[i].updateparent(current.xpos,current.ypos)
-##            current.updatechild(listofneighbours[i].xpos,listofneighbours[i].ypos)
-##            current = listofneighbours[i]
-##            for i in range(len(openlist)):
-##                if openlist[i] == current:
-##                    pass
-##                else:
-##                    openlist.append(current)
-##
 
 
 
@@ -862,39 +797,39 @@ def astar(destinationx,destinationy,startx,starty):
 ###################################################################
 #picking destinations for units
 #loop by number of units higlighted and append the desstinations to a list then assign a destination to each unit in order of the units speed
-##    spacesneeded = len(player_armyhighlight)
-##    destx = destinationx//tilesize
-##    desty = destinationy//tilesize
-##    listofdests = []
-##    initial = mapOB[destx][desty]
-##    current = initial
-##
-##    for i in range (spaceneeded):
-##        if i == 0:
-##            if current.passable == True:
-##               listofdests.append[current]
-##        if i == 1:
-##            current = mapOB[(destx-1)][desty]
-##            if current.passable == True:
-##                listofdests.append[current]
-##        if i == 2:
-##            current = mapOB[(destx-1)][(desty-1)]
-##            if current.passable ==True:
-##                listofdests.append[current]
-##        if i ==3:
-##            current = mapOB[destx][(desty-1)]
-##            if current.passable ==True:
-##                listofdests.append[current]
-##        if i ==4:
-##            current = mapOB[(destx+1)][desty]
-##            if current.passable ==True:
-##                listofdests.append[current]
-##        if i == 5:
-##            current = mapOB[(destx+1)][(desty+1)]
-##            if current.passable ==True:
-##                listofdests.append[current]
+    spacesneeded = len(player_armyhighlight)
+    destx = destinationx//tilesize
+    desty = destinationy//tilesize
+    listofdests = []
+    initial = mapOB[destx][desty]
+    current = initial
 
-#assigns destinations to units        
+    for i in range (spaceneeded):
+        if i == 0:
+            if current.passable == True:
+               listofdests.append[current]
+        if i == 1:
+            current = mapOB[(destx-1)][desty]
+            if current.passable == True:
+                listofdests.append[current]
+        if i == 2:
+            current = mapOB[(destx-1)][(desty-1)]
+            if current.passable ==True:
+                listofdests.append[current]
+        if i ==3:
+            current = mapOB[destx][(desty-1)]
+            if current.passable ==True:
+                listofdests.append[current]
+        if i ==4:
+            current = mapOB[(destx+1)][desty]
+            if current.passable ==True:
+                listofdests.append[current]
+        if i == 5:
+            current = mapOB[(destx+1)][(desty+1)]
+            if current.passable ==True:
+                listofdests.append[current]
+
+assigns destinations to units        
     #for i in range(len(player_armyhighlight)):
      #   player_armyhighlight[i].destpostx = listofdests[i].xpos
       #  player_armyhighlight[i].destposty = listofdests[i].ypos
