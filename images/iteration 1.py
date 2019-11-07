@@ -427,7 +427,7 @@ def tileround(x,tilesize):
     return tilepost
         
 #threading class
-class thread(threading.Thread):
+#class thread(threading.Thread):
         
     
 #randomiser to make combat more indicidualised
@@ -469,6 +469,9 @@ while not done:
         #sets the display, it is 10 tiles by 10 tiles
         DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
         done = True
+pygame.display.init()
+while not done:
+    
 
 
 #dictionary for menue, had to be moved outside funtion so it could be accessed for validation
@@ -510,7 +513,7 @@ def positive(number):
     else:
         return number
 #picking units###########################################################################################
-print("Welcome to the battle simulator army picking menue")
+#print("Welcome to the battle simulator army picking menue")
 
 done_input = False
 #counter to track the number of chosen units
@@ -525,7 +528,10 @@ while done_input == False:
     else:
         done_input = False
     if counter == 6:
-        done_input = True    
+        done_input = True
+
+#if done_input == True#################################################################################################################################################################################
+
 
 
 #setting the display
@@ -829,7 +835,7 @@ def astar(destinationx,destinationy,startx,starty):
             if current.passable ==True:
                 listofdests.append[current]
 
-assigns destinations to units        
+#assigns destinations to units        
     #for i in range(len(player_armyhighlight)):
      #   player_armyhighlight[i].destpostx = listofdests[i].xpos
       #  player_armyhighlight[i].destposty = listofdests[i].ypos
