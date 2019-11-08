@@ -457,7 +457,7 @@ iconsize = {
 
 done = False
 #visual menue to select your screen size
-DISPLAY = pygame.display.set_mode(((500),(500)))
+DISPLAY = pygame.display.set_mode(((500),(400)))
 mouse_pos = []
 while not done:
 
@@ -481,19 +481,17 @@ while not done:
     DISPLAY.blit(text4, textRect4)
     #pygame.draw.rect(DISPLAY,green,(50,300,50,50))#small box
     #buttons
-    buttonS = pygame.Rect(75,300,50,50)
-    buttonM = pygame.Rect(225,300,50,50)
-    buttonL = pygame.Rect(375,300,50,50)
-    pygame.draw.rect(DISPLAY,green,(75,300,50,50))
-    pygame.draw.rect(DISPLAY,green,(225,300,50,50))
-    pygame.draw.rect(DISPLAY,green,(375,300,50,50))
+    buttonS = pygame.Rect(75,200,50,50)
+    buttonM = pygame.Rect(225,200,50,50)
+    buttonL = pygame.Rect(375,200,50,50)
+    pygame.draw.rect(DISPLAY,green,(75,200,50,50))
+    pygame.draw.rect(DISPLAY,green,(225,200,50,50))
+    pygame.draw.rect(DISPLAY,green,(375,200,50,50))
     pygame.display.update()
     #event1 = pygame.event.poll()
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = event.pos
-            print("the mouse post")
-            print(mouse_pos)
             if buttonS.collidepoint(mouse_pos):
                 choice = 1
                 tilesize = displaysize.get(choice)
@@ -520,6 +518,7 @@ menuemap = {
     6:"catapult"
 }
 DISPLAY.fill(blue)
+counter = 0
 done = False
 while not done:
     font = pygame.font.Font('freesansbold.ttf', 32)
@@ -531,6 +530,16 @@ while not done:
     text5 = font.render('5', True, green, blue)
     text6 = font.render('6', True, green, blue)
     heading = font.render('choose your units', True, green, blue)
+
+    textRect1.center = (100, 100)
+    textRect2.center = (250 , 100)
+    textRect3.center = (400, 100)
+    textRect4.center = (250, 25)
+    textRect1.center = (100, 100)
+    textRect2.center = (250 , 100)
+    textRect3.center = (400, 100)
+    textRect4.center = (250, 25)
+
     textRect0 = text0.get_rect()
     textRect1 = text1.get_rect()#1
     textRect2= text2.get_rect()#2
@@ -546,6 +555,11 @@ while not done:
     icon4 =scaleunit("archer icon.PNG")
     icon5 =scaleunit("pikeman.PNG")
     icon6 =scaleunit("catapult.PNG")
+    #blitting the text
+    DISPLAY.blit(text0, textRect1)
+    DISPLAY.blit(text2, textRect2)
+    DISPLAY.blit(text3, textRect3)
+    DISPLAY.blit(text4, textRect4)
 
 DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
 
