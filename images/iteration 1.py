@@ -457,7 +457,7 @@ iconsize = {
 
 done = False
 #visual menue to select your screen size
-DISPLAY = pygame.display.set_mode(((500),(400)))
+DISPLAY = pygame.display.set_mode(((500),(500)))
 mouse_pos = []
 while not done:
 
@@ -481,12 +481,12 @@ while not done:
     DISPLAY.blit(text4, textRect4)
     #pygame.draw.rect(DISPLAY,green,(50,300,50,50))#small box
     #buttons
-    buttonS = pygame.Rect(75,200,50,50)
-    buttonM = pygame.Rect(225,200,50,50)
-    buttonL = pygame.Rect(375,200,50,50)
-    pygame.draw.rect(DISPLAY,green,(75,200,50,50))
-    pygame.draw.rect(DISPLAY,green,(225,200,50,50))
-    pygame.draw.rect(DISPLAY,green,(375,200,50,50))
+    buttonS = pygame.Rect(75,300,50,50)
+    buttonM = pygame.Rect(225,300,50,50)
+    buttonL = pygame.Rect(375,300,50,50)
+    pygame.draw.rect(DISPLAY,green,(75,300,50,50))
+    pygame.draw.rect(DISPLAY,green,(225,300,50,50))
+    pygame.draw.rect(DISPLAY,green,(375,300,50,50))
     pygame.display.update()
     #event1 = pygame.event.poll()
     for event in pygame.event.get():
@@ -531,16 +531,16 @@ while not done:
     text6 = font.render('6', True, green, blue)
     heading = font.render('choose your units', True, green, blue)
 
-    textRect1.center = (100, 100)
-    textRect2.center = (250 , 100)
-    textRect3.center = (400, 100)
-    textRect4.center = (250, 25)
-    textRect1.center = (100, 100)
-    textRect2.center = (250 , 100)
-    textRect3.center = (400, 100)
-    textRect4.center = (250, 25)
+    textRect0.center = (255, 400)
+    textRect1.center = (255 , 400)
+    textRect2.center = (255, 400)
+    textRect3.center = (255, 400)
+    textRect4.center = (255, 400)
+    textRect5.center = (255 , 400)
+    textRect6.center = (255, 400)
+    textRect7.center = (250, 25)#the heading 
 
-    textRect0 = text0.get_rect()
+    textRect0 = text0.get_rect()#0
     textRect1 = text1.get_rect()#1
     textRect2= text2.get_rect()#2
     textRect3 = text3.get_rect()#3
@@ -548,6 +548,7 @@ while not done:
     textRect5 = text5.get_rect()#5
     textRect6= text6.get_rect()#6
     textrect7 = heading.get_rect()#the heading
+
     #entering the icons for the units
     icon1 =scaleunit('horseman.PNG')
     icon2 =scaleunit('horse archer.PNG')
@@ -555,11 +556,14 @@ while not done:
     icon4 =scaleunit("archer icon.PNG")
     icon5 =scaleunit("pikeman.PNG")
     icon6 =scaleunit("catapult.PNG")
-    #blitting the text
-    DISPLAY.blit(text0, textRect1)
-    DISPLAY.blit(text2, textRect2)
-    DISPLAY.blit(text3, textRect3)
-    DISPLAY.blit(text4, textRect4)
+    #blitting the images
+    DISPLAY.blit(icon1,(55,335))
+    DISPLAY.blit(icon2,(135,335))
+    DISPLAY.blit(icon3,(215,335))
+    DISPLAY.blit(icon4,(295,335))
+    DISPLAY.blit(icon5,(375,335))
+    DISPLAY.blit(icon6,(455,335))
+
 
 DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
 
