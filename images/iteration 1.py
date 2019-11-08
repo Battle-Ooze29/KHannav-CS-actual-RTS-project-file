@@ -6,7 +6,7 @@ import time
 import math
 import threading
 import pygame
-#colors which I may delete if not used but will keep for now 
+#colors which I may delete if not used but will keep for now
 WHITE=(255,255,255)
 blue=(0,0,255)
 lblue=(0,255,255)
@@ -19,6 +19,9 @@ button = False
 KEYDOWN = False
 rectx = 0
 recty = 0
+white = (255, 255, 255)
+green = (0, 255, 0)
+blue = (0, 0, 128)
 #charge constants
 chargemod = 1.2
 positive = +1
@@ -34,7 +37,7 @@ enemy_army = []
 player_armyhighlight = []
 player_armyOB = []
 
-#vARIABLES FOR HIGHLIGHTING AN AREA 
+#vARIABLES FOR HIGHLIGHTING AN AREA
 startpost = []
 endpost = []
 mpost = []
@@ -135,7 +138,7 @@ class map:
     xpos = 1
     ypos = 1
     #for simplicity the attack and defence modifiers will be the same for now but may change later
-    
+   
 ##############################################add modifier atibute values here######################################################
                                                                                     #to do~
                                                                                         #-add images to every tile of tilesize
@@ -183,7 +186,7 @@ class lake(map):
         self.ypos = ypos
         self.img = scale("lake texture.PNG")
 
-        
+       
 #fjord
 class fjord(map):
     passable = True
@@ -248,7 +251,7 @@ class unit:
 
     destpostx = 0
     destposty = 0
-    #functions output attributes when needed 
+    #functions output attributes when needed
     def gethealth(self):
         return self.health
 
@@ -260,7 +263,7 @@ class unit:
 
     def getypost(self):
         return(int(self.ypost))
-    #updates the coordinates 
+    #updates the coordinates
     def updatepost(self,newpostx,newposty):
         xpost = newpostx
         ypost = newposty
@@ -272,7 +275,7 @@ class unit:
         pygame.draw.rect(DISPLAY,WHITE,(x,y,(unitsize+2),(unitsize+2)))
         pygame.display.flip()
     #def movement(self,newpostx,newposty)
-        
+       
 #melee cavalry class
 class Mcavalry(unit):
     health = health['Mcavalry']
@@ -331,7 +334,7 @@ class archer(unit):
     def __init__(self):
         self.icon = scaleunit("archer icon.PNG")
         self.xpost = 200
-        self.ypost = 200     
+        self.ypost = 200    
 
 
 #class pikemen
@@ -363,7 +366,7 @@ class catapult(unit):
 
 
 #a star class for the node
-        
+       
 class node():
     #occupied by a friend or foe
     friendoc = False
@@ -374,13 +377,13 @@ class node():
     #record parent
     parentx = 0
     parenty = 0
-    #tcost- the speed modifier of the terrain type 
+    #tcost- the speed modifier of the terrain type
     tcost = 1
     #gcost-this is the distance from the start postition
     prevg = 0
     gcost = 0
-    #f cost-this is the distance left to travel from that node to the end node 
-    fcost = 0 
+    #f cost-this is the distance left to travel from that node to the end node
+    fcost = 0
     #overall cost- this is the total heuristic, found by summing teh g,f and t cost
     H_cost = 0
 #updating the distance travelled
@@ -394,15 +397,15 @@ class node():
         #updates the distance from the destination this is the g cost
         self.prevg = self.gcost
         DISTANCE = positive(positive((((self.xpos//tilesize)+1)-((prevx//tilesize)+1)) + positive(((self.ypos//tilesize)+1)-((prevy//tilesize)+1))))
-        self.gcost = DISTANCE 
+        self.gcost = DISTANCE
 
 
-    #updates distance to go 
+    #updates distance to go
     def updatetogo(self,destx,desty):
         DISTANCE = positive(((positive((destx//tilesize)+1) -((self.xpos//tilesize+1)))) + ((positive((desty//tilesize)+1))-((self.xpos//tilesize)+1)))
         self.fcost = DISTANCE
 
-#updates where the parent node is 
+#updates where the parent node is
     def updateparent (self,px,py):
         if px!=self.parentx:
             self.parentx = px//tilesize
@@ -410,12 +413,12 @@ class node():
             self.parenty =py//tilesize
 
 
-#constructor for the node 
+#constructor for the node
     def __init__(self,xpost,ypost):
         self.xpos = xpost
         self.ypos = ypost
         self.distance_travelled = 0
-        
+       
 
 #function to round the tilenumber to the nearest tile
 def tileround(x,tilesize):
@@ -425,11 +428,11 @@ def tileround(x,tilesize):
         x<((x//tilesize)*tilesize)+(0.5*tilesize)
         tilepost = (x//tilesize)
     return tilepost
-        
+       
 #threading class
 #class thread(threading.Thread):
-        
-    
+       
+   
 #randomiser to make combat more indicidualised
 
 def randomdmg():
@@ -457,25 +460,76 @@ iconsize = {
 2:44,
 3:58
 }
-#gets an input from the user for what tilesize they want 
-sizechoice = input("enter 1 for small, 2 for medium and 3 for a large display")
+#gets an input from the user for what tilesize they want
+#sizechoice = input("enter 1 for small, 2 for medium and 3 for a large display")
+entry = False
 done = False
 #loop to ensure the entry is valid, ie is a choice in the dictionary
+#add visual meue here
+DISPLAY = pygame.display.set_mode(((500),(500)))
+mouse_pos = []
 while not done:
-    if int(sizechoice) in displaysize:
-        choice = int(sizechoice)
-        tilesize = displaysize.get(choice)
-        unitsize = iconsize.get(choice)
-        #sets the display, it is 10 tiles by 10 tiles
-        DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
-        done = True
-pygame.display.init()
-while not done:
-    
 
+    DISPLAY.fill(blue)
+    font = pygame.font.Font('freesansbold.ttf', 32)
+    text1 = font.render('Small', True, green, blue)
+    text2 = font.render('Medium', True, green, blue)
+    text3 = font.render('Large', True, green, blue)
+    text4 = font.render('Choose a screen size', True, green, blue)
+    textRect1 = text1.get_rect()#s
+    textRect2= text2.get_rect()#M
+    textRect3 = text3.get_rect()#L
+    textRect4 = text4.get_rect()#this is the text at the top
+    textRect1.center = (100, 100)
+    textRect2.center = (250 , 100)
+    textRect3.center = (400, 100)
+    textRect4.center = (250, 25)
+    DISPLAY.blit(text1, textRect1)
+    DISPLAY.blit(text2, textRect2)
+    DISPLAY.blit(text3, textRect3)
+    DISPLAY.blit(text4, textRect4)
+    #pygame.draw.rect(DISPLAY,green,(50,300,50,50))#small box
+    #buttons
+    buttonS = pygame.Rect(50,300,50,50)
+    buttonM = pygame.Rect(250,300,50,50)
+    buttonL = pygame.Rect(350,300,50,50)
+    pygame.draw.rect(DISPLAY,green,(50,300,50,50))
+    pygame.draw.rect(DISPLAY,green,(250,300,50,50))
+    pygame.draw.rect(DISPLAY,green,(350,300,50,50))
+    pygame.display.update()
+    #event1 = pygame.event.poll()
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = event.pos
+            print("the mouse post")
+            print(mouse_pos)
+            if buttonS.collidepoint(mouse_pos):
+                choice = 1
+                tilesize = displaysize.get(choice)
+                unitsize = iconsize.get(choice)
+                done = True
+            if buttonS.collidepoint(mouse_pos):
+                choice = 2
+                tilesize = displaysize.get(choice)
+                unitsize = iconsize.get(choice)
+                done = True
+            if buttonS.collidepoint(mouse_pos):
+                choice = 3
+                tilesize = displaysize.get(choice)
+                unitsize = iconsize.get(choice)
+                done = True
+                           
+
+    #checking the tile ranges for collisions
+   
+
+DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
+
+
+#drawing the menue
 
 #dictionary for menue, had to be moved outside funtion so it could be accessed for validation
-        
+       
 
 menuemap = {
     1:"Mcavalry",
@@ -493,7 +547,7 @@ def unitinput(unitchoice):
     if unitchoice == 1:
         player_armyOB.append(Mcavalry())
     elif unitchoice == 2:
-        player_armyOB.append(Bcavalry())                       
+        player_armyOB.append(Bcavalry())                      
     elif unitchoice ==3:
         player_armyOB.append(swordsman())
     elif unitchoice ==4:
@@ -513,25 +567,22 @@ def positive(number):
     else:
         return number
 #picking units###########################################################################################
-#print("Welcome to the battle simulator army picking menue")
+print("Welcome to the battle simulator army picking menue")
 
 done_input = False
 #counter to track the number of chosen units
 counter = 0
-#loop to ensure valid entry and that 6 items are reached 
+#loop to ensure valid entry and that 6 items are reached
 while done_input == False:
     unitchoice = input("please enter your unit,1-melee cav,2-bow cav,3-swordsmen,4-archer,5-pikemen,6-catapult")
-    #checks that the entered value is a valid choice 
+    #checks that the entered value is a valid choice
     if int(unitchoice) in menuemap:
         unitinput(unitchoice)
         counter+=1
     else:
         done_input = False
     if counter == 6:
-        done_input = True
-
-#if done_input == True#################################################################################################################################################################################
-
+        done_input = True    
 
 
 #setting the display
@@ -569,13 +620,13 @@ node_list = [[None,None,None,None,None,None,None,None,None,None],
          [None,None,None,None,None,None,None,None,None,None],
          ]
 #initialising the map, the nodes and then creating the visual map fromt the text in the map        
-#10 loops as the game is 10 by 10 
+#10 loops as the game is 10 by 10
 for i in range (10):
-    #nested loop so that the 10 columbs are done and then the loops loves down to the next row 
+    #nested loop so that the 10 columbs are done and then the loops loves down to the next row
     for j in range (10):
         #each of these if statements will run depending on the piece of text in that postition in the map
             # they will add an initialised objecgt to the map objects list and do the same for a node at the same postition
-            #they will then blit the image of that tile at its given coordinates 
+            #they will then blit the image of that tile at its given coordinates
         landtype = map1[i][j]
         if landtype == "F":
             mapOB[i][j] = plains(columb,row)
@@ -584,7 +635,7 @@ for i in range (10):
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
-            
+           
         elif landtype == "H":
             mapOB[i][j] = hill(columb,row)
             node_list[i][j] = node(columb,row)
@@ -592,7 +643,7 @@ for i in range (10):
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
-            
+           
         elif landtype == "W":
             mapOB[i][j] = water(columb,row)
             node_list[i][j] = None
@@ -618,7 +669,7 @@ for i in range (10):
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
-            
+           
         elif landtype == "GS":
             mapOB[i][j] = gentleslope(columb,row)
             img = mapOB[i][j]
@@ -626,7 +677,7 @@ for i in range (10):
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
-            
+           
         elif landtype == "SS":
             mapOB[i][j] = steepslope(columb,row)
             img = mapOB[i][j]
@@ -634,7 +685,7 @@ for i in range (10):
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
-            
+           
         elif landtype == "L":
             mapOB[i][j] = lake(columb,row)
             node_list[i][j] = None
@@ -643,7 +694,7 @@ for i in range (10):
             newc = True
             ccount +=1
             impassable.append(mapOB[i][j])
-#ensures that it loops the correct number of times 
+#ensures that it loops the correct number of times
         if ccount == 10:
             newr = True
             columb = 0
@@ -653,9 +704,9 @@ for i in range (10):
     if newr == True:
         row+=tilesize
 pygame.display.flip()
-          
+         
 
-    
+   
 
 
 #displaying the map
@@ -684,9 +735,9 @@ def astar(destinationx,destinationy,startx,starty):
 ##    pygame.draw.rect(DISPLAY,BLACK,((startnode.xpos,startnode.ypos),(20,20)))
 ##    pygame.draw.rect(DISPLAY,YELLOW,((endnode.xpos,endnode.ypos),(20,20)))
 ##    pygame.display.flip()
-    
+   
     found = False
-    count = 0 
+    count = 0
     openlist.append(current)
     while found ==False:
         #togo is the distance from that node to the destination
@@ -699,12 +750,8 @@ def astar(destinationx,destinationy,startx,starty):
                 lowesth = openlist[i].H_cost
         openlist.remove(lowesttogonode)
         current = lowesttogonode
-        
-##        pygame.draw.rect(DISPLAY,BLACK,(current.xpos,current.ypos,10,10))
-##        pygame.display.flip()
 
         closedlist.append(current)
-
         if ((current.xpos//tilesize) == (destinationx)) and ((current.ypos//tilesize) == (destinationy)):
             pathlist = []
             node = endnode
@@ -716,8 +763,6 @@ def astar(destinationx,destinationy,startx,starty):
                 if node ==startnode:
                     return True
 
-
-
         else:
             #tested-workds
             x=0
@@ -728,7 +773,7 @@ def astar(destinationx,destinationy,startx,starty):
             xrows = current.xpos//tilesize
             yrows = current.ypos//tilesize
             listofneighbours = []
-            #finding neighbours 
+            #finding neighbours
             left = True
             right = True
             top = True                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
@@ -786,7 +831,7 @@ def astar(destinationx,destinationy,startx,starty):
 
     #set the f cost
     #set the parent of this node to current
-    #if neighbour is not in open then add to open 
+    #if neighbour is not in open then add to open
 #check if the new path is shorter
             for i in range (len(listofneighbours)):
                 listofneighbours[i].updatetrav(startnode.xpos,startnode.ypos,current.xpos,current.ypos)
@@ -839,16 +884,16 @@ def astar(destinationx,destinationy,startx,starty):
     #for i in range(len(player_armyhighlight)):
      #   player_armyhighlight[i].destpostx = listofdests[i].xpos
       #  player_armyhighlight[i].destposty = listofdests[i].ypos
-        
+       
 
     #each unit needs to be multithreaded for movement
-    #movement function 
+    #movement function
         #movement code
 
 
 
 
-#take the destinations and the unit  being moved 
+#take the destinations and the unit  being moved
 def move(x,y,unit):
     #the x and y are the targets for the unit to move to ]
     #the unit should be the head unit in the columb or the only unit
@@ -860,7 +905,7 @@ def move(x,y,unit):
     elif tilesize == 96:
         pixelmod =1.5
 
-    
+   
     while done == False:
         if (unit.xpost ==((x*tilesize)+(0.5*tilesize))) and ((unit.ypost) == ((y*tilesize)+(0.5*tilesize))):
             done = True
@@ -876,7 +921,7 @@ def move(x,y,unit):
             nextNodex = currentnode.childx
             nextNodey = currentnode.childy
             #pick the  direction direction to move in
-            
+           
             if (nextNodex  >= unit.xpost):
                 directionxmod = 1
 
@@ -897,7 +942,7 @@ def move(x,y,unit):
             unit.xpost = (unit.xpost + unitspeedx)
             unit.ypost = (unit.ypost+unitspeedy)
     if done == True:
-        return None 
+        return None
 
 
 
@@ -906,7 +951,7 @@ def move(x,y,unit):
 
 #----game loop#----------
 while True:
-    #this ensures the loop only runs 60 times per second 
+    #this ensures the loop only runs 60 times per second
     clock.tick_busy_loop(60)
 
 # redrawing the background image
@@ -925,49 +970,49 @@ while True:
                 DISPLAY.blit(img.img,(img.xpos,img.ypos))
                 newc = True
                 ccount +=1
-                
+               
             elif landtype == "H":
                 img = mapOB[i][j]
                 DISPLAY.blit(img.img,(img.xpos,img.ypos))
                 newc = True
                 ccount +=1
-                
+               
             elif landtype == "W":
                 img = mapOB[i][j]
                 DISPLAY.blit(img.img,(img.xpos,img.ypos))
                 newc = True
                 ccount +=1
-                
+               
             elif landtype == "M":
                 img = mapOB[i][j]
                 DISPLAY.blit(img.img,(img.xpos,img.ypos))
                 newc = True
                 ccount +=1
-                
+               
             elif landtype == "FJ":
                 img = mapOB[i][j]
                 DISPLAY.blit(img.img,(img.xpos,img.ypos))
                 newc = True
                 ccount +=1
-                
+               
             elif landtype == "GS":
                 img = mapOB[i][j]
                 DISPLAY.blit(img.img,(img.xpos,img.ypos))
                 newc = True
                 ccount +=1
-                
+               
             elif landtype == "SS":
                 img = mapOB[i][j]
                 DISPLAY.blit(img.img,(img.xpos,img.ypos))
                 newc = True
                 ccount +=1
-                
+               
             elif landtype == "L":
                 img = mapOB[i][j]
                 DISPLAY.blit(img.img,(img.xpos,img.ypos))
                 newc = True
                 ccount +=1
-                
+               
             if ccount == 10:
                 newr = True
                 columb = 0
@@ -976,45 +1021,45 @@ while True:
                 columb += tilesize
         if newr == True:
             row+=tilesize
-            
+           
     pygame.display.flip()
 
     #drawing icons
-    
-    #loops by the number of uits chosen by the player, fixed for now 
+   
+    #loops by the number of uits chosen by the player, fixed for now
     for i in range(len(player_armyOB)):
         icon = player_armyOB[i]
-    #displays the corresponding icon of that unit type tot he map at the postitions of the unit 
+    #displays the corresponding icon of that unit type tot he map at the postitions of the unit
         DISPLAY.blit((icon.icon),((player_armyOB[i].xpost),(player_armyOB[i].ypost)))
         pygame.display.flip()
 
 #highlighting#################################################
-    #gets the mouse postitions 
+    #gets the mouse postitions
     mousex = pygame.mouse.get_pos()[0]
     mousey = pygame.mouse.get_pos()[1]
-    #gets an event 
+    #gets an event
     event1 = pygame.event.poll()
     #check what the event is
 
-    #this clears the held information as the button has been released so the highlight is complete 
+    #this clears the held information as the button has been released so the highlight is complete
     if KEYDOWN == False:
         startpost.clear()
         startpost.append(mousex)
         startpost.append(mousey)
-    
+   
     pygame.event.poll()
-#if the mouse is clicked or is held down then th code to highlight the units and draw a corresponding square on the map runs 
-    if  ((pygame.mouse.get_pressed()[0])==True):#(event1.type == pygame.MOUSEBUTTONDOWN) or----removed code 
-    #the start is immedietely stored and now the end is stored and refreshed as long as left mouse button is held 
+#if the mouse is clicked or is held down then th code to highlight the units and draw a corresponding square on the map runs
+    if  ((pygame.mouse.get_pressed()[0])==True):#(event1.type == pygame.MOUSEBUTTONDOWN) or----removed code
+    #the start is immedietely stored and now the end is stored and refreshed as long as left mouse button is held
         endpost.clear()
         endpost.append(mousex)
         endpost.append(mousey)
         player_armyhighlight = []    
-        
+       
         ######checking if a unit is within the higlighted square
         #establish a range within to check
 
-  
+ 
         if startpost[0] <= endpost[0]:
             lowerxbound = startpost[0]
             upperxbound = endpost[0]
@@ -1031,8 +1076,8 @@ while True:
             lowerybound = endpost[1]
             upperybound = startpost[1]
                  
-                    
-        #this draws the highlight square but only if the mouse has actually moved 
+                   
+        #this draws the highlight square but only if the mouse has actually moved
         if (endpost != startpost) :#and (KEYDOWN == True):
 
             pygame.draw.line(DISPLAY,BRICK,[startpost[0],startpost[1]],[endpost[0],startpost[1]],3)
@@ -1044,10 +1089,10 @@ while True:
             pygame.draw.line(DISPLAY,BRICK,[endpost[0],endpost[1]],[endpost[0],startpost[1]],3)
             pygame.display.flip()
 
-                    
+                   
             #checking if the unit is within the range
             for i in range (len(player_armyOB)):
-                #shows that this loop does run 6 times 
+                #shows that this loop does run 6 times
                 #checks if its in the x range
                 if ((player_armyOB[i].getxpost()) >= lowerxbound) and ((player_armyOB[i].getxpost()) <= upperxbound):
                     #only checks y if its within the x range to minimise the number of checks run
@@ -1055,31 +1100,31 @@ while True:
                     if ((player_armyOB[i].getypost()) >= lowerybound) and ((player_armyOB[i].getypost()) <= upperybound):
                         #adds the unit to a list of highlighted units
                         player_armyhighlight.append(player_armyOB[i])
-                        #runs the highlight function which is held in the class definition for the units 
+                        #runs the highlight function which is held in the class definition for the units
                         player_armyOB[i].highlight()
-                        #redrawing the units over the highlight square 
+                        #redrawing the units over the highlight square
                         icon = player_armyOB[i]
                         DISPLAY.blit((icon.icon),((player_armyOB[i].xpost),(player_armyOB[i].ypost)))
                         pygame.display.flip()
 
-        #if the startpost and he endpost are the same then the mouse hasnt moved so nothing new needs to be drawn 
+        #if the startpost and he endpost are the same then the mouse hasnt moved so nothing new needs to be drawn
         elif startpost == endpost:
             #time.sleep(0.1)
             KEYDOWN = True
            # player_armyhighlight = []
-    #if the event is a right click instead then it means that rather than highlghting that a destination for mvement is being set or a target if its an enemy unit     
+    #if the event is a right click instead then it means that rather than highlghting that a destination for mvement is being set or a target if its an enemy unit    
     elif event1.type == pygame.MOUSEBUTTONUP:
         KEYDOWN = False
         #background()
         pygame.display.flip()
-            
-    elif (pygame.mouse.get_pressed()[2])==True:   
+           
+    elif (pygame.mouse.get_pressed()[2])==True:  
         #sets the destination coordinated
         destination = []
         #destination.clear()
         #destination.append(mousex)
         #destination.append(mousey)
-        #rounds the destination coordinates to a specific tile index 
+        #rounds the destination coordinates to a specific tile index
         destinationxcords = (mousex//tilesize)
         destinationycords = (mousey//tilesize)
         if ((len(player_armyhighlight))) == 1:
@@ -1087,11 +1132,11 @@ while True:
             #movement = move(destination[0],destination[1],player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
             print("path has been found")
             pass
-                
+               
 
 ##########################################################################   A STAR####################################
 
-#movement function will be a modified version of a star with localised checks 
+#movement function will be a modified version of a star with localised checks
 
 ##    if __name == "__main__":
 ##        format = "%(asctime)s: %(message)s"
@@ -1102,9 +1147,13 @@ while True:
 ##      
 
 ###########################################################################################################
-        
+       
 
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+
+
+
+	
