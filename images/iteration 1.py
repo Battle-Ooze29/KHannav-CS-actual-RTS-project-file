@@ -137,11 +137,7 @@ class map:
     defmod = 1
     xpos = 1
     ypos = 1
-    #for simplicity the attack and defence modifiers will be the same for now but may change later
-   
-##############################################add modifier atibute values here######################################################
-                                                                                    #to do~
-                                                                                        #-add images to every tile of tilesize
+
    # def gradientmod(self,terraintype):
         #RETURN gradient MODIFIER FOR THAT SPECIFIC TYPE OF UNIT
     def chargebonus(self,terraintype):
@@ -242,9 +238,6 @@ class hill(map):
         self.ypos = ypos
         self.img = scale("hill texture.PNG")
 
-
-
-###################################################################
 
 #########################################################unit classes
 class unit:
@@ -461,11 +454,9 @@ iconsize = {
 3:58
 }
 #gets an input from the user for what tilesize they want
-#sizechoice = input("enter 1 for small, 2 for medium and 3 for a large display")
-entry = False
+
 done = False
-#loop to ensure the entry is valid, ie is a choice in the dictionary
-#add visual meue here
+#visual menue to select your screen size
 DISPLAY = pygame.display.set_mode(((500),(500)))
 mouse_pos = []
 while not done:
@@ -490,12 +481,12 @@ while not done:
     DISPLAY.blit(text4, textRect4)
     #pygame.draw.rect(DISPLAY,green,(50,300,50,50))#small box
     #buttons
-    buttonS = pygame.Rect(50,300,50,50)
-    buttonM = pygame.Rect(250,300,50,50)
-    buttonL = pygame.Rect(350,300,50,50)
-    pygame.draw.rect(DISPLAY,green,(50,300,50,50))
-    pygame.draw.rect(DISPLAY,green,(250,300,50,50))
-    pygame.draw.rect(DISPLAY,green,(350,300,50,50))
+    buttonS = pygame.Rect(75,300,50,50)
+    buttonM = pygame.Rect(225,300,50,50)
+    buttonL = pygame.Rect(375,300,50,50)
+    pygame.draw.rect(DISPLAY,green,(75,300,50,50))
+    pygame.draw.rect(DISPLAY,green,(225,300,50,50))
+    pygame.draw.rect(DISPLAY,green,(375,300,50,50))
     pygame.display.update()
     #event1 = pygame.event.poll()
     for event in pygame.event.get():
@@ -508,20 +499,53 @@ while not done:
                 tilesize = displaysize.get(choice)
                 unitsize = iconsize.get(choice)
                 done = True
-            if buttonS.collidepoint(mouse_pos):
+            if buttonM.collidepoint(mouse_pos):
                 choice = 2
                 tilesize = displaysize.get(choice)
                 unitsize = iconsize.get(choice)
                 done = True
-            if buttonS.collidepoint(mouse_pos):
+            if buttonL.collidepoint(mouse_pos):
                 choice = 3
                 tilesize = displaysize.get(choice)
                 unitsize = iconsize.get(choice)
                 done = True
                            
-
-    #checking the tile ranges for collisions
-   
+#menue to select your unit types
+menuemap = {
+    1:"Mcavalry",
+    2:"Bcavalry",
+    3:"swordsman",
+    4:"archer",
+    5:"pikemen",
+    6:"catapult"
+}
+DISPLAY.fill(blue)
+done = False
+while not done:
+    font = pygame.font.Font('freesansbold.ttf', 32)
+    text0 = font.render('0', True, green, blue)
+    text1 = font.render('1', True, green, blue)
+    text2 = font.render('2', True, green, blue)
+    text3 = font.render('3', True, green, blue)
+    text4 = font.render('4', True, green, blue)
+    text5 = font.render('5', True, green, blue)
+    text6 = font.render('6', True, green, blue)
+    heading = font.render('choose your units', True, green, blue)
+    textRect0 = text0.get_rect()
+    textRect1 = text1.get_rect()#1
+    textRect2= text2.get_rect()#2
+    textRect3 = text3.get_rect()#3
+    textRect4 = text4.get_rect()#4
+    textRect5 = text5.get_rect()#5
+    textRect6= text6.get_rect()#6
+    textrect7 = heading.get_rect()#the heading
+    #entering the icons for the units
+    icon1 =scaleunit('horseman.PNG')
+    icon2 =scaleunit('horse archer.PNG')
+    icon3 =scaleunit('swordsman.PNG')
+    icon4 =scaleunit("archer icon.PNG")
+    icon5 =scaleunit("pikeman.PNG")
+    icon6 =scaleunit("catapult.PNG")
 
 DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
 
@@ -531,14 +555,7 @@ DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
 #dictionary for menue, had to be moved outside funtion so it could be accessed for validation
        
 
-menuemap = {
-    1:"Mcavalry",
-    2:"Bcavalry",
-    3:"swordsman",
-    4:"archer",
-    5:"pikemen",
-    6:"catapult"
-}
+
 #units mapped to numbers for the ingame menue
 def unitinput(unitchoice):
     unitchoice = int(unitchoice)
@@ -557,8 +574,6 @@ def unitinput(unitchoice):
     elif unitchoice ==6:
         player_armyOB.append(catapult())
 
-# the user wil input a number between 1 and 6 to choose a unit  
-
 #function to make a numebr positive
 def positive(number):
     if number < 0:
@@ -566,24 +581,7 @@ def positive(number):
         return number
     else:
         return number
-#picking units###########################################################################################
-print("Welcome to the battle simulator army picking menue")
-
 done_input = False
-#counter to track the number of chosen units
-counter = 0
-#loop to ensure valid entry and that 6 items are reached
-while done_input == False:
-    unitchoice = input("please enter your unit,1-melee cav,2-bow cav,3-swordsmen,4-archer,5-pikemen,6-catapult")
-    #checks that the entered value is a valid choice
-    if int(unitchoice) in menuemap:
-        unitinput(unitchoice)
-        counter+=1
-    else:
-        done_input = False
-    if counter == 6:
-        done_input = True    
-
 
 #setting the display
 pygame.display.set_caption("Battle simulator")
@@ -706,17 +704,13 @@ for i in range (10):
 pygame.display.flip()
          
 
-   
 
-
-#displaying the map
 #setting up the clock
 Clock = pygame.time.Clock
 clock = Clock()
 
 ###################################################################
 # a star,#insert error checking so that only coodinates which also have nodes are passed in ie check the pciked location and change to nearest tile if impassabl#need to update nodes beforehand to have h cost for the corect destination  
-
 
 def astar(destinationx,destinationy,startx,starty):
     lowesttogo = 10000000
