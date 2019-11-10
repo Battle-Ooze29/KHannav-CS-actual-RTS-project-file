@@ -728,45 +728,13 @@ while done == False:
                     print("valid")
                     x = mouse_pos[0]
                     y = mouse_pos[1]
-                    player_armyOB[count-1].xpost = x
-                    player_armyOB[count-1].ypost = y
+                    player_armyOB[count-1].xpost = (x//tilesize)*tilesize
+                    player_armyOB[count-1].ypost = (y//tilesize)*tilesize
                     location = True
+                    choice= False
                 
                     
                     
-                
-            
-        
-
-
-
-
-
-
-#drawing the menue
-
-#dictionary for menue, had to be moved outside funtion so it could be accessed for validation
-       
-
-
-#units mapped to numbers for the ingame menue
-##def unitinput(unitchoice):
-##    unitchoice = int(unitchoice)
-##    print(menuemap.get(int(unitchoice)))
-##    player_army.append((menuemap.get(int(unitchoice))))
-##    if unitchoice == 1:
-##        player_armyOB.append(Mcavalry())
-##    elif unitchoice == 2:
-##        player_armyOB.append(Bcavalry())                      
-##    elif unitchoice ==3:
-##        player_armyOB.append(swordsman())
-##    elif unitchoice ==4:
-##        player_armyOB.append(archer())
-##    elif unitchoice ==5:
-##        player_armyOB.append(pikemen())
-##    elif unitchoice ==6:
-##        player_armyOB.append(catapult())
-
 #function to make a numebr positive
 def positive(number):
     if number < 0:
