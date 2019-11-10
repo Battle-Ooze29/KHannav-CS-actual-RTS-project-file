@@ -454,13 +454,21 @@ iconsize = {
 3:58
 }
 #gets an input from the user for what tilesize they want
-
+#menue to select your unit types
+menuemap = {
+    1:"Mcavalry",
+    2:"Bcavalry",
+    3:"swordsman",
+    4:"archer",
+    5:"pikemen",
+    6:"catapult"
+}
 done = False
 #visual menue to select your screen size
 DISPLAY = pygame.display.set_mode(((500),(500)))
 mouse_pos = []
-while not done:
-
+while done == False:
+    
     DISPLAY.fill(blue)
     font = pygame.font.Font('freesansbold.ttf', 32)
     text1 = font.render('Small', True, green, blue)
@@ -479,6 +487,7 @@ while not done:
     DISPLAY.blit(text2, textRect2)
     DISPLAY.blit(text3, textRect3)
     DISPLAY.blit(text4, textRect4)
+
     #pygame.draw.rect(DISPLAY,green,(50,300,50,50))#small box
     #buttons
     buttonS = pygame.Rect(75,300,50,50)
@@ -488,81 +497,116 @@ while not done:
     pygame.draw.rect(DISPLAY,green,(225,300,50,50))
     pygame.draw.rect(DISPLAY,green,(375,300,50,50))
     pygame.display.update()
+
     #event1 = pygame.event.poll()
-    for event in pygame.event.get():
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_pos = event.pos
-            if buttonS.collidepoint(mouse_pos):
-                choice = 1
-                tilesize = displaysize.get(choice)
-                unitsize = iconsize.get(choice)
-                done = True
-            if buttonM.collidepoint(mouse_pos):
-                choice = 2
-                tilesize = displaysize.get(choice)
-                unitsize = iconsize.get(choice)
-                done = True
-            if buttonL.collidepoint(mouse_pos):
-                choice = 3
-                tilesize = displaysize.get(choice)
-                unitsize = iconsize.get(choice)
-                done = True
-                           
-#menue to select your unit types
-menuemap = {
-    1:"Mcavalry",
-    2:"Bcavalry",
-    3:"swordsman",
-    4:"archer",
-    5:"pikemen",
-    6:"catapult"
-}
-DISPLAY.fill(blue)
-counter = 0
+    event = pygame.event.wait()
+    if event.type == pygame.MOUSEBUTTONDOWN:
+        mouse_pos = event.pos
+        if buttonS.collidepoint(mouse_pos):
+            choice = 1
+            tilesize = displaysize.get(choice)
+            unitsize = iconsize.get(choice)
+            done = True
+        elif buttonM.collidepoint(mouse_pos):
+            choice = 2
+            tilesize = displaysize.get(choice)
+            unitsize = iconsize.get(choice)
+            done = True
+        elif buttonL.collidepoint(mouse_pos):
+            choice = 3
+            tilesize = displaysize.get(choice)
+            unitsize = iconsize.get(choice)
+            done = True
+            print(mouse_pos)
+                       
+DISPLAY = pygame.display.set_mode(((500),(500)))
+
+count = 0
 done = False
 while not done:
-    font = pygame.font.Font('freesansbold.ttf', 32)
-    text0 = font.render('0', True, green, blue)
-    text1 = font.render('1', True, green, blue)
-    text2 = font.render('2', True, green, blue)
-    text3 = font.render('3', True, green, blue)
-    text4 = font.render('4', True, green, blue)
-    text5 = font.render('5', True, green, blue)
-    text6 = font.render('6', True, green, blue)
-    heading = font.render('choose your units', True, green, blue)
+    if choice ==False:
+        DISPLAY.fill(blue)
+        font = pygame.font.Font('freesansbold.ttf', 32)
+        text0 = font.render('0', True, green, blue)
+        text1 = font.render('1', True, green, blue)
+        text2 = font.render('2', True, green, blue)
+        text3 = font.render('3', True, green, blue)
+        text4 = font.render('4', True, green, blue)
+        text5 = font.render('5', True, green, blue)
+        text6 = font.render('6', True, green, blue)
+        heading = font.render('choose your units', True, green, blue)
 
-    textRect0.center = (255, 400)
-    textRect1.center = (255 , 400)
-    textRect2.center = (255, 400)
-    textRect3.center = (255, 400)
-    textRect4.center = (255, 400)
-    textRect5.center = (255 , 400)
-    textRect6.center = (255, 400)
-    textRect7.center = (250, 25)#the heading 
+        textRect0 = text0.get_rect()#0
+        textRect1 = text1.get_rect()#1
+        textRect2= text2.get_rect()#2
+        textRect3 = text3.get_rect()#3
+        textRect4 = text4.get_rect()#4
+        textRect5 = text5.get_rect()#5
+        textRect6= text6.get_rect()#6
+        textRect7 = heading.get_rect()#the heading
+        
+        textRect0.center = (255, 400)
+        textRect1.center = (255 , 400)
+        textRect2.center = (255, 400)
+        textRect3.center = (255, 400)
+        textRect4.center = (255, 400)
+        textRect5.center = (255 , 400)
+        textRect6.center = (255, 400)
+        textRect7.center = (250, 25)#the heading 
 
-    textRect0 = text0.get_rect()#0
-    textRect1 = text1.get_rect()#1
-    textRect2= text2.get_rect()#2
-    textRect3 = text3.get_rect()#3
-    textRect4 = text4.get_rect()#4
-    textRect5 = text5.get_rect()#5
-    textRect6= text6.get_rect()#6
-    textrect7 = heading.get_rect()#the heading
+        #definingbuttons
+        b1 = pygame.Rect(55,335,unitsize,unitsize)
+        b2 = pygame.Rect(135,335,unitsize,unitsize)
+        b3= pygame.Rect(215,335,unitsize,unitsize)
+        b4= pygame.Rect(295,335,unitsize,unitsize)
+        b5= pygame.Rect(375,335,unitsize,unitsize)
+        b6= pygame.Rect(455,335,unitsize,unitsize)
 
-    #entering the icons for the units
-    icon1 =scaleunit('horseman.PNG')
-    icon2 =scaleunit('horse archer.PNG')
-    icon3 =scaleunit('swordsman.PNG')
-    icon4 =scaleunit("archer icon.PNG")
-    icon5 =scaleunit("pikeman.PNG")
-    icon6 =scaleunit("catapult.PNG")
-    #blitting the images
-    DISPLAY.blit(icon1,(55,335))
-    DISPLAY.blit(icon2,(135,335))
-    DISPLAY.blit(icon3,(215,335))
-    DISPLAY.blit(icon4,(295,335))
-    DISPLAY.blit(icon5,(375,335))
-    DISPLAY.blit(icon6,(455,335))
+        #entering the icons for the units
+        icon1 =scaleunit('horseman.PNG')
+        icon2 =scaleunit('horse archer.PNG')
+        icon3 =scaleunit('swordsman.PNG')
+        icon4 =scaleunit("archer icon.PNG")
+        icon5 =scaleunit("pikeman.PNG")
+        icon6 =scaleunit("catapult.PNG")
+
+        #blitting the images
+        DISPLAY.blit(icon1,(55,335))
+        DISPLAY.blit(icon2,(135,335))
+        DISPLAY.blit(icon3,(215,335))
+        DISPLAY.blit(icon4,(295,335))
+        DISPLAY.blit(icon5,(375,335))
+        DISPLAY.blit(icon6,(455,335))
+        pygame.display.update()
+
+        event = pygame.event.wait()
+        if count == 6:
+            done = True
+            
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = event.pos
+            if b1.collidepoint(mouse_pos):
+                player_armyOB.append(Mcavalry())
+                count +=1
+            if b2.collidepoint(mouse_pos):
+                player_armyOB.append(Bcavalry())
+                count +=1
+            if b3.collidepoint(mouse_pos):
+                player_armyOB.append(swordsman())
+                count +=1
+            if b4.collidepoint(mouse_pos):
+                player_armyOB.append(archer())
+                count +=1
+            if b5.collidepoint(mouse_pos):
+                player_armyOB.append(pikemen())
+                count +=1
+            if b6.collidepoint(mouse_pos):
+                player_armyOB.append(catapult())
+                count +=1
+
+
+
+
 
 
 DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
