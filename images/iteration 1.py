@@ -711,14 +711,28 @@ while done == False:
                 row+=tilesize
         pygame.display.flip()
 
+        for i in range(len(player_armyOB)):
+            icon = player_armyOB[i]
+            #displays the corresponding icon of that unit type tot he map at the postitions of the unit
+            DISPLAY.blit((icon.icon),((player_armyOB[i].xpost),(player_armyOB[i].ypost)))
+            pygame.display.flip()
+
         location = False
-        while location = False:
+        while location == False:
             event = pygame.event.wait()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = event.pos
                 y=mouse_pos[1]
                 maxy = tilesize*5
                 if y > maxy:#bbelow the value
+                    print("valid")
+                    x = mouse_pos[0]
+                    y = mouse_pos[1]
+                    player_armyOB[count-1].xpost = x
+                    player_armyOB[count-1].ypost = y
+                    location = True
+                
+                    
                     
                 
             
@@ -736,22 +750,22 @@ while done == False:
 
 
 #units mapped to numbers for the ingame menue
-def unitinput(unitchoice):
-    unitchoice = int(unitchoice)
-    print(menuemap.get(int(unitchoice)))
-    player_army.append((menuemap.get(int(unitchoice))))
-    if unitchoice == 1:
-        player_armyOB.append(Mcavalry())
-    elif unitchoice == 2:
-        player_armyOB.append(Bcavalry())                      
-    elif unitchoice ==3:
-        player_armyOB.append(swordsman())
-    elif unitchoice ==4:
-        player_armyOB.append(archer())
-    elif unitchoice ==5:
-        player_armyOB.append(pikemen())
-    elif unitchoice ==6:
-        player_armyOB.append(catapult())
+##def unitinput(unitchoice):
+##    unitchoice = int(unitchoice)
+##    print(menuemap.get(int(unitchoice)))
+##    player_army.append((menuemap.get(int(unitchoice))))
+##    if unitchoice == 1:
+##        player_armyOB.append(Mcavalry())
+##    elif unitchoice == 2:
+##        player_armyOB.append(Bcavalry())                      
+##    elif unitchoice ==3:
+##        player_armyOB.append(swordsman())
+##    elif unitchoice ==4:
+##        player_armyOB.append(archer())
+##    elif unitchoice ==5:
+##        player_armyOB.append(pikemen())
+##    elif unitchoice ==6:
+##        player_armyOB.append(catapult())
 
 #function to make a numebr positive
 def positive(number):
@@ -767,17 +781,17 @@ pygame.display.set_caption("Battle simulator")
 
 
 #where the initialised map will be stored
-mapOB = [[None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         ]
+##mapOB = [[None,None,None,None,None,None,None,None,None,None],
+##         [None,None,None,None,None,None,None,None,None,None],
+##         [None,None,None,None,None,None,None,None,None,None],
+##         [None,None,None,None,None,None,None,None,None,None],
+##         [None,None,None,None,None,None,None,None,None,None],
+##         [None,None,None,None,None,None,None,None,None,None],
+##         [None,None,None,None,None,None,None,None,None,None],
+##         [None,None,None,None,None,None,None,None,None,None],
+##         [None,None,None,None,None,None,None,None,None,None],
+##         [None,None,None,None,None,None,None,None,None,None],
+##         ]
 
 newc = False
 ccount = 0
@@ -905,9 +919,7 @@ def astar(destinationx,destinationy,startx,starty):
     current = startnode
     lowesttogonode = current
     #loops through and sets the destinations of the nodes,this will then be used to calculate the heuristic
-##    pygame.draw.rect(DISPLAY,BLACK,((startnode.xpos,startnode.ypos),(20,20)))
-##    pygame.draw.rect(DISPLAY,YELLOW,((endnode.xpos,endnode.ypos),(20,20)))
-##    pygame.display.flip()
+
    
     found = False
     count = 0
