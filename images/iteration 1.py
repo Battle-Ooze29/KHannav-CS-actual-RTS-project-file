@@ -467,40 +467,44 @@ done = False
 #visual menue to select your screen size
 DISPLAY = pygame.display.set_mode(((500),(500)))
 mouse_pos = []
+#1st menue
 while done == False:
     
     DISPLAY.fill(blue)
+    #creates the different pieces of text
     font = pygame.font.Font('freesansbold.ttf', 32)
     text1 = font.render('Small', True, green, blue)
     text2 = font.render('Medium', True, green, blue)
     text3 = font.render('Large', True, green, blue)
     text4 = font.render('Choose a screen size', True, green, blue)
+    #rectangles the text will be assigned to 
     textRect1 = text1.get_rect()#s
     textRect2= text2.get_rect()#M
     textRect3 = text3.get_rect()#L
     textRect4 = text4.get_rect()#this is the text at the top
+    #setting the postitions of the rectangels of the text
     textRect1.center = (100, 100)
     textRect2.center = (250 , 100)
     textRect3.center = (400, 100)
     textRect4.center = (250, 25)
+    #display the text to the display
     DISPLAY.blit(text1, textRect1)
     DISPLAY.blit(text2, textRect2)
     DISPLAY.blit(text3, textRect3)
     DISPLAY.blit(text4, textRect4)
 
-    #pygame.draw.rect(DISPLAY,green,(50,300,50,50))#small box
-    #buttons
+    #creates the buttons
     buttonS = pygame.Rect(75,300,50,50)
     buttonM = pygame.Rect(225,300,50,50)
     buttonL = pygame.Rect(375,300,50,50)
+    #draws the buttons 
     pygame.draw.rect(DISPLAY,green,(75,300,50,50))
     pygame.draw.rect(DISPLAY,green,(225,300,50,50))
     pygame.draw.rect(DISPLAY,green,(375,300,50,50))
     pygame.display.update()
-
-    #event1 = pygame.event.poll()
+    #takes in inputs 
     event = pygame.event.wait()
-    print(event)
+    #checks what it is and which button has been clicked which sets the tile and unit size
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = event.pos
         if buttonS.collidepoint(mouse_pos):
@@ -521,15 +525,16 @@ while done == False:
             
                        
 
-
+#2nd menue
 count = 0
 done = False
 choice = False
 while done == False:
-    print("in")
+    #if no unit is currently selected
     if choice == False:
         DISPLAY = pygame.display.set_mode(((500),(500)))
         DISPLAY.fill(blue)
+        #setting the fonts and pieces of text
         font = pygame.font.Font('freesansbold.ttf', 32)
         text0 = font.render('0', True, green, blue)
         text1 = font.render('1', True, green, blue)
@@ -539,7 +544,7 @@ while done == False:
         text5 = font.render('5', True, green, blue)
         text6 = font.render('6', True, green, blue)
         heading = font.render('choose your units', True, green, blue)
-
+        #assigning text to rectangles
         textRect0 = text0.get_rect()#0
         textRect1 = text1.get_rect()#1
         textRect2= text2.get_rect()#2
@@ -548,7 +553,7 @@ while done == False:
         textRect5 = text5.get_rect()#5
         textRect6= text6.get_rect()#6
         textRect7 = heading.get_rect()#the heading
-        
+        #setting the postitions of the rectangles
         textRect0.center = (255, 400)
         textRect1.center = (255 , 400)
         textRect2.center = (255, 400)
@@ -574,7 +579,7 @@ while done == False:
         icon5 =scaleunit("pikeman.PNG")
         icon6 =scaleunit("catapult.PNG")
 
-        #blitting the images
+        #blitting the images to the display
         DISPLAY.blit(icon1,(55,335))
         DISPLAY.blit(icon2,(135,335))
         DISPLAY.blit(icon3,(215,335))
@@ -584,9 +589,11 @@ while done == False:
         DISPLAY.blit(heading, textRect7)
         pygame.display.update()
 
-        event = pygame.event.wait()
+        #the loop will end if 6 units have been selected 
         if count == 6:
             done = True
+        event = pygame.event.wait()
+        #gets the inputs and checks which button has been pressed, depending on the button it will initialise a unit and add it to the unit list
             
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = event.pos
@@ -614,8 +621,10 @@ while done == False:
                 player_armyOB.append(catapult())
                 count +=1
                 choice = True
-
+                
+#if a unit is selcted 
     if choice == True:
+        #it displays the map 
         DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
         newc = False
         ccount = 0
@@ -711,6 +720,8 @@ while done == False:
                 row+=tilesize
         pygame.display.flip()
 
+    #this then displays the units on the map 
+    
         for i in range(len(player_armyOB)):
             icon = player_armyOB[i]
             #displays the corresponding icon of that unit type tot he map at the postitions of the unit
@@ -718,16 +729,19 @@ while done == False:
             pygame.display.flip()
 
         location = False
+        #if a location on the map hasnt been selected 
         while location == False:
             event = pygame.event.wait()
+            #if its a click
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = event.pos
                 y=mouse_pos[1]
                 maxy = tilesize*5
-                if y > maxy:#bbelow the value
+                if y > maxy:#bbelow the y value i.e in the players half of the map
                     print("valid")
                     x = mouse_pos[0]
                     y = mouse_pos[1]
+                    #sets the x and y coordinates of the unit 
                     player_armyOB[count-1].xpost = (x//tilesize)*tilesize
                     player_armyOB[count-1].ypost = (y//tilesize)*tilesize
                     location = True
