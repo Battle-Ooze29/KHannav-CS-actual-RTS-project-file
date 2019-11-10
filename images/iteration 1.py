@@ -500,6 +500,7 @@ while done == False:
 
     #event1 = pygame.event.poll()
     event = pygame.event.wait()
+    print(event)
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = event.pos
         if buttonS.collidepoint(mouse_pos):
@@ -517,14 +518,17 @@ while done == False:
             tilesize = displaysize.get(choice)
             unitsize = iconsize.get(choice)
             done = True
-            print(mouse_pos)
+            
                        
-DISPLAY = pygame.display.set_mode(((500),(500)))
+
 
 count = 0
 done = False
-while not done:
-    if choice ==False:
+choice = False
+while done == False:
+    print("in")
+    if choice == False:
+        DISPLAY = pygame.display.set_mode(((500),(500)))
         DISPLAY.fill(blue)
         font = pygame.font.Font('freesansbold.ttf', 32)
         text0 = font.render('0', True, green, blue)
@@ -577,6 +581,7 @@ while not done:
         DISPLAY.blit(icon4,(295,335))
         DISPLAY.blit(icon5,(375,335))
         DISPLAY.blit(icon6,(455,335))
+        DISPLAY.blit(heading, textRect7)
         pygame.display.update()
 
         event = pygame.event.wait()
@@ -588,28 +593,140 @@ while not done:
             if b1.collidepoint(mouse_pos):
                 player_armyOB.append(Mcavalry())
                 count +=1
+                choice = True
             if b2.collidepoint(mouse_pos):
                 player_armyOB.append(Bcavalry())
                 count +=1
+                choice = True
             if b3.collidepoint(mouse_pos):
                 player_armyOB.append(swordsman())
                 count +=1
+                choice = True
             if b4.collidepoint(mouse_pos):
                 player_armyOB.append(archer())
                 count +=1
+                choice = True
             if b5.collidepoint(mouse_pos):
                 player_armyOB.append(pikemen())
                 count +=1
+                choice = True
             if b6.collidepoint(mouse_pos):
                 player_armyOB.append(catapult())
                 count +=1
+                choice = True
+
+    if choice == True:
+        DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
+        newc = False
+        ccount = 0
+        newr = False
+        row = 0
+        columb = 0
+        mapOB = [[None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         [None,None,None,None,None,None,None,None,None,None],
+         ]
+
+
+        for i in range (10):
+            #nested loop so that the 10 columbs are done and then the loops loves down to the next row
+            for j in range (10):
+                #each of these if statements will run depending on the piece of text in that postition in the map
+                    # they will add an initialised objecgt to the map objects list and do the same for a node at the same postition
+                    #they will then blit the image of that tile at its given coordinates
+                landtype = map1[i][j]
+                if landtype == "F":
+                    mapOB[i][j] = plains(columb,row)
+                    img = mapOB[i][j]
+                    DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                    newc = True
+                    ccount +=1
+                   
+                elif landtype == "H":
+                    mapOB[i][j] = hill(columb,row)
+                    img = mapOB[i][j]
+                    DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                    newc = True
+                    ccount +=1
+                   
+                elif landtype == "W":
+                    mapOB[i][j] = water(columb,row)
+                    img = mapOB[i][j]
+                    DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                    newc = True
+                    ccount +=1
+                    impassable.append(mapOB[i][j])
+
+                elif landtype == "M":
+                    mapOB[i][j] = mountain(columb,row)
+                    img = mapOB[i][j]
+                    DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                    newc = True
+                    ccount +=1
+                    impassable.append(mapOB[i][j])
+
+                elif landtype == "FJ":
+                    mapOB[i][j] = fjord(columb,row)
+                    img = mapOB[i][j]
+                    DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                    newc = True
+                    ccount +=1
+                   
+                elif landtype == "GS":
+                    mapOB[i][j] = gentleslope(columb,row)
+                    img = mapOB[i][j]
+                    DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                    newc = True
+                    ccount +=1
+                   
+                elif landtype == "SS":
+                    mapOB[i][j] = steepslope(columb,row)
+                    img = mapOB[i][j]
+                    DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                    newc = True
+                    ccount +=1
+                   
+                elif landtype == "L":
+                    mapOB[i][j] = lake(columb,row)
+                    img = mapOB[i][j]
+                    DISPLAY.blit(img.img,(img.xpos,img.ypos))
+                    newc = True
+                    ccount +=1
+                    impassable.append(mapOB[i][j])
+        #ensures that it loops the correct number of times
+                if ccount == 10:
+                    newr = True
+                    columb = 0
+                    ccount = 0
+                if (newc == True) and (ccount != 0):
+                    columb += tilesize
+            if newr == True:
+                row+=tilesize
+        pygame.display.flip()
+
+        location = False
+        while location = False:
+            event = pygame.event.wait()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = event.pos
+                y=mouse_pos[1]
+                maxy = tilesize*5
+                if y > maxy:#bbelow the value
+                    
+                
+            
+        
 
 
 
 
-
-
-DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
 
 
 #drawing the menue
