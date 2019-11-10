@@ -734,7 +734,7 @@ while done == False:
                     choice= False
                 
                     
-                    
+DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))                   
 #function to make a numebr positive
 def positive(number):
     if number < 0:
