@@ -424,8 +424,7 @@ def tileround(x,tilesize):
        
 #threading class
 #class thread(threading.Thread):
-       
-   
+
 #randomiser to make combat more indicidualised
 
 def randomdmg():
@@ -524,7 +523,6 @@ while done == False:
             done = True
             
                        
-
 #2nd menue
 count = 0
 done = False
@@ -553,6 +551,7 @@ while done == False:
         textRect5 = text5.get_rect()#5
         textRect6= text6.get_rect()#6
         textRect7 = heading.get_rect()#the heading
+
         #setting the postitions of the rectangles
         textRect0.center = (255, 400)
         textRect1.center = (255 , 400)
@@ -1300,9 +1299,7 @@ while True:
             print("path has been found")
             pass
                
-
 ##########################################################################   A STAR####################################
-
 #movement function will be a modified version of a star with localised checks
 
 ##    if __name == "__main__":
