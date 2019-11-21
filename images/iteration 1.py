@@ -25,7 +25,7 @@ blue = (0, 0, 128)
 #charge constants
 chargemod = 1.2
 positive = +1
-negative = -1
+negative = -15
 flat = 1
 #list of impassale tiles
 impassable = []
@@ -904,7 +904,7 @@ def astar(destinationx,destinationy,startx,starty):
    
     found = False
     count = 0
-    openlist.append(current)
+    #openlist.append(current)
     while found ==False:
         #togo is the distance from that node to the destination
         #isse found openlist is 0 so this loop isnt running, prospective neighbours are not being added
@@ -927,6 +927,7 @@ def astar(destinationx,destinationy,startx,starty):
                 current = node_list[current.parenty][current.parentx]
                 node = current
                 if node ==startnode:
+                    print(pathlist)
                     return True
 
         else:
@@ -1009,42 +1010,6 @@ def astar(destinationx,destinationy,startx,starty):
                 openlist.append(listofneighbours[i])
 
 
-
-
-###################################################################
-#picking destinations for units
-#loop by number of units higlighted and append the desstinations to a list then assign a destination to each unit in order of the units speed
-    spacesneeded = len(player_armyhighlight)
-    destx = destinationx//tilesize
-    desty = destinationy//tilesize
-    listofdests = []
-    initial = mapOB[destx][desty]
-    current = initial
-
-    for i in range (spaceneeded):
-        if i == 0:
-            if current.passable == True:
-               listofdests.append[current]
-        if i == 1:
-            current = mapOB[(destx-1)][desty]
-            if current.passable == True:
-                listofdests.append[current]
-        if i == 2:
-            current = mapOB[(destx-1)][(desty-1)]
-            if current.passable ==True:
-                listofdests.append[current]
-        if i ==3:
-            current = mapOB[destx][(desty-1)]
-            if current.passable ==True:
-                listofdests.append[current]
-        if i ==4:
-            current = mapOB[(destx+1)][desty]
-            if current.passable ==True:
-                listofdests.append[current]
-        if i == 5:
-            current = mapOB[(destx+1)][(desty+1)]
-            if current.passable ==True:
-                listofdests.append[current]
 
 #assigns destinations to units        
     #for i in range(len(player_armyhighlight)):
@@ -1293,6 +1258,44 @@ while True:
         #rounds the destination coordinates to a specific tile index
         destinationxcords = (mousex//tilesize)
         destinationycords = (mousey//tilesize)
+
+        
+
+
+    ###################################################################
+    #picking destinations for units
+    #loop by number of units higlighted and append the desstinations to a list then assign a destination to each unit in order of the units speed
+        spacesneeded = len(player_armyhighlight)
+        destx = destinationx//tilesize
+        desty = destinationy//tilesize
+        listofdests = []
+        initial = mapOB[destx][desty]
+        current = initial
+
+        for i in range (spaceneeded):
+            if i == 0:
+                if current.passable == True:
+                   listofdests.append[current]
+            if i == 1:
+                current = mapOB[(destx-1)][desty]
+                if current.passable == True:
+                    listofdests.append[current]
+            if i == 2:
+                current = mapOB[(destx-1)][(desty-1)]
+                if current.passable ==True:
+                    listofdests.append[current]
+            if i ==3:
+                current = mapOB[destx][(desty-1)]
+                if current.passable ==True:
+                    listofdests.append[current]
+            if i ==4:
+                current = mapOB[(destx+1)][desty]
+                if current.passable ==True:
+                    listofdests.append[current]
+            if i == 5:
+                current = mapOB[(destx+1)][(desty+1)]
+                if current.passable ==True:
+                    listofdests.append[current]
         if ((len(player_armyhighlight))) == 1:
             path = astar(destinationxcords,destinationycords,player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
             #movement = move(destination[0],destination[1],player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
@@ -1312,8 +1315,6 @@ while True:
 
 ###########################################################################################################
        
-
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
