@@ -243,8 +243,8 @@ class hill(map):
 class unit:
     localdestx = 0
     localdesty = 0
-    destpostx = 0
-    destposty = 0
+    destx = 0
+    desty = 0
     #destination for pathfinding 
     #functions output attributes when needed
     def gethealth(self):
@@ -443,17 +443,16 @@ def randomdmg():
     return modifier
 
 
-#lists for movement##########################
+#lists for movement#######################
+MovingUnits = []
 InTransit = [1,2,3,4,5,6]
-InTransit[0] = [None,0,0,0,0,0,0,0,0]
-InTransit[1] = [None,0,0,0,0,0,0,0,0]
-InTransit[2] = [None,0,0,0,0,0,0,0,0]
-InTransit[3] = [None,0,0,0,0,0,0,0,0]
-InTransit[4] = [None,0,0,0,0,0,0,0,0]
-InTransit[5] = [None,0,0,0,0,0,0,0,0]
-#(unit,currentx,currenty,localx,localy,xspeed,yspeed,destx,dest,y)######
-#list of paths for moving
-TranditPaths= [None,None,None,None,None,None]
+InTransit[0] = [None,0,0,0,0,0,0,]
+InTransit[1] = [None,0,0,0,0,0,0,]
+InTransit[2] = [None,0,0,0,0,0,0,]
+InTransit[3] = [None,0,0,0,0,0,0,]
+InTransit[4] = [None,0,0,0,0,0,0,]
+InTransit[5] = [None,0,0,0,0,0,0,]
+TransitPaths= [None,None,None,None,None,None]
 
 ###############choosing your screensize################
 displaysize = {
@@ -960,7 +959,7 @@ clock = Clock()
 ###################################################################
 # a star,#insert error checking so that only coodinates which also have nodes are passed in ie check the pciked location and change to nearest tile if impassabl#need to update nodes beforehand to have h cost for the corect destination  
 
-def astar(destinationx,destinationy,startx,starty):
+def astar(destinationx,destinationy,startx,starty,unit):
     lowesttogo = 10000000
     #SETTING THE STARTNODE
     startnode = node_list[(starty//tilesize)][(startx//tilesize)]
@@ -1000,8 +999,8 @@ def astar(destinationx,destinationy,startx,starty):
                 current = node_list[current.parenty][current.parentx]
                 node = current
                 if node ==startnode:
-                    print(pathlist)
-                    return True
+                    UnitsMoving.append(unit)
+                    return pathlist
 
         else:
             #tested-workds
@@ -1087,8 +1086,13 @@ def astar(destinationx,destinationy,startx,starty):
 
 #take the destinations and the unit  being moved
 def move(x,y,unit):
-    #the x and y are the targets for the unit to move to ]
+    #the x and y are the targets for the unit to move to and unitindex is the index of the units path in the list of the paths,this index is also that of the units list of movement numbers  
     #the unit should be the head unit in the columb or the only unit
+
+
+    for i in range len(MovingUnits):
+        if MovingUnits[i] == unit:
+            unitindex = i
 
     if tilesize ==64:
         pixelmod = 1
@@ -1098,44 +1102,47 @@ def move(x,y,unit):
         pixelmod =1.5
 
    
-    while done == False:
-        if (unit.xpost ==((x*tilesize)+(0.5*tilesize))) and ((unit.ypost) == ((y*tilesize)+(0.5*tilesize))):
-            done = True
-        else:#setting the speed, this has to be redone each loop due to terrian costs
-            speed = unit.speed
-            xindex = (x//tilesize)
-            yindex = (x//tilesize)
-            mapmod = mapOB[xindex,yindex].speedmod
-            unitspeed = ((speed * mapmod) *pixelmod)
-            done = False
-            currentnode = node_list[xindex][yindex]
-            #getting the next node, looking at child of current node
-            nextNodex = currentnode.childx
-            nextNodey = currentnode.childy
-            #pick the  direction direction to move in
-           
-            if (nextNodex  >= unit.xpost):
-                directionxmod = 1
+    speed = unit.speed
+    xindex = (x//tilesize)
+    yindex = (x//tilesize)
+    mapmod = mapOB[xindex,yindex].speedmod
+    unitspeed = ((speed * mapmod) *pixelmod)
+    done = False
+    currentnode = node_list[xindex][yindex]
+    #getting the next node, looking at child of current node
+    nextNodex = currentnode.childx
+    nextNodey = currentnode.childy
+    #pick the  direction direction to move in
+   
+    if (nextNodex  >= unit.xpost):
+        directionxmod = 1
 
-            elif ((nextNodex<= unit.xpost)):
-                directionxmod = -1
+    elif ((nextNodex<= unit.xpost)):
+        directionxmod = -1
 
-            if nextNodey >= unit.ypost :
-                directionymod = 1
+    elif nextNodex == unit.xpost:
+        directionxmod = 0
 
-            elif nextNodey <= unit.ypost:
-                directionymod = -1
-            print("chosen direction" & directionymod)
+    if nextNodey >= unit.ypost :
+        directionymod = 1
 
-            unitspeedx = unitspeed * directionxmod
-            unitspeedy = unitspeed* directionymod
-            print("move")
-            time.sleep(0.01)                                                                                                                                  
-            unit.xpost = (unit.xpost + unitspeedx)
-            unit.ypost = (unit.ypost+unitspeedy)
-    if done == True:
-        return None
+    elif nextNodey <= unit.ypost:
+        directionymod = -1
 
+    elif nextNodey == unit.ypost:
+        directionymod = 0
+#the direcions will be multiplied by speed to give a different change in x and y depending on diredction ]
+    xspeed = unitspeed * directionxmod
+    yspeed = unitspeed* directionymod
+    
+
+    (InTransit[unitindex])[unitindex] = unit
+    (InTransit[unitindex])[unitindex] = x
+    (InTransit[unitindex])[unitindex] = y
+    (InTransit[unitindex])[unitindex] = xspeed
+    (InTransit[unitindex])[unitindex] = yspeed
+    (InTransit[unitindex])[unitindex] = unit.destx                                                                                                
+    (InTransit[unitindex])[unitindex] = unit.desty
 
 
 
@@ -1146,6 +1153,19 @@ while True:
     #this ensures the loop only runs 60 times per second
     clock.tick_busy_loop(60)
 
+###########################################################MOVEMENT#################
+
+
+    for i in range len(MovingUnits)-1:
+        stats = InTransit[i]
+        pathlist = TransitPaths[i]
+
+        
+
+
+
+
+    
 # redrawing the background image
 #same loop as earlier but removed everything which initialised an object this just reads the map and then blits the images to the screen
     newc = False
@@ -1298,6 +1318,16 @@ while True:
                         icon = player_armyOB[i]
                         DISPLAY.blit((icon.icon),((player_armyOB[i].xpost),(player_armyOB[i].ypost)))
                         pygame.display.flip()
+                        MovingUnits = []
+                        InTransit = [1,2,3,4,5,6]
+                        InTransit[0] = [None,0,0,0,0,0,0,]
+                        InTransit[1] = [None,0,0,0,0,0,0,]
+                        InTransit[2] = [None,0,0,0,0,0,0,]
+                        InTransit[3] = [None,0,0,0,0,0,0,]
+                        InTransit[4] = [None,0,0,0,0,0,0,]
+                        InTransit[5] = [None,0,0,0,0,0,0,]
+                        TransitPaths= [None,None,None,None,None,None]
+                        
 
         #if the startpost and he endpost are the same then the mouse hasnt moved so nothing new needs to be drawn
         elif startpost == endpost:
@@ -1357,25 +1387,22 @@ while True:
                 current = mapOB[(destx+1)][(desty+1)]
                 if current.passable ==True:
                     listofdests.append[current]
-        if ((len(player_armyhighlight))) == 1:
-            path = astar(destinationxcords,destinationycords,player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
-            #movement = move(destination[0],destination[1],player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
-            print("path has been found")
-            pass
-        print (path)
+                    
+#this will loop through the units and assign each one a dest near the postition selected by the player                   
 
-#MOVEMENT FUNCTION PLAN
-
-##########################################################################   A STAR####################################
-#movement function will be a modified version of a star with localised checks
-
-##    if __name == "__main__":
-##        format = "%(asctime)s: %(message)s"
-##        logging.basicConfig(format=format,level=logging.INFO,datefmt="%H:%M:%S")
-##        with concurrent.futures.ThreadPoolExecuter(max_workers=6)as executer:
-##            for index in range(6):
-##                
-##      
+        for i in range len(MovingUnits)-1:
+            MovingUnits[i].destx = (listofdests[i].xpos)
+            MovingUnits[i].desty = (listofdests[i].ypos)
+            
+            
+        MovingUnits = player_armyhighlight
+        for i in range len(highlighted):
+            path = astar(player_armyhighlight.destx,player_armyhighlight.desty,player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
+            transitpaths.append(path)
+            
+            
+            
+   
 
 ###########################################################################################################
        
