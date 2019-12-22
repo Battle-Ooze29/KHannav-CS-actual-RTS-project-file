@@ -241,9 +241,11 @@ class hill(map):
 
 #########################################################unit classes
 class unit:
-
+    localdestx = 0
+    localdesty = 0
     destpostx = 0
     destposty = 0
+    #destination for pathfinding 
     #functions output attributes when needed
     def gethealth(self):
         return self.health
@@ -361,6 +363,7 @@ class catapult(unit):
 #a star class for the node
        
 class node():
+    impassable = False 
     #occupied by a friend or foe
     friendoc = False
     foeoc = False
@@ -440,6 +443,18 @@ def randomdmg():
     return modifier
 
 
+#lists for movement##########################
+InTransit = [1,2,3,4,5,6]
+InTransit[0] = [None,0,0,0,0,0,0,0,0]
+InTransit[1] = [None,0,0,0,0,0,0,0,0]
+InTransit[2] = [None,0,0,0,0,0,0,0,0]
+InTransit[3] = [None,0,0,0,0,0,0,0,0]
+InTransit[4] = [None,0,0,0,0,0,0,0,0]
+InTransit[5] = [None,0,0,0,0,0,0,0,0]
+#(unit,currentx,currenty,localx,localy,xspeed,yspeed,destx,dest,y)######
+#list of paths for moving
+TranditPaths= [None,None,None,None,None,None]
+
 ###############choosing your screensize################
 displaysize = {
 1:64,
@@ -466,6 +481,11 @@ done = False
 #visual menue to select your screen size
 DISPLAY = pygame.display.set_mode(((500),(500)))
 mouse_pos = []
+
+
+
+
+
 #1st menue
 while done == False:
     
@@ -491,7 +511,6 @@ while done == False:
     DISPLAY.blit(text2, textRect2)
     DISPLAY.blit(text3, textRect3)
     DISPLAY.blit(text4, textRect4)
-
     #creates the buttons
     buttonS = pygame.Rect(75,300,50,50)
     buttonM = pygame.Rect(225,300,50,50)
@@ -521,8 +540,118 @@ while done == False:
             tilesize = displaysize.get(choice)
             unitsize = iconsize.get(choice)
             done = True
+
+
+
+
+
+
+
+
+#INITIALISING THE LIST OF NODES AND THE MAP OBJECTS#
+#it displays the map 
+newc = False
+ccount = 0
+newr = False
+row = 0
+columb = 0
+#list for the initialised map nodes 
+mapOB = [[None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ ]
+#list of nodes for a star
+node_list = [[None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ [None,None,None,None,None,None,None,None,None,None],
+ ]
+
+
+for i in range (10):
+#nested loop so that the 10 columbs are done and then the loops loves down to the next row
+    for j in range (10):
+        #each of these if statements will run depending on the piece of text in that postition in the map
+            # they will add an initialised objecgt to the map objects list and do the same for a node at the same postition
+            #they will then blit the image of that tile at its given coordinates
+        landtype = map1[i][j]
+        if landtype == "F":
+            mapOB[i][j] = plains(columb,row)
+            node_list[i][j] = node(columb,row)
+            newc = True
+            ccount +=1
+           
+        elif landtype == "H":
+            mapOB[i][j] = hill(columb,row)
+            node_list[i][j] = node(columb,row)
+            newc = True
+            ccount +=1
+           
+        elif landtype == "W":
+            mapOB[i][j] = water(columb,row)
+            node_list[i][j] = None
+            newc = True
+            ccount +=1
+            impassable.append(mapOB[i][j])
+
+        elif landtype == "M":
+            mapOB[i][j] = mountain(columb,row)
+            node_list[i][j] = None
+            newc = True
+            ccount +=1
+            impassable.append(mapOB[i][j])
+
+        elif landtype == "FJ":
+            mapOB[i][j] = fjord(columb,row)
+            node_list[i][j] = node(columb,row)
+            newc = True
+            ccount +=1
+           
+        elif landtype == "GS":
+            mapOB[i][j] = gentleslope(columb,row)
+            node_list[i][j] = node(columb,row)
+            newc = True
+            ccount +=1
+           
+        elif landtype == "SS":
+            mapOB[i][j] = steepslope(columb,row)
+            node_list[i][j] = node(columb,row)
+            newc = True
+            ccount +=1
+           
+        elif landtype == "L":
+            mapOB[i][j] = lake(columb,row)
+            node_list[i][j] = None
+            newc = True
+            ccount +=1
+            impassable.append(mapOB[i][j])
+#ensures that it loops the correct number of times
+        if ccount == 10:
+            newr = True
+            columb = 0
+            ccount = 0
+        if (newc == True) and (ccount != 0):
+            columb += tilesize
+    if newr == True:
+        row+=tilesize
+
+
+
             
-                       
+
 #2nd menue
 count = 0
 done = False
@@ -630,18 +759,6 @@ while done == False:
         newr = False
         row = 0
         columb = 0
-        mapOB = [[None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         ]
-
 
         for i in range (10):
             #nested loop so that the 10 columbs are done and then the loops loves down to the next row
@@ -651,21 +768,18 @@ while done == False:
                     #they will then blit the image of that tile at its given coordinates
                 landtype = map1[i][j]
                 if landtype == "F":
-                    mapOB[i][j] = plains(columb,row)
                     img = mapOB[i][j]
                     DISPLAY.blit(img.img,(img.xpos,img.ypos))
                     newc = True
                     ccount +=1
                    
                 elif landtype == "H":
-                    mapOB[i][j] = hill(columb,row)
                     img = mapOB[i][j]
                     DISPLAY.blit(img.img,(img.xpos,img.ypos))
                     newc = True
                     ccount +=1
                    
                 elif landtype == "W":
-                    mapOB[i][j] = water(columb,row)
                     img = mapOB[i][j]
                     DISPLAY.blit(img.img,(img.xpos,img.ypos))
                     newc = True
@@ -673,7 +787,6 @@ while done == False:
                     impassable.append(mapOB[i][j])
 
                 elif landtype == "M":
-                    mapOB[i][j] = mountain(columb,row)
                     img = mapOB[i][j]
                     DISPLAY.blit(img.img,(img.xpos,img.ypos))
                     newc = True
@@ -681,28 +794,24 @@ while done == False:
                     impassable.append(mapOB[i][j])
 
                 elif landtype == "FJ":
-                    mapOB[i][j] = fjord(columb,row)
                     img = mapOB[i][j]
                     DISPLAY.blit(img.img,(img.xpos,img.ypos))
                     newc = True
                     ccount +=1
                    
                 elif landtype == "GS":
-                    mapOB[i][j] = gentleslope(columb,row)
                     img = mapOB[i][j]
                     DISPLAY.blit(img.img,(img.xpos,img.ypos))
                     newc = True
                     ccount +=1
                    
                 elif landtype == "SS":
-                    mapOB[i][j] = steepslope(columb,row)
                     img = mapOB[i][j]
                     DISPLAY.blit(img.img,(img.xpos,img.ypos))
                     newc = True
                     ccount +=1
                    
                 elif landtype == "L":
-                    mapOB[i][j] = lake(columb,row)
                     img = mapOB[i][j]
                     DISPLAY.blit(img.img,(img.xpos,img.ypos))
                     newc = True
@@ -737,14 +846,21 @@ while done == False:
                 y=mouse_pos[1]
                 maxy = tilesize*5
                 if y > maxy:#bbelow the y value i.e in the players half of the map
-                    print("valid")
                     x = mouse_pos[0]
-                    y = mouse_pos[1]
-                    #sets the x and y coordinates of the unit 
-                    player_armyOB[count-1].xpost = (x//tilesize)*tilesize
-                    player_armyOB[count-1].ypost = (y//tilesize)*tilesize
-                    location = True
-                    choice= False
+                    #sets the x and y coordinates of the unit
+                    if node_list[x//tilesize][y//tilesize] != None:
+                        
+                        if mapOB[y//tilesize][x//tilesize].passable == True:
+                            if node_list[x//tilesize][y//tilesize].friendoc == False:
+                                player_armyOB[count-1].xpost = (x//tilesize)*tilesize
+                                player_armyOB[count-1].ypost = (y//tilesize)*tilesize
+                                location = True
+                                choice= False
+                            else:
+                                pass
+                    else:
+                        print("NOONE")
+
                 
                     
 DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))                   
@@ -761,38 +877,15 @@ done_input = False
 pygame.display.set_caption("Battle simulator")
 
 
-#where the initialised map will be stored
-##mapOB = [[None,None,None,None,None,None,None,None,None,None],
-##         [None,None,None,None,None,None,None,None,None,None],
-##         [None,None,None,None,None,None,None,None,None,None],
-##         [None,None,None,None,None,None,None,None,None,None],
-##         [None,None,None,None,None,None,None,None,None,None],
-##         [None,None,None,None,None,None,None,None,None,None],
-##         [None,None,None,None,None,None,None,None,None,None],
-##         [None,None,None,None,None,None,None,None,None,None],
-##         [None,None,None,None,None,None,None,None,None,None],
-##         [None,None,None,None,None,None,None,None,None,None],
-##         ]
 
 newc = False
 ccount = 0
 newr = False
 row = 0
 columb = 0
-#list of nodes for a star
-node_list = [[None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         [None,None,None,None,None,None,None,None,None,None],
-         ]
-#initialising the map, the nodes and then creating the visual map fromt the text in the map        
-#10 loops as the game is 10 by 10
+
+
+#DRAWING THE MAP FROM THE TEXT
 for i in range (10):
     #nested loop so that the 10 columbs are done and then the loops loves down to the next row
     for j in range (10):
@@ -801,71 +894,52 @@ for i in range (10):
             #they will then blit the image of that tile at its given coordinates
         landtype = map1[i][j]
         if landtype == "F":
-            mapOB[i][j] = plains(columb,row)
-            node_list[i][j] = node(columb,row)
             img = mapOB[i][j]
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
            
         elif landtype == "H":
-            mapOB[i][j] = hill(columb,row)
-            node_list[i][j] = node(columb,row)
             img = mapOB[i][j]
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
            
         elif landtype == "W":
-            mapOB[i][j] = water(columb,row)
-            node_list[i][j] = None
             img = mapOB[i][j]
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
-            impassable.append(mapOB[i][j])
 
         elif landtype == "M":
-            mapOB[i][j] = mountain(columb,row)
-            node_list[i][j] = None
             img = mapOB[i][j]
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
-            impassable.append(mapOB[i][j])
 
         elif landtype == "FJ":
-            mapOB[i][j] = fjord(columb,row)
             img = mapOB[i][j]
-            node_list[i][j] = node(columb,row)
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
            
         elif landtype == "GS":
-            mapOB[i][j] = gentleslope(columb,row)
             img = mapOB[i][j]
-            node_list[i][j] = node(columb,row)
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
            
         elif landtype == "SS":
-            mapOB[i][j] = steepslope(columb,row)
             img = mapOB[i][j]
-            node_list[i][j] = node(columb,row)
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
            
         elif landtype == "L":
-            mapOB[i][j] = lake(columb,row)
-            node_list[i][j] = None
             img = mapOB[i][j]
             DISPLAY.blit(img.img,(img.xpos,img.ypos))
             newc = True
             ccount +=1
-            impassable.append(mapOB[i][j])
 #ensures that it loops the correct number of times
         if ccount == 10:
             newr = True
@@ -904,7 +978,6 @@ def astar(destinationx,destinationy,startx,starty):
    
     found = False
     count = 0
-    #openlist.append(current)
     while found ==False:
         #togo is the distance from that node to the destination
         #isse found openlist is 0 so this loop isnt running, prospective neighbours are not being added
@@ -1008,18 +1081,6 @@ def astar(destinationx,destinationy,startx,starty):
                 listofneighbours[i].updateH()
                 #now i have the list of valid neighbours and will pick the best option
                 openlist.append(listofneighbours[i])
-
-
-
-#assigns destinations to units        
-    #for i in range(len(player_armyhighlight)):
-     #   player_armyhighlight[i].destpostx = listofdests[i].xpos
-      #  player_armyhighlight[i].destposty = listofdests[i].ypos
-       
-
-    #each unit needs to be multithreaded for movement
-    #movement function
-        #movement code
 
 
 
@@ -1266,13 +1327,13 @@ while True:
     #picking destinations for units
     #loop by number of units higlighted and append the desstinations to a list then assign a destination to each unit in order of the units speed
         spacesneeded = len(player_armyhighlight)
-        destx = destinationx//tilesize
-        desty = destinationy//tilesize
+        destx = destinationxcords//tilesize
+        desty = destinationycords//tilesize
         listofdests = []
         initial = mapOB[destx][desty]
         current = initial
 
-        for i in range (spaceneeded):
+        for i in range (spacesneeded):
             if i == 0:
                 if current.passable == True:
                    listofdests.append[current]
@@ -1301,7 +1362,10 @@ while True:
             #movement = move(destination[0],destination[1],player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
             print("path has been found")
             pass
-               
+        print (path)
+
+#MOVEMENT FUNCTION PLAN
+
 ##########################################################################   A STAR####################################
 #movement function will be a modified version of a star with localised checks
 
