@@ -1085,7 +1085,7 @@ def astar(destinationx,destinationy,startx,starty,unit):
 
 
 #take the destinations and the unit  being moved
-def move(x,y,unit):
+def move(x,y,unit,MovingUnits):
     #the x and y are the targets for the unit to move to and unitindex is the index of the units path in the list of the paths,this index is also that of the units list of movement numbers  
     #the unit should be the head unit in the columb or the only unit
 
@@ -1136,11 +1136,11 @@ def move(x,y,unit):
     xspeed = unitspeed * directionxmod
     yspeed = unitspeed* directionymod
     
-    (InTransit[unitindex])[unitindex] = unit
-    (InTransit[unitindex])[unitindex] = x
-    (InTransit[unitindex])[unitindex] = y
-    (InTransit[unitindex])[unitindex] = xspeed
-    (InTransit[unitindex])[unitindex] = yspeed
+    (InTransit[unitindex])[0] = unit
+    (InTransit[unitindex])[1] = x
+    (InTransit[unitindex])[2] = y
+    (InTransit[unitindex])[3] = xspeed
+    (InTransit[unitindex])[4] = yspeed
     print(Intransit)
     return True
 
@@ -1152,30 +1152,45 @@ def move(x,y,unit):
 while True:
     #this ensures the loop only runs 60 times per second
     clock.tick_busy_loop(20)
-
+    temp = 0
 ###########################################################MOVEMENT#################
 
     if ((len(MovingUnits)) > 0):
+
+        #for the first time when the unit object hasnt been places in the list yet
+##        try:
+##            stats = InTransit[0]
+##            i = 0
+##            temp = InTransit[0][0]
+##        except:
+##            stats = InTransit[0]
+##            i = 0
+##            destination = pathlist[len(pathlist)-1]
+##            destx = destination.xpos
+##            desty = destination.ypos
+##            x = move(destx,desty,stats[i][0],MovingUnits)
+##            print("not motion")
+            
         
         if (len(MovingUnits)) == 1:
             i = 0
             stats = InTransit[0]
             pathlist = TransitPaths[0]
-            if (stats[i][0].xpost == stats[i][0].destx) and (stats[i][0].ypost == stats[i][0].desty):
+            if (stats[0].xpost == stats[0].destx) and (stats[0].ypost == stats[0].desty):
                 MovingUnits.remove(MovingUnits[i])
                 print("not motion")
                 #at the local destination which means the next dest needs to be selected 
-            elif (stats[i][0].xpost == stats[i][0].localdestx) and (stats[i][0].ypost == stats[i][0].localdesty):
+            elif (stats[0].xpost == stats[0].localdestx) and (stats[0].ypost == stats[0].localdesty):
                 destination = pathlist[len(pathlist)-1]
                 destx = destination.xpos
                 desty = destination.ypos
-                x = move(destx,desty,stats[i][0])
+                x = move(destx,desty,stats[0],MovingUnits)
                 print("not motion")
             else:
                 print("motion")
                 #add the speed stats which dictate speed of unit
-                stats[i][0].xpost = stats[i][0].xpost + stats[i][3]
-                stats[i][0].ypost = stats[i][0].ypost + stats[i][4]
+                stats[0].xpost = stats[0].xpost + stats[3]
+                stats[0].ypost = stats[0].ypost + stats[4]
             
 
 
@@ -1201,7 +1216,9 @@ while True:
                 #add the speed stats which dictate speed of unit
                 stats[i][0].xpost = stats[i][0].xpost + stats[i][3]
                 stats[i][0].ypost = stats[i][0].ypost + stats[i][4]
-                                      
+    else:
+        print("no movement")
+        print(len(MovingUnits))
             
 
 
@@ -1408,7 +1425,7 @@ while True:
 
 
 
-        for i in range ((spacesneeded)-1):
+        for i in range ((spacesneeded)):
             if i == 0:
                 if current.passable == True:
                     listofdests.append(current)
@@ -1432,21 +1449,32 @@ while True:
                 current = mapOB[(destx+1)][(desty+1)]
                 if current.passable ==True:
                     listofdests.append(current)
+            if i == 6:
+                current = mapOB[(destx-1)][(desty+1)]
+                if current.passable ==True:
+                    listofdests.append(current)
+            
+            
                     
 #this will loop through the units and assign each one a dest near the postition selected by the player                   
-
+    
         for i in range (len(MovingUnits)-1):
             MovingUnits[i].destx = (listofdests[i].xpos)
             MovingUnits[i].desty = (listofdests[i].ypos)
-            print("moved")
             
-            
+        if (len(MovingUnits)) ==1:
+            MovingUnits[0].destx = (listofdests[0].xpos)
+            MovingUnits[0].desty = (listofdests[0].ypos)
+          
         MovingUnits = player_armyhighlight
         for i in range (len(player_armyhighlight)):
             path = astar(player_armyhighlight[i].destx,player_armyhighlight[i].desty,player_armyhighlight[i].xpost,player_armyhighlight[i].ypost,player_armyhighlight[i])
             TransitPaths.append(path)
             print("A star")
             #UnitsMoving.append(unit)
+        print(InTransit[0][0])
+        stats = (InTransit[0])
+        print(stats[0])
             
             
             
