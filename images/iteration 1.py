@@ -6,7 +6,7 @@ import time
 import math
 import threading
 import pygame
-#colors which I may delete if not used but will keep for now
+#colors 
 WHITE=(255,255,255)
 blue=(0,0,255)
 lblue=(0,255,255)
@@ -37,7 +37,7 @@ enemy_army = []
 player_armyhighlight = []
 player_armyOB = []
 
-#vARIABLES FOR HIGHLIGHTING AN AREA
+#VARIABLES FOR HIGHLIGHTING AN AREA
 startpost = []
 endpost = []
 mpost = []
@@ -446,12 +446,12 @@ def randomdmg():
 #lists for movement#######################
 MovingUnits = []
 InTransit = [1,2,3,4,5,6]
-InTransit[0] = [None,0,0,0,0,0,0,]
-InTransit[1] = [None,0,0,0,0,0,0,]
-InTransit[2] = [None,0,0,0,0,0,0,]
-InTransit[3] = [None,0,0,0,0,0,0,]
-InTransit[4] = [None,0,0,0,0,0,0,]
-InTransit[5] = [None,0,0,0,0,0,0,]
+InTransit[0] = [None,0,0,0,0,]
+InTransit[1] = [None,0,0,0,0,]
+InTransit[2] = [None,0,0,0,0,]
+InTransit[3] = [None,0,0,0,0,]
+InTransit[4] = [None,0,0,0,0,]
+InTransit[5] = [None,0,0,0,0,]
 TransitPaths= [None,None,None,None,None,None]
 
 ###############choosing your screensize################
@@ -963,7 +963,7 @@ def astar(destinationx,destinationy,startx,starty,unit):
     lowesttogo = 10000000
     #SETTING THE STARTNODE
     startnode = node_list[(starty//tilesize)][(startx//tilesize)]
-    endnode = node_list[destinationy][destinationx]
+    endnode = node_list[destinationy//tilesize][destinationx//tilesize]
     #initialising lists to use in the algo
     shortest = 0
     openlist = []
@@ -986,6 +986,7 @@ def astar(destinationx,destinationy,startx,starty,unit):
             if openlist[i].H_cost < lowesth:
                 lowesttogonode = openlist[i]
                 lowesth = openlist[i].H_cost
+        #print(lowesttogonode)
         openlist.remove(lowesttogonode)
         current = lowesttogonode
 
@@ -999,7 +1000,6 @@ def astar(destinationx,destinationy,startx,starty,unit):
                 current = node_list[current.parenty][current.parentx]
                 node = current
                 if node ==startnode:
-                    UnitsMoving.append(unit)
                     return pathlist
 
         else:
@@ -1090,7 +1090,7 @@ def move(x,y,unit):
     #the unit should be the head unit in the columb or the only unit
 
 
-    for i in range len(MovingUnits):
+    for i in range (len(MovingUnits)):
         if MovingUnits[i] == unit:
             unitindex = i
 
@@ -1101,7 +1101,7 @@ def move(x,y,unit):
     elif tilesize == 96:
         pixelmod =1.5
 
-   
+    pathlist = TransitPaths[unitindex]
     speed = unit.speed
     xindex = (x//tilesize)
     yindex = (x//tilesize)
@@ -1109,9 +1109,10 @@ def move(x,y,unit):
     unitspeed = ((speed * mapmod) *pixelmod)
     done = False
     currentnode = node_list[xindex][yindex]
-    #getting the next node, looking at child of current node
-    nextNodex = currentnode.childx
-    nextNodey = currentnode.childy
+    #getting the next node, looking at the path 
+    nextNode = pathlist.pop((len(pathlist)-1))
+    nextnodex = nextNode.xpos
+    nextnodey = nextNode.ypos
     #pick the  direction direction to move in
    
     if (nextNodex  >= unit.xpost):
@@ -1135,14 +1136,13 @@ def move(x,y,unit):
     xspeed = unitspeed * directionxmod
     yspeed = unitspeed* directionymod
     
-
     (InTransit[unitindex])[unitindex] = unit
     (InTransit[unitindex])[unitindex] = x
     (InTransit[unitindex])[unitindex] = y
     (InTransit[unitindex])[unitindex] = xspeed
     (InTransit[unitindex])[unitindex] = yspeed
-    (InTransit[unitindex])[unitindex] = unit.destx                                                                                                
-    (InTransit[unitindex])[unitindex] = unit.desty
+    print(Intransit)
+    return True
 
 
 
@@ -1151,17 +1151,58 @@ def move(x,y,unit):
 #----game loop#----------
 while True:
     #this ensures the loop only runs 60 times per second
-    clock.tick_busy_loop(60)
+    clock.tick_busy_loop(20)
 
 ###########################################################MOVEMENT#################
 
-
-    for i in range len(MovingUnits)-1:
-        stats = InTransit[i]
-        pathlist = TransitPaths[i]
-
+    if ((len(MovingUnits)) > 0):
         
+        if (len(MovingUnits)) == 1:
+            i = 0
+            stats = InTransit[0]
+            pathlist = TransitPaths[0]
+            if (stats[i][0].xpost == stats[i][0].destx) and (stats[i][0].ypost == stats[i][0].desty):
+                MovingUnits.remove(MovingUnits[i])
+                print("not motion")
+                #at the local destination which means the next dest needs to be selected 
+            elif (stats[i][0].xpost == stats[i][0].localdestx) and (stats[i][0].ypost == stats[i][0].localdesty):
+                destination = pathlist[len(pathlist)-1]
+                destx = destination.xpos
+                desty = destination.ypos
+                x = move(destx,desty,stats[i][0])
+                print("not motion")
+            else:
+                print("motion")
+                #add the speed stats which dictate speed of unit
+                stats[i][0].xpost = stats[i][0].xpost + stats[i][3]
+                stats[i][0].ypost = stats[i][0].ypost + stats[i][4]
+            
 
+
+        for i in range (len(MovingUnits)-1):
+            stats = InTransit[i]
+            pathlist = TransitPaths[i]
+
+            #check if at destination in which case it should stop moving
+            print("something")
+            print(stats[i][0])
+            if (stats[i][0].xpost == stats[i][0].destx) and (stats[i][0].ypost == stats[i][0].desty):
+                MovingUnits.remove(MovingUnits[i])
+                print("not motion")
+                #at the local destination which means the next dest needs to be selected 
+            elif (stats[i][0].xpost == stats[i][0].localdestx) and (stats[i][0].ypost == stats[i][0].localdesty):
+                destination = pathlist[len(pathlist)-1]
+                destx = destination.xpos
+                desty = destination.ypos
+                x = move(destx,desty,stats[i][0])
+                print("not motion")
+            else:
+                print("motion")
+                #add the speed stats which dictate speed of unit
+                stats[i][0].xpost = stats[i][0].xpost + stats[i][3]
+                stats[i][0].ypost = stats[i][0].ypost + stats[i][4]
+                                      
+            
 
 
 
@@ -1319,13 +1360,14 @@ while True:
                         DISPLAY.blit((icon.icon),((player_armyOB[i].xpost),(player_armyOB[i].ypost)))
                         pygame.display.flip()
                         MovingUnits = []
+                        highlight = True
                         InTransit = [1,2,3,4,5,6]
-                        InTransit[0] = [None,0,0,0,0,0,0,]
-                        InTransit[1] = [None,0,0,0,0,0,0,]
-                        InTransit[2] = [None,0,0,0,0,0,0,]
-                        InTransit[3] = [None,0,0,0,0,0,0,]
-                        InTransit[4] = [None,0,0,0,0,0,0,]
-                        InTransit[5] = [None,0,0,0,0,0,0,]
+                        InTransit[0] = [None,0,0,0,0,]
+                        InTransit[1] = [None,0,0,0,0,]
+                        InTransit[2] = [None,0,0,0,0,]
+                        InTransit[3] = [None,0,0,0,0,]
+                        InTransit[4] = [None,0,0,0,0,]
+                        InTransit[5] = [None,0,0,0,0,]
                         TransitPaths= [None,None,None,None,None,None]
                         
 
@@ -1349,6 +1391,8 @@ while True:
         #rounds the destination coordinates to a specific tile index
         destinationxcords = (mousex//tilesize)
         destinationycords = (mousey//tilesize)
+        if highlight == True:
+            MovingUnits = player_armyhighlight
 
         
 
@@ -1356,49 +1400,53 @@ while True:
     ###################################################################
     #picking destinations for units
     #loop by number of units higlighted and append the desstinations to a list then assign a destination to each unit in order of the units speed
-        spacesneeded = len(player_armyhighlight)
+        spacesneeded = len(MovingUnits)
         destx = destinationxcords//tilesize
         desty = destinationycords//tilesize
         listofdests = []
-        initial = mapOB[destx][desty]
-        current = initial
+        current = mapOB[destx][desty]
 
-        for i in range (spacesneeded):
+
+
+        for i in range ((spacesneeded)-1):
             if i == 0:
                 if current.passable == True:
-                   listofdests.append[current]
+                    listofdests.append(current)
             if i == 1:
                 current = mapOB[(destx-1)][desty]
                 if current.passable == True:
-                    listofdests.append[current]
+                    listofdests.append(current)
             if i == 2:
                 current = mapOB[(destx-1)][(desty-1)]
                 if current.passable ==True:
-                    listofdests.append[current]
+                    listofdests.append(current)
             if i ==3:
                 current = mapOB[destx][(desty-1)]
                 if current.passable ==True:
-                    listofdests.append[current]
+                    listofdests.append(current)
             if i ==4:
                 current = mapOB[(destx+1)][desty]
                 if current.passable ==True:
-                    listofdests.append[current]
+                    listofdests.append(current)
             if i == 5:
                 current = mapOB[(destx+1)][(desty+1)]
                 if current.passable ==True:
-                    listofdests.append[current]
+                    listofdests.append(current)
                     
 #this will loop through the units and assign each one a dest near the postition selected by the player                   
 
-        for i in range len(MovingUnits)-1:
+        for i in range (len(MovingUnits)-1):
             MovingUnits[i].destx = (listofdests[i].xpos)
             MovingUnits[i].desty = (listofdests[i].ypos)
+            print("moved")
             
             
         MovingUnits = player_armyhighlight
-        for i in range len(highlighted):
-            path = astar(player_armyhighlight.destx,player_armyhighlight.desty,player_armyhighlight[0].xpost,player_armyhighlight[0].ypost)
-            transitpaths.append(path)
+        for i in range (len(player_armyhighlight)):
+            path = astar(player_armyhighlight[i].destx,player_armyhighlight[i].desty,player_armyhighlight[i].xpost,player_armyhighlight[i].ypost,player_armyhighlight[i])
+            TransitPaths.append(path)
+            print("A star")
+            #UnitsMoving.append(unit)
             
             
             
