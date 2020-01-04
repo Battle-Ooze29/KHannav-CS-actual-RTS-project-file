@@ -542,11 +542,6 @@ while done == False:
 
 
 
-
-
-
-
-
 #INITIALISING THE LIST OF NODES AND THE MAP OBJECTS#
 #it displays the map 
 newc = False
@@ -646,8 +641,6 @@ for i in range (10):
             columb += tilesize
     if newr == True:
         row+=tilesize
-
-
 
             
 
@@ -872,9 +865,9 @@ def positive(number):
         return number
 done_input = False
 
+
 #setting the display
 pygame.display.set_caption("Battle simulator")
-
 
 
 newc = False
@@ -1093,6 +1086,9 @@ def move(x,y,unit,MovingUnits):
     for i in range (len(MovingUnits)):
         if MovingUnits[i] == unit:
             unitindex = i
+    if (len(MovingUnits)) == 1:
+        unitindex = 0
+
 
     if tilesize ==64:
         pixelmod = 1
@@ -1100,50 +1096,62 @@ def move(x,y,unit,MovingUnits):
         pixelmod = 1.125
     elif tilesize == 96:
         pixelmod =1.5
+        
 
     pathlist = TransitPaths[unitindex]
     speed = unit.speed
     xindex = (x//tilesize)
     yindex = (x//tilesize)
-    mapmod = mapOB[xindex,yindex].speedmod
+    mapmod = mapOB[xindex][yindex].speedmod
     unitspeed = ((speed * mapmod) *pixelmod)
     done = False
     currentnode = node_list[xindex][yindex]
     #getting the next node, looking at the path 
     nextNode = pathlist.pop((len(pathlist)-1))
-    nextnodex = nextNode.xpos
-    nextnodey = nextNode.ypos
+    nextNodex = nextNode.xpos
+    nextNodey = nextNode.ypos
+    #set the local destination of the unit
+    unit.localdestx = nextNodex
+    unit.localdesty = nextNodey
     #pick the  direction direction to move in
    
-    if (nextNodex  >= unit.xpost):
+    if (nextNodex  > unit.xpost):
         directionxmod = 1
 
-    elif ((nextNodex<= unit.xpost)):
+    elif ((nextNodex< unit.xpost)):
         directionxmod = -1
 
     elif nextNodex == unit.xpost:
         directionxmod = 0
 
-    if nextNodey >= unit.ypost :
+    if nextNodey > unit.ypost :
         directionymod = 1
 
-    elif nextNodey <= unit.ypost:
+    elif nextNodey < unit.ypost:
         directionymod = -1
 
     elif nextNodey == unit.ypost:
         directionymod = 0
+        
 #the direcions will be multiplied by speed to give a different change in x and y depending on diredction ]
     xspeed = unitspeed * directionxmod
     yspeed = unitspeed* directionymod
+##    print("speeds")
+##    print(xspeed)
+##    print(yspeed)
+##    print("postition")
+##    print(nextNodex)
+##    print(nextNodey)
+##    print("unit postition")
+##    print(unit.xpost)
+##    print(unit.ypost)
     
     (InTransit[unitindex])[0] = unit
     (InTransit[unitindex])[1] = x
     (InTransit[unitindex])[2] = y
     (InTransit[unitindex])[3] = xspeed
     (InTransit[unitindex])[4] = yspeed
-    print(Intransit)
     return True
-
 
 
 
@@ -1157,71 +1165,80 @@ while True:
 
     if ((len(MovingUnits)) > 0):
 
-        #for the first time when the unit object hasnt been places in the list yet
-##        try:
-##            stats = InTransit[0]
-##            i = 0
-##            temp = InTransit[0][0]
-##        except:
-##            stats = InTransit[0]
-##            i = 0
-##            destination = pathlist[len(pathlist)-1]
-##            destx = destination.xpos
-##            desty = destination.ypos
-##            x = move(destx,desty,stats[i][0],MovingUnits)
-##            print("not motion")
-            
         
         if (len(MovingUnits)) == 1:
+
+
             i = 0
             stats = InTransit[0]
             pathlist = TransitPaths[0]
-            if (stats[0].xpost == stats[0].destx) and (stats[0].ypost == stats[0].desty):
-                MovingUnits.remove(MovingUnits[i])
-                print("not motion")
-                #at the local destination which means the next dest needs to be selected 
-            elif (stats[0].xpost == stats[0].localdestx) and (stats[0].ypost == stats[0].localdesty):
+            if stats[0] == None:
                 destination = pathlist[len(pathlist)-1]
                 destx = destination.xpos
                 desty = destination.ypos
+                stats[0] = MovingUnits[0]
                 x = move(destx,desty,stats[0],MovingUnits)
-                print("not motion")
-            else:
-                print("motion")
-                #add the speed stats which dictate speed of unit
-                stats[0].xpost = stats[0].xpost + stats[3]
-                stats[0].ypost = stats[0].ypost + stats[4]
+
+            if (stats[0].xpost == stats[0].destx) and (stats[0].ypost == stats[0].desty):
+                MovingUnits.remove(MovingUnits[i])
+                TransitPaths.remove(i)
+
+                #at the local destination which means the next dest needs to be selected 
+
+
+            if (stats[0].xpost == stats[0].localdestx) and (stats[0].ypost == stats[0].localdesty):
+                destination = pathlist[(len(pathlist))-1]
+                destx = destination.xpos
+                desty = destination.ypos
+                x = move(destx,desty,stats[0],MovingUnits)
+
             
+            
+            #add the speed stats which dictate speed of unit
+            stats[0].xpost = stats[0].xpost + stats[3]
+            stats[0].ypost = stats[0].ypost + stats[4]
+
 
 
         for i in range (len(MovingUnits)-1):
             stats = InTransit[i]
             pathlist = TransitPaths[i]
 
-            #check if at destination in which case it should stop moving
-            print("something")
-            print(stats[i][0])
-            if (stats[i][0].xpost == stats[i][0].destx) and (stats[i][0].ypost == stats[i][0].desty):
-                MovingUnits.remove(MovingUnits[i])
-                print("not motion")
-                #at the local destination which means the next dest needs to be selected 
-            elif (stats[i][0].xpost == stats[i][0].localdestx) and (stats[i][0].ypost == stats[i][0].localdesty):
+            
+            if stats[i] == None:
+
                 destination = pathlist[len(pathlist)-1]
                 destx = destination.xpos
                 desty = destination.ypos
-                x = move(destx,desty,stats[i][0])
-                print("not motion")
-            else:
-                print("motion")
-                #add the speed stats which dictate speed of unit
-                stats[i][0].xpost = stats[i][0].xpost + stats[i][3]
-                stats[i][0].ypost = stats[i][0].ypost + stats[i][4]
-    else:
-        print("no movement")
-        print(len(MovingUnits))
+                stats[0] = MovingUnits[0]
+                x = move(destx,desty,stats[0],MovingUnits)
+
+                
+
+            if (stats[0].xpost == stats[0].destx) and (stats[0].ypost == stats[0].desty):
+                MovingUnits.remove(MovingUnits[i])
+                TransitPaths.remove(i)
+
+                #at the local destination which means the next dest needs to be selected 
+
+
+
+            if (stats[0].xpost == stats[0].localdestx) and (stats[0].ypost == stats[0].localdesty):
+                destination = pathlist[(len(pathlist))-1]
+                destx = destination.xpos
+                desty = destination.ypos
+                x = move(destx,desty,stats[0],MovingUnits)
+
+
             
+            #add the speed stats which dictate speed of unit
+            stats[0].xpost = stats[0].xpost + stats[3]
+            stats[0].ypost = stats[0].ypost + stats[4]
 
 
+    else:
+        pass
+            
 
     
 # redrawing the background image
@@ -1465,16 +1482,13 @@ while True:
         if (len(MovingUnits)) ==1:
             MovingUnits[0].destx = (listofdests[0].xpos)
             MovingUnits[0].desty = (listofdests[0].ypos)
-          
+
+        TransitPaths = []
         MovingUnits = player_armyhighlight
         for i in range (len(player_armyhighlight)):
             path = astar(player_armyhighlight[i].destx,player_armyhighlight[i].desty,player_armyhighlight[i].xpost,player_armyhighlight[i].ypost,player_armyhighlight[i])
             TransitPaths.append(path)
-            print("A star")
-            #UnitsMoving.append(unit)
-        print(InTransit[0][0])
-        stats = (InTransit[0])
-        print(stats[0])
+
             
             
             
