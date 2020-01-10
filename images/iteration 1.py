@@ -186,7 +186,7 @@ class lake(map):
 #fjord
 class fjord(map):
     passable = True
-    speedmod = 0.6
+    speedmod = 0.8
     attmod = 0.8
     defmod = 1.1
     def __init__(self,xpos,ypos):
@@ -208,7 +208,7 @@ class plains(map):
 #gentleslope
 class gentleslope(map):
     passable = True
-    speedmod = 0.8
+    speedmod = 0.9
     attmod = 0.9
     defmod = 1.2
     def __init__(self,xpos,ypos):
@@ -219,7 +219,7 @@ class gentleslope(map):
 #steepslope
 class steepslope(map):
     passable = True
-    speedmod = 0.7
+    speedmod = 0.8
     attmod = 0.7
     defmod = 1.4
     def __init__(self,xpos,ypos):
@@ -230,7 +230,7 @@ class steepslope(map):
 #hill
 class hill(map):
     passable = True
-    speedmod = 0.6
+    speedmod = 0.8
     attmod = 0.7
     defmod = 1.6
     def __init__(self,xpos,ypos):
@@ -374,6 +374,7 @@ class node():
     parentx = 0
     parenty = 0
     parent = 0
+    child = 0
     #parent is just the parent node 
     #tcost- the speed modifier of the terrain type
     tcost = 1
@@ -389,18 +390,22 @@ class node():
     #calculates cost to move to the current tile and adds the cost
 
     def updateH(self):
-        self.H_cost = ((((self.gcost)))-(self.fcost))*self.tcost
+        self.H_cost = ((((self.gcost)))+(self.fcost)*self.tcost)
 
     def updatetrav(self,startx,starty,prevx,prevy):
         #updates the distance from the destination this is the g cost
         self.prevg = self.gcost
-        DISTANCE = sqrt(((startx-prevx)*(startx-prevx))+((starty-prevy)*(starty-prevy)))
-        self.gcost = DISTANCE+self.prevg
+        DISTANCE = round(sqrt(((startx-prevx)*(startx-prevx))+((starty-prevy)*(starty-prevy))),4)
+        self.gcost = DISTANCE+self.gcost
 
 
     #updates distance to go
     def updatetogo(self,destx,desty):
-        DISTANCE = sqrt(((self.xpos-destx)*(self.xpos-destx))+((self.ypos-desty)*(self.ypos-desty)))
+        if (self.xpos == destx) and (self.ypos == desty):
+            DISTANCE = 0
+        else:
+            DISTANCE = round(sqrt(((self.xpos-destx)*(self.xpos-destx))+((self.ypos-desty)*(self.ypos-desty))),4)
+
         self.fcost = DISTANCE
 
 #updates where the parent node is
@@ -429,7 +434,49 @@ def tileround(x,tilesize):
        
 #threading class
 #class thread(threading.Thread):
+class computer():
 
+    Defend = False
+    Attack = False 
+    armysize = 0
+    listofenemy = []
+    listoffriendly = []
+    def attordef(self):
+
+        for i in range(len(self.listofenemy)):
+            totalx += self.listofenemy[i].xpos
+            totaly += self.listofenemy[i].ypos
+        avEx = totalx/(len(self.listofenemy)#E denotes that they are the players units 
+        avEy = totaly/(len(self.listofenemy)
+
+        for i in range(len(self.listoffriendly)):
+            totalx += self.listoffriendly[i].xpos
+            totaly += self.listoffriendly[i].ypos
+        avFx = totalx/(len(self.listoffriendly))#F denotes that they are the AI's units
+        avFy = totaly/(len(self.listoffriendly))
+#COMPARE AVERAGE X AND Y'S DEPENDING ON THE OUTCOME THE AI WILL CHOOSE WHAT TO DO
+        DX = avEx - avFx
+        DY = avEy - avFy
+        
+        straightdiff = round(sqrt((DX*DX)+(DY*DY)),2)
+
+        if straightdiff <= (2*tilesize):
+            Attack = True
+        else:
+            Defend = True
+
+    def postitioning():
+        if Attack = True :
+        
+
+
+
+
+        if Defend = True:
+        
+            
+                       
+    
 #randomiser to make combat more indicidualised
 
 def randomdmg():
@@ -957,9 +1004,12 @@ clock = Clock()
 def astar(destinationx,destinationy,startx,starty,unit):
     lowesttogo = 10000000
 
+    destinationx = destinationx//tilesize
+    destinationy = destinationy//tilesize
+
     #SETTING THE STARTNODE
     startnode = node_list[(starty//tilesize)][(startx//tilesize)]
-    endnode = node_list[destinationy//tilesize][destinationx//tilesize]
+    endnode = node_list[destinationy][destinationx]
 
     #initialising lists to use in the algo
     shortest = 0
@@ -970,25 +1020,30 @@ def astar(destinationx,destinationy,startx,starty,unit):
     #starting node
     current = startnode
     lowesttogonode = current
-    current.H_cost = 10
-
+    current.H_cost = 100
+    prevnode = current 
     found = False
-    count = 0
     while found ==False:
-
-        lowesth = 10000000000000000000
-        for i in range((len(openlist))-1):
-            if openlist[i].H_cost < lowesth:
+        
+        lowesth = 10000
+        for i in range((len(openlist))):
+            if openlist[i].H_cost <= lowesth:
                 lowesttogonode = openlist[i]
                 lowesth = openlist[i].H_cost
                 
-        openlist.remove(lowesttogonode)
+
+        if prevnode != lowesttogonode:
+            prevnode.parent = lowesttogonode
         current = lowesttogonode
+        openlist.remove(current)
+        closedlist.append(current)
+        
 
+        x=current.xpos//tilesize
+        y=current.ypos//tilesize
 
-        if ((current.xpos//tilesize) == (destinationx)) and ((current.ypos//tilesize) == (destinationy)):
-            found == True
-
+        if current == endnode:
+            found = True
         
         else:
             #tested-workds
@@ -997,12 +1052,11 @@ def astar(destinationx,destinationy,startx,starty,unit):
             x=(current.xpos)//tilesize
             y=(current.ypos)//tilesize
             #find the index values of the node in the list 
-            xrows = current.xpos//tilesize
-            yrows = current.ypos//tilesize
+            xrows = x
+            yrows = y
             listofneighbours = []
-            #finding neighbours
-
-            #The directions in which there are neighbours 
+            
+            ##The directions in which there are neighbours 
             left = True
             right = True
             top = True                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
@@ -1015,35 +1069,40 @@ def astar(destinationx,destinationy,startx,starty,unit):
                 top = False
             if yrows == 9:
                 below = False
-
-
+            
                 #l
             if left == True:
                 if (node_list[(y)][(x-1)]) == None:
                     pass
                 else:
                     listofneighbours.append(node_list[(y)][(x-1)])
+     
                 #ld
             if (left == True) and (below ==True):
                 #listofneighbours.append(node_list[(y+1)][(x-1)])
-                if (node_list[(y+1)][(x-1)]) == None:
+                if (node_list[(y-1)][(x-1)]) == None:
                     pass
                 else:
-                    listofneighbours.append(node_list[(y+1)][(x-1)])
+                    listofneighbours.append(node_list[(y-1)][(x-1)])
+
                 #d
             if below == True:
                 #listofneighbours.append(node_list[(y+1)][(x)])
-                if (node_list[(y+1)][(x)]) == None:
+                if (node_list[(y-1)][(x)]) == None:
                     pass
                 else:
-                    listofneighbours.append(node_list[(y+1)][(x)])
+                    listofneighbours.append(node_list[(y-1)][(x)])
+
+                    
                 #dr
             if (below == True)and(right == True):
                 #listofneighbours.append(node_list[(y+1)][(x+1)])
-                if (node_list[(y+1)][(x+1)]) == None:
+                if (node_list[(y-1)][(x+1)]) == None:
                     pass
                 else:
-                    listofneighbours.append(node_list[(y+1)][(x+1)])
+                    listofneighbours.append(node_list[(y-1)][(x+1)])
+
+                    
                 #r
             if right == True:
                 #listofneighbours.append(node_list[(y)][(x+1)])
@@ -1051,27 +1110,34 @@ def astar(destinationx,destinationy,startx,starty,unit):
                     pass
                 else:
                     listofneighbours.append(node_list[(y)][(x+1)])
+        
+                    
                 #rt
             if (right ==True )and(top == True):
                 #listofneighbours.append(node_list[(y-1)][(x+1)])
-                if (node_list[(y-1)][(x+1)]) == None:
+                if (node_list[(y+1)][(x+1)]) == None:
                     pass
                 else:
-                    listofneighbours.append(node_list[(y-1)][(x+1)])
+                    listofneighbours.append(node_list[(y+1)][(x+1)])
+           
+                    
                 #t
             if top == True:
                 #listofneighbours.append(node_list[(y-1)][(x)])
-                    if (node_list[(y-1)][(x)]) == None:
+                    if (node_list[(y+1)][(x)]) == None:
                         pass
                     else:
-                        listofneighbours.append(node_list[(y-1)][(x)])
+                        listofneighbours.append(node_list[(y+1)][(x)])
+                 
+                        
                 #tl
             if (top==True)and(left==True):
                 #listofneighbours.append(node_list[(y-1)][(x-1)])
-                if (node_list[(y-1)][(x-1)]) == None:
+                if (node_list[(y+1)][(x-1)]) == None:
                     pass
                 else:
-                    listofneighbours.append(node_list[(y-1)][(x-1)])
+                    listofneighbours.append(node_list[(y+1)][(x-1)])
+  
 
 #using while loops to loop through the lists and remove elements, cant use for as the length of the list changes
             #removes nodes which are none
@@ -1080,33 +1146,40 @@ def astar(destinationx,destinationy,startx,starty,unit):
 
             listtodelete = []
             for i in range(len(listofneighbours)):
+                for k in range(len(closedlist)):
+                    if closedlist[k] == listofneighbours[i]:
+                        listtodelete.append(listofneighbours[i])
                 if mapOB[listofneighbours[i].ypos//tilesize][listofneighbours[i].xpos//tilesize].passable == False:
                     listtodelete.append(listofneighbours[i])
-                    print("removed")
                         
             templist = [x for x in listofneighbours if x not in (listtodelete)]
             listofneighbours = templist
 
-            for i in range ((len(listofneighbours)-1)):
+            
+            for i in range ((len(listofneighbours))):
 
                 listofneighbours[i].tcost = (mapOB[current.ypos//tilesize][current.xpos//tilesize]).speedmod
                 listofneighbours[i].updatetrav(startnode.xpos,startnode.ypos,listofneighbours[i].xpos,listofneighbours[i].ypos)
-                listofneighbours[i].updatetogo(destinationx,destinationy)
+                listofneighbours[i].updatetogo(destinationx*tilesize,destinationy*tilesize)
                 listofneighbours[i].updateparent(current.xpos,current.ypos)
-                listofneighbours[i].parent = current
+                #listofneighbours[i].parent = current
+                prevnode = current
+
                 listofneighbours[i].updateH()
                 openlist.append(listofneighbours[i])
-
+     
     
     pathlist = []
-    node = endnode
-    #need to follow the nodes to append to a list starting at the end
-    while node != startnode:
+    pathlist.append(startnode)
+    current = startnode
+    prev = current
+    #need to follow the nodes to append to a list 
+    while current != endnode:
+        current = prev.parent
         pathlist.append(current)
-        current = node_list[current.parenty][current.parentx]
-        node = current
-        if node ==startnode:
-            return pathlist
+        prev = current
+
+    return pathlist
 
 
 
@@ -1194,12 +1267,13 @@ while True:
         
         if (len(MovingUnits)) == 1:
 
-
             i = 0
             stats = InTransit[0]
             pathlist = TransitPaths[0]
+
+            #pathlist = path
             if stats[0] == None:
-                destination = pathlist[len(pathlist)-1]
+                destination = pathlist[len(pathlist)]
                 destx = destination.xpos
                 desty = destination.ypos
                 stats[0] = MovingUnits[0]
@@ -1455,9 +1529,7 @@ while True:
 
         destx = destinationxcords
         desty = destinationycords
-        if highlight == True:
-            MovingUnits = player_armyhighlight
-        
+        MovingUnits = player_armyhighlight       
 
 
     ###################################################################
@@ -1465,9 +1537,7 @@ while True:
     #loop by number of units higlighted and append the desstinations to a list then assign a destination to each unit in order of the units speed
         spacesneeded = len(MovingUnits)
         
-        print("the rounded dests")
-        print(destx)
-        print(desty)
+
         
         listofdests = []
         current = mapOB[destx][desty]
@@ -1559,10 +1629,13 @@ while True:
             path = astar(MovingUnits[i].destx,MovingUnits[i].desty,MovingUnits[i].xpost,MovingUnits[i].ypost,MovingUnits[i])
             TransitPaths.append(path)
 
-            
-            
-            
-   
+        print("this is the path")
+        print(TransitPaths[0])
+        time.sleep(5)
+
+
+
+
 
 ###########################################################################################################
        
