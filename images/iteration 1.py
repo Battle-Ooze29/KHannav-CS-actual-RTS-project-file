@@ -27,7 +27,7 @@ chargemod = 1.2
 positive = +1
 negative = -15
 flat = 1
-#list of impassale tiles
+#list of imp=assale tiles
 impassable = []
 #list to store units for player, for now the enemy will have the same units, may let them pick in the future
 player_army = []
@@ -446,8 +446,8 @@ class computer():
         for i in range(len(self.listofenemy)):
             totalx += self.listofenemy[i].xpos
             totaly += self.listofenemy[i].ypos
-        avEx = totalx/(len(self.listofenemy)#E denotes that they are the players units 
-        avEy = totaly/(len(self.listofenemy)
+        avEx = totalx/(len(self.listofenemy))#E denotes that they are the players units 
+        avEy = totaly/(len(self.listofenemy))
 
         for i in range(len(self.listoffriendly)):
             totalx += self.listoffriendly[i].xpos
@@ -465,14 +465,14 @@ class computer():
         else:
             Defend = True
 
-    def postitioning():
-        if Attack = True :
+##    def postitioning():
+##        if Attack = True :
         
 
 
 
 
-        if Defend = True:
+##        if Defend = True:
         
             
                        
