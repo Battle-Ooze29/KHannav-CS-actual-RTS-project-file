@@ -1,3 +1,4 @@
+
 #importing libraries which I will need
 import pygame, pygame.font, pygame.event, pygame.draw, string,time,random,concurrent.futures
 from math import *
@@ -6,7 +7,7 @@ import time
 import math
 import threading
 import pygame
-#colors 
+#colors
 WHITE=(255,255,255)
 blue=(0,0,255)
 lblue=(0,255,255)
@@ -241,11 +242,27 @@ class hill(map):
 
 #########################################################unit classes
 class unit:
+    #attributes for movement
+   
+    path = []
+    #overall dest
+    destinationnode = 0
+    #local dest
+    localdestnode = 0
     localdestx = 0
     localdesty = 0
-    destx = 0
-    desty = 0
-    #destination for pathfinding 
+    #speed
+    movementspeedx = 0
+    movementspeedy = 0
+    #flag to check if the unit is moving
+    InTransit = False
+    #the node the unit is currently at
+    currentnode = 0
+    
+   
+#############################################################################################################################
+
+    #destination for pathfinding
     #functions output attributes when needed
     def gethealth(self):
         return self.health
@@ -363,7 +380,7 @@ class catapult(unit):
 #a star class for the node
        
 class node():
-    impassable = False 
+    impassable = False
     #occupied by a friend or foe
     friendoc = False
     foeoc = False
@@ -375,7 +392,7 @@ class node():
     parenty = 0
     parent = 0
     child = 0
-    #parent is just the parent node 
+    #parent is just the parent node
     #tcost- the speed modifier of the terrain type
     tcost = 1
     #gcost-this is the distance from the start postition
@@ -437,7 +454,7 @@ def tileround(x,tilesize):
 class computer():
 
     Defend = False
-    Attack = False 
+    Attack = False
     armysize = 0
     listofenemy = []
     listoffriendly = []
@@ -446,7 +463,7 @@ class computer():
         for i in range(len(self.listofenemy)):
             totalx += self.listofenemy[i].xpos
             totaly += self.listofenemy[i].ypos
-        avEx = totalx/(len(self.listofenemy))#E denotes that they are the players units 
+        avEx = totalx/(len(self.listofenemy))#E denotes that they are the players units
         avEy = totaly/(len(self.listofenemy))
 
         for i in range(len(self.listoffriendly)):
@@ -457,7 +474,7 @@ class computer():
 #COMPARE AVERAGE X AND Y'S DEPENDING ON THE OUTCOME THE AI WILL CHOOSE WHAT TO DO
         DX = avEx - avFx
         DY = avEy - avFy
-        
+       
         straightdiff = round(sqrt((DX*DX)+(DY*DY)),2)
 
         if straightdiff <= (2*tilesize):
@@ -467,16 +484,16 @@ class computer():
 
 ##    def postitioning():
 ##        if Attack = True :
-        
+       
 
 
 
 
 ##        if Defend = True:
-        
-            
+       
+           
                        
-    
+   
 #randomiser to make combat more indicidualised
 
 def randomdmg():
@@ -494,15 +511,6 @@ def randomdmg():
 
 #lists for movement#######################
 MovingUnits = []
-InTransit = [1,2,3,4,5,6]
-InTransit[0] = [None,0,0,0,0,]
-InTransit[1] = [None,0,0,0,0,]
-InTransit[2] = [None,0,0,0,0,]
-InTransit[3] = [None,0,0,0,0,]
-InTransit[4] = [None,0,0,0,0,]
-InTransit[5] = [None,0,0,0,0,]
-TransitPaths= [None,None,None,None,None,None]
-
 ###############choosing your screensize################
 displaysize = {
 1:64,
@@ -536,7 +544,7 @@ mouse_pos = []
 
 #1st menue
 while done == False:
-    
+   
     DISPLAY.fill(blue)
     #creates the different pieces of text
     font = pygame.font.Font('freesansbold.ttf', 32)
@@ -544,7 +552,7 @@ while done == False:
     text2 = font.render('Medium', True, green, blue)
     text3 = font.render('Large', True, green, blue)
     text4 = font.render('Choose a screen size', True, green, blue)
-    #rectangles the text will be assigned to 
+    #rectangles the text will be assigned to
     textRect1 = text1.get_rect()#s
     textRect2= text2.get_rect()#M
     textRect3 = text3.get_rect()#L
@@ -563,12 +571,12 @@ while done == False:
     buttonS = pygame.Rect(75,300,50,50)
     buttonM = pygame.Rect(225,300,50,50)
     buttonL = pygame.Rect(375,300,50,50)
-    #draws the buttons 
+    #draws the buttons
     pygame.draw.rect(DISPLAY,green,(75,300,50,50))
     pygame.draw.rect(DISPLAY,green,(225,300,50,50))
     pygame.draw.rect(DISPLAY,green,(375,300,50,50))
     pygame.display.update()
-    #takes in inputs 
+    #takes in inputs
     event = pygame.event.wait()
     #checks what it is and which button has been clicked which sets the tile and unit size
     if event.type == pygame.MOUSEBUTTONDOWN:
@@ -592,13 +600,13 @@ while done == False:
 
 
 #INITIALISING THE LIST OF NODES AND THE MAP OBJECTS#
-#it displays the map 
+#it displays the map
 newc = False
 ccount = 0
 newr = False
 row = 0
 columb = 0
-#list for the initialised map nodes 
+#list for the initialised map nodes
 mapOB = [[None,None,None,None,None,None,None,None,None,None],
  [None,None,None,None,None,None,None,None,None,None],
  [None,None,None,None,None,None,None,None,None,None],
@@ -691,7 +699,7 @@ for i in range (10):
     if newr == True:
         row+=tilesize
 
-            
+           
 
 #2nd menue
 count = 0
@@ -730,7 +738,7 @@ while done == False:
         textRect4.center = (255, 400)
         textRect5.center = (255 , 400)
         textRect6.center = (255, 400)
-        textRect7.center = (250, 25)#the heading 
+        textRect7.center = (250, 25)#the heading
 
         #definingbuttons
         b1 = pygame.Rect(55,335,unitsize,unitsize)
@@ -758,12 +766,12 @@ while done == False:
         DISPLAY.blit(heading, textRect7)
         pygame.display.update()
 
-        #the loop will end if 6 units have been selected 
+        #the loop will end if 6 units have been selected
         if count == 6:
             done = True
         event = pygame.event.wait()
         #gets the inputs and checks which button has been pressed, depending on the button it will initialise a unit and add it to the unit list
-            
+           
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = event.pos
             if b1.collidepoint(mouse_pos):
@@ -790,10 +798,10 @@ while done == False:
                 player_armyOB.append(catapult())
                 count +=1
                 choice = True
-                
-#if a unit is selcted 
+               
+#if a unit is selcted
     if choice == True:
-        #it displays the map 
+        #it displays the map
         DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))
         newc = False
         ccount = 0
@@ -869,8 +877,8 @@ while done == False:
                 row+=tilesize
         pygame.display.flip()
 
-    #this then displays the units on the map 
-    
+    #this then displays the units on the map
+   
         for i in range(len(player_armyOB)):
             icon = player_armyOB[i]
             #displays the corresponding icon of that unit type tot he map at the postitions of the unit
@@ -878,7 +886,7 @@ while done == False:
             pygame.display.flip()
 
         location = False
-        #if a location on the map hasnt been selected 
+        #if a location on the map hasnt been selected
         while location == False:
             event = pygame.event.wait()
             #if its a click
@@ -890,7 +898,7 @@ while done == False:
                     x = mouse_pos[0]
                     #sets the x and y coordinates of the unit
                     if node_list[x//tilesize][y//tilesize] != None:
-                        
+                       
                         if mapOB[y//tilesize][x//tilesize].passable == True:
                             if node_list[x//tilesize][y//tilesize].friendoc == False:
                                 player_armyOB[count-1].xpost = (x//tilesize)*tilesize
@@ -902,9 +910,9 @@ while done == False:
                     else:
                         print("NOONE")
 
-                
-                    
-DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))                   
+               
+                   
+DISPLAY = pygame.display.set_mode(((tilesize*10),(tilesize*10)))                  
 #function to make a numebr positive
 def positive(number):
     if number < 0:
@@ -1021,42 +1029,42 @@ def astar(destinationx,destinationy,startx,starty,unit):
     current = startnode
     lowesttogonode = current
     current.H_cost = 100
-    prevnode = current 
+    prevnode = current
     found = False
     while found ==False:
-        
+       
         lowesth = 10000
         for i in range((len(openlist))):
             if openlist[i].H_cost <= lowesth:
                 lowesttogonode = openlist[i]
                 lowesth = openlist[i].H_cost
-                
+               
 
         if prevnode != lowesttogonode:
             prevnode.parent = lowesttogonode
         current = lowesttogonode
         openlist.remove(current)
         closedlist.append(current)
-        
+       
 
         x=current.xpos//tilesize
         y=current.ypos//tilesize
 
         if current == endnode:
             found = True
-        
+       
         else:
             #tested-workds
             x=0
             y=0
             x=(current.xpos)//tilesize
             y=(current.ypos)//tilesize
-            #find the index values of the node in the list 
+            #find the index values of the node in the list
             xrows = x
             yrows = y
             listofneighbours = []
-            
-            ##The directions in which there are neighbours 
+           
+            ##The directions in which there are neighbours
             left = True
             right = True
             top = True                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
@@ -1069,7 +1077,7 @@ def astar(destinationx,destinationy,startx,starty,unit):
                 top = False
             if yrows == 9:
                 below = False
-            
+           
                 #l
             if left == True:
                 if (node_list[(y)][(x-1)]) == None:
@@ -1093,7 +1101,7 @@ def astar(destinationx,destinationy,startx,starty,unit):
                 else:
                     listofneighbours.append(node_list[(y-1)][(x)])
 
-                    
+                   
                 #dr
             if (below == True)and(right == True):
                 #listofneighbours.append(node_list[(y+1)][(x+1)])
@@ -1102,7 +1110,7 @@ def astar(destinationx,destinationy,startx,starty,unit):
                 else:
                     listofneighbours.append(node_list[(y-1)][(x+1)])
 
-                    
+                   
                 #r
             if right == True:
                 #listofneighbours.append(node_list[(y)][(x+1)])
@@ -1110,8 +1118,8 @@ def astar(destinationx,destinationy,startx,starty,unit):
                     pass
                 else:
                     listofneighbours.append(node_list[(y)][(x+1)])
-        
-                    
+       
+                   
                 #rt
             if (right ==True )and(top == True):
                 #listofneighbours.append(node_list[(y-1)][(x+1)])
@@ -1120,7 +1128,7 @@ def astar(destinationx,destinationy,startx,starty,unit):
                 else:
                     listofneighbours.append(node_list[(y+1)][(x+1)])
            
-                    
+                   
                 #t
             if top == True:
                 #listofneighbours.append(node_list[(y-1)][(x)])
@@ -1129,7 +1137,7 @@ def astar(destinationx,destinationy,startx,starty,unit):
                     else:
                         listofneighbours.append(node_list[(y+1)][(x)])
                  
-                        
+                       
                 #tl
             if (top==True)and(left==True):
                 #listofneighbours.append(node_list[(y-1)][(x-1)])
@@ -1137,12 +1145,12 @@ def astar(destinationx,destinationy,startx,starty,unit):
                     pass
                 else:
                     listofneighbours.append(node_list[(y+1)][(x-1)])
-  
+ 
 
 #using while loops to loop through the lists and remove elements, cant use for as the length of the list changes
             #removes nodes which are none
             #removes nodes in openlist and closed list to prevent duplicates
-                    
+                   
 
             listtodelete = []
             for i in range(len(listofneighbours)):
@@ -1151,11 +1159,11 @@ def astar(destinationx,destinationy,startx,starty,unit):
                         listtodelete.append(listofneighbours[i])
                 if mapOB[listofneighbours[i].ypos//tilesize][listofneighbours[i].xpos//tilesize].passable == False:
                     listtodelete.append(listofneighbours[i])
-                        
+                       
             templist = [x for x in listofneighbours if x not in (listtodelete)]
             listofneighbours = templist
 
-            
+           
             for i in range ((len(listofneighbours))):
 
                 listofneighbours[i].tcost = (mapOB[current.ypos//tilesize][current.xpos//tilesize]).speedmod
@@ -1168,12 +1176,12 @@ def astar(destinationx,destinationy,startx,starty,unit):
                 listofneighbours[i].updateH()
                 openlist.append(listofneighbours[i])
      
-    
+   
     pathlist = []
     pathlist.append(startnode)
     current = startnode
     prev = current
-    #need to follow the nodes to append to a list 
+    #need to follow the nodes to append to a list
     while current != endnode:
         current = prev.parent
         pathlist.append(current)
@@ -1186,17 +1194,11 @@ def astar(destinationx,destinationy,startx,starty,unit):
 
 
 #take the destinations and the unit  being moved
-def move(x,y,unit,MovingUnits):
+def move(unit):
     #the x and y are the targets for the unit to move to and unitindex is the index of the units path in the list of the paths,this index is also that of the units list of movement numbers  
     #the unit should be the head unit in the columb or the only unit
 
-
-    for i in range (len(MovingUnits)):
-        if MovingUnits[i] == unit:
-            unitindex = i
-    if (len(MovingUnits)) == 1:
-        unitindex = 0
-
+    unit.InTransit = True
 
     if tilesize ==64:
         pixelmod = 1
@@ -1204,52 +1206,48 @@ def move(x,y,unit,MovingUnits):
         pixelmod = 1.125
     elif tilesize == 96:
         pixelmod =1.5
-        
-
-    pathlist = TransitPaths[unitindex]
+       
+   
     speed = unit.speed
-    xindex = (x//tilesize)
-    yindex = (x//tilesize)
+    xindex = (unit.xpost//tilesize)
+    yindex = (unit.ypost//tilesize)
     mapmod = mapOB[yindex][xindex].speedmod
+    #this produces a speed which is scaled to the size of the map so the the player speed appears constant no matter the map size
     unitspeed = ((speed * mapmod) *pixelmod)
-    done = False
-    currentnode = node_list[xindex][yindex]
-    #getting the next node, looking at the path 
-    nextNode = pathlist.pop((len(pathlist)-1))
-    nextNodex = nextNode.xpos
-    nextNodey = nextNode.ypos
+    currentnode = node_list[yindex][xindex]
+    #getting the next node, looking at the path
+    nextNode = unit.path.pop(0)
     #set the local destination of the unit
-    unit.localdestx = nextNodex
-    unit.localdesty = nextNodey
+    unit.localdestnode = nextNode
+
     #pick the  direction direction to move in
    
-    if (nextNodex  > unit.xpost):
+    if (nextNode.xpos  > unit.xpost):
         directionxmod = 1
 
-    elif ((nextNodex< unit.xpost)):
+    if ((nextNode.xpos< unit.xpost)):
         directionxmod = -1
 
-    elif nextNodex == unit.xpost:
+    if nextNode.xpos == unit.xpost:
         directionxmod = 0
 
-    if nextNodey > unit.ypost :
+    if nextNode.ypos > unit.ypost :
         directionymod = 1
 
-    elif nextNodey < unit.ypost:
+    if nextNode.ypos < unit.ypost:
         directionymod = -1
 
-    elif nextNodey == unit.ypost:
+    if nextNode.ypos == unit.ypost:
         directionymod = 0
-        
+       
 #the direcions will be multiplied by speed to give a different change in x and y depending on diredction ]
+
     xspeed = unitspeed * directionxmod
     yspeed = unitspeed* directionymod
-    
-    (InTransit[unitindex])[0] = unit
-    (InTransit[unitindex])[1] = x
-    (InTransit[unitindex])[2] = y
-    (InTransit[unitindex])[3] = xspeed
-    (InTransit[unitindex])[4] = yspeed
+
+    unit.movementspeedx = xspeed
+    unit.movementspeedy = yspeed
+   
     return True
 
 
@@ -1260,87 +1258,86 @@ while True:
     #this ensures the loop only runs 60 times per second
     clock.tick_busy_loop(20)
     temp = 0
+    first = False
 ###########################################################MOVEMENT#################
 
     if ((len(MovingUnits)) > 0):
 
-        
+       
         if (len(MovingUnits)) == 1:
 
-            i = 0
-            stats = InTransit[0]
-            pathlist = TransitPaths[0]
-
-            #pathlist = path
-            if stats[0] == None:
-                destination = pathlist[len(pathlist)]
-                destx = destination.xpos
-                desty = destination.ypos
-                stats[0] = MovingUnits[0]
-                x = move(destx,desty,stats[0],MovingUnits)
-
-            if (stats[0].xpost == stats[0].destx) and (stats[0].ypost == stats[0].desty):
-                MovingUnits.remove(MovingUnits[i])
-                TransitPaths.remove(i)
-
-                #at the local destination which means the next dest needs to be selected 
-
-
-            if (stats[0].xpost == stats[0].localdestx) and (stats[0].ypost == stats[0].localdesty):
-                destination = pathlist[(len(pathlist))-1]
-                destx = destination.xpos
-                desty = destination.ypos
-                x = move(destx,desty,stats[0],MovingUnits)
-
-            
-            
-            #add the speed stats which dictate speed of unit
-            stats[0].xpost = stats[0].xpost + stats[3]
-            stats[0].ypost = stats[0].ypost + stats[4]
-
-
-
-        for i in range (len(MovingUnits)-1):
-            stats = InTransit[i]
-            pathlist = TransitPaths[i]
-
-            
-            if stats[i] == None:
-
-                destination = pathlist[len(pathlist)-1]
-                destx = destination.xpos
-                desty = destination.ypos
-                stats[0] = MovingUnits[0]
-                x = move(destx,desty,stats[0],MovingUnits)
 
                 
+            #pathlist = path
+            if MovingUnits[0].InTransit == False:
+                x = move(MovingUnits[0])
+                print("first")
+                
 
-            if (stats[0].xpost == stats[0].destx) and (stats[0].ypost == stats[0].desty):
+            #at destination
+            if (MovingUnits[0].xpost == MovingUnits[0].destinationnode.xpos) and (MovingUnits[0].ypost == MovingUnits[0].destinationnode.ypos):
                 MovingUnits.remove(MovingUnits[i])
-                TransitPaths.remove(i)
-
-                #at the local destination which means the next dest needs to be selected 
-
-
-
-            if (stats[0].xpost == stats[0].localdestx) and (stats[0].ypost == stats[0].localdesty):
-                destination = pathlist[(len(pathlist))-1]
-                destx = destination.xpos
-                desty = destination.ypos
-                x = move(destx,desty,stats[0],MovingUnits)
+                MovingUnits[0].InTransit = False
+                print("done")
+                
 
 
-            
+                #at the local destination which means the next dest needs to be selected
+            if (MovingUnits[0].xpost == MovingUnits[0].localdestnode.xpos) and (MovingUnits[0].ypost == MovingUnits[0].localdestnode.ypos):
+                x = move(MovingUnits[0])
+                print("checked")
+                
+
+
+            if MovingUnits[0].InTransit == True:
             #add the speed stats which dictate speed of unit
-            stats[0].xpost = stats[0].xpost + stats[3]
-            stats[0].ypost = stats[0].ypost + stats[4]
+                print("move")
+                MovingUnits[0].xpost = MovingUnits[0].xpost + MovingUnits[0].movementspeedx
+                MovingUnits[0].ypost = MovingUnits[0].ypost + MovingUnits[0].movementspeedy
 
 
-    else:
-        pass
-            
 
-    
+##        for i in range (len(MovingUnits)-1):
+##            stats = InTransit[i]
+##            pathlist = TransitPaths[i]
+##
+##            
+##            if stats[i] == None:
+##
+##                destination = pathlist[len(pathlist)-1]
+##                destx = destination.xpos
+##                desty = destination.ypos
+##                stats[0] = MovingUnits[0]
+##                x = move(destx,desty,stats[0],MovingUnits)
+##
+##                
+##
+##            if (stats[0].xpost == stats[0].destx) and (stats[0].ypost == stats[0].desty):
+##                MovingUnits.remove(MovingUnits[i])
+##                TransitPaths.remove(i)
+##
+##                #at the local destination which means the next dest needs to be selected
+##
+##
+##
+##            if (stats[0].xpost == stats[0].localdestx) and (stats[0].ypost == stats[0].localdesty):
+##                destination = pathlist[(len(pathlist))-1]
+##                destx = destination.xpos
+##                desty = destination.ypos
+##                x = move(destx,desty,stats[0],MovingUnits)
+##
+##
+##            
+##            #add the speed stats which dictate speed of unit
+##            stats[0].xpost = stats[0].xpost + stats[3]
+##            stats[0].ypost = stats[0].ypost + stats[4]
+##
+##
+##    else:
+##        pass
+##            
+
+   
 # redrawing the background image
 #same loop as earlier but removed everything which initialised an object this just reads the map and then blits the images to the screen
     newc = False
@@ -1497,15 +1494,7 @@ while True:
 
                         MovingUnits = []
                         highlight = True
-                        InTransit = [1,2,3,4,5,6]
-                        InTransit[0] = [None,0,0,0,0,]
-                        InTransit[1] = [None,0,0,0,0,]
-                        InTransit[2] = [None,0,0,0,0,]
-                        InTransit[3] = [None,0,0,0,0,]
-                        InTransit[4] = [None,0,0,0,0,]
-                        InTransit[5] = [None,0,0,0,0,]
-                        TransitPaths = [None,None,None,None,None,None]
-                        
+                       
 
         #if the startpost and he endpost are the same then the mouse hasnt moved so nothing new needs to be drawn
         elif startpost == endpost:
@@ -1529,22 +1518,20 @@ while True:
 
         destx = destinationxcords
         desty = destinationycords
-        MovingUnits = player_armyhighlight       
+        MovingUnits = player_armyhighlight      
 
 
     ###################################################################
     #picking destinations for units
     #loop by number of units higlighted and append the desstinations to a list then assign a destination to each unit in order of the units speed
         spacesneeded = len(MovingUnits)
-        
-
-        
+              
         listofdests = []
         current = mapOB[destx][desty]
 
         xrows = destx
         yrows = desty
-        
+       
         left = True
         right = True
         top = True                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
@@ -1567,7 +1554,7 @@ while True:
             if current.passable == True:
                 listofdests.append(current)
 
-            
+           
         if (left == True) and (below ==True):
             current = mapOB[(destx-1)][desty-1]
             if current.passable == True:
@@ -1607,34 +1594,22 @@ while True:
         if (top==True)and(left==True):
             current = mapOB[(destx-1)][(desty+1)]
             if current.passable ==True:
-                listofdests.append(current)
-
-
-                        
-                    
-#this will loop through the units and assign each one a dest near the postition selected by the player                   
-    
+                listofdests.append(current)                       
+                   
+#this will loop through the units and assign each one a dest near the postition selected by the player                  
+   
         for i in range (len(MovingUnits)-1):
-            MovingUnits[i].destx = (listofdests[i].xpos)
-            MovingUnits[i].desty = (listofdests[i].ypos)
-            
+            MovingUnits[i].destinationnode = (listofdests[i])
+           
+           
         if (len(MovingUnits)) ==1:
-            MovingUnits[0].destx = (listofdests[0].xpos)
-            MovingUnits[0].desty = (listofdests[0].ypos)
-            
-        TransitPaths = []
+            MovingUnits[0].destinationnode = (listofdests[0])
+
         MovingUnits = player_armyhighlight
         for i in range (len(MovingUnits)):
 
-            path = astar(MovingUnits[i].destx,MovingUnits[i].desty,MovingUnits[i].xpost,MovingUnits[i].ypost,MovingUnits[i])
-            TransitPaths.append(path)
-
-        print("this is the path")
-        print(TransitPaths[0])
-        time.sleep(5)
-
-
-
+            path = astar(MovingUnits[i].destinationnode.xpos,MovingUnits[i].destinationnode.ypos,MovingUnits[i].xpost,MovingUnits[i].ypost,MovingUnits[i])
+            MovingUnits[i].path = path
 
 
 ###########################################################################################################
@@ -1645,4 +1620,5 @@ while True:
 
 
 
-	
+
+
