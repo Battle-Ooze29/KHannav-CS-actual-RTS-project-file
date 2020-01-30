@@ -1292,8 +1292,15 @@ while True:
             if MovingUnits[0].InTransit == True:
             #add the speed stats which dictate speed of unit
                 print("move")
-                MovingUnits[0].xpost = MovingUnits[0].xpost + MovingUnits[0].movementspeedx
-                MovingUnits[0].ypost = MovingUnits[0].ypost + MovingUnits[0].movementspeedy
+                if MovingUnits[0].xpost == MovingUnits[0].localdestnode.xpos:
+                    MovingUnits[0].ypost = MovingUnits[0].ypost + 1
+                if MovingUnits[0].ypost == MovingUnits[0].localdestnode.ypos:
+                    MovingUnits[0].xpost = MovingUnits[0].xpost + 1
+                #MovingUnits[0].xpost = MovingUnits[0].xpost + 1#MovingUnits[0].movementspeedx
+                #MovingUnits[0].ypost = MovingUnits[0].ypost + 1#MovingUnits[0].movementspeedy
+                elif (not(MovingUnits[0].xpost == MovingUnits[0].localdestnode.xpos) and not(MovingUnits[0].ypost == MovingUnits[0].localdestnode.ypos)):
+                    MovingUnits[0].xpost = MovingUnits[0].xpost + 1#MovingUnits[0].movementspeedx
+                    MovingUnits[0].ypost = MovingUnits[0].ypost + 1#MovingUnits[0].movementspeedy
 
 
 
@@ -1610,6 +1617,11 @@ while True:
 
             path = astar(MovingUnits[i].destinationnode.xpos,MovingUnits[i].destinationnode.ypos,MovingUnits[i].xpost,MovingUnits[i].ypost,MovingUnits[i])
             MovingUnits[i].path = path
+        for i in range (len(MovingUnits[0].path)-1):
+            print("path posts")
+            print(MovingUnits[0].path[i].xpos//tilesize)
+            print(MovingUnits[0].path[i].ypos//tilesize)
+        time.sleep(20)
 
 
 ###########################################################################################################
