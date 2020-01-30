@@ -1225,7 +1225,7 @@ def move(unit):
     if (nextNode.xpos  > unit.xpost):
         directionxmod = 1
 
-    if ((nextNode.xpos< unit.xpost)):
+    if ((nextNode.xpos < unit.xpost)):
         directionxmod = -1
 
     if nextNode.xpos == unit.xpost:
@@ -1239,11 +1239,22 @@ def move(unit):
 
     if nextNode.ypos == unit.ypost:
         directionymod = 0
-       
+
+    print("the direction mods")
+    print(directionxmod)
+    print(directionymod)
+    print("tilepost")
+    print(nextNode.xpos//tilesize)
+    print(nextNode.ypos//tilesize)
+    print("unitspost")
+    print(unit.xpost//tilesize)
+    print(unit.ypost//tilesize)
+    time.sleep(5)
+    
 #the direcions will be multiplied by speed to give a different change in x and y depending on diredction ]
 
-    xspeed = unitspeed * directionxmod
-    yspeed = unitspeed* directionymod
+    xspeed = 1 * directionxmod
+    yspeed = 1* directionymod
 
     unit.movementspeedx = xspeed
     unit.movementspeedy = yspeed
@@ -1293,14 +1304,14 @@ while True:
             #add the speed stats which dictate speed of unit
                 print("move")
                 if MovingUnits[0].xpost == MovingUnits[0].localdestnode.xpos:
-                    MovingUnits[0].ypost = MovingUnits[0].ypost + 1
+                    MovingUnits[0].ypost = MovingUnits[0].ypost + MovingUnits[0].movementspeedy
                 if MovingUnits[0].ypost == MovingUnits[0].localdestnode.ypos:
-                    MovingUnits[0].xpost = MovingUnits[0].xpost + 1
+                    MovingUnits[0].xpost = MovingUnits[0].xpost + MovingUnits[0].movementspeedx
                 #MovingUnits[0].xpost = MovingUnits[0].xpost + 1#MovingUnits[0].movementspeedx
                 #MovingUnits[0].ypost = MovingUnits[0].ypost + 1#MovingUnits[0].movementspeedy
                 elif (not(MovingUnits[0].xpost == MovingUnits[0].localdestnode.xpos) and not(MovingUnits[0].ypost == MovingUnits[0].localdestnode.ypos)):
-                    MovingUnits[0].xpost = MovingUnits[0].xpost + 1#MovingUnits[0].movementspeedx
-                    MovingUnits[0].ypost = MovingUnits[0].ypost + 1#MovingUnits[0].movementspeedy
+                    MovingUnits[0].xpost = MovingUnits[0].movementspeedx
+                    MovingUnits[0].ypost = MovingUnits[0].movementspeedy
 
 
 
@@ -1621,7 +1632,7 @@ while True:
             print("path posts")
             print(MovingUnits[0].path[i].xpos//tilesize)
             print(MovingUnits[0].path[i].ypos//tilesize)
-        time.sleep(20)
+        time.sleep(5)
 
 
 ###########################################################################################################
